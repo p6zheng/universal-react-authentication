@@ -3,13 +3,14 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './containers/Header';
 import Home from './containers/HomePage';
+import User from './containers/UserPage';
 import { getIsAuthenticated } from './reducers';
 
 if (process.env.BROWSER) {
   require("./main.scss");
 }
 
-const { Signin, Signup, Signout, Secret, Error, Profile } = require('./asychRoutes');
+const { Signin, Signup, Signout, Secret, Error } = require('./asychRoutes');
 
 
 class Root extends Component {
@@ -31,7 +32,7 @@ class Root extends Component {
           <Route path="/signin" render={() =>
             isAuthenticated ? <Redirect to="/" /> : <Signin />
           } />
-          <Route path="/profile" component={Profile} />
+          <Route path="/user" component={User} />
           <Route component={Error}/>
         </Switch>
       </div>

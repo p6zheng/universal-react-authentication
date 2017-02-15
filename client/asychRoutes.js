@@ -28,6 +28,11 @@ export const Profile = asyncComponent(() => {
     .then(module => module.default);
 });
 
+export const User = asyncComponent(() => {
+  return System.import('./containers/UserPage')
+    .then(module => module.default);
+});
+
 export const Error = asyncComponent(() => {
   return System.import('./containers/ErrorPage')
     .then(module => module.default);

@@ -11,8 +11,8 @@ export const fetchProfile = () => (disptach) => {
   });
 }
 
-export const updateProfile = (user) => (dispatch) => {
-  axios.post(`${ROOT_URL}/user/profile`, user).then(() => {
+export const updateProfile = (profile) => (dispatch) => {
+  axios.post(`${ROOT_URL}/user/profile`, profile).then(() => {
     dispatch({
       type: actionTypes.UPDATE_PROFILE,
       profile: user

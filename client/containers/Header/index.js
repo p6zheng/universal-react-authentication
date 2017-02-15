@@ -14,15 +14,17 @@ class Header extends Component {
       return (
         <Nav pullRight>
           <NavDropdown eventKey={3} title={this.props.userName} id="basic-nav-dropdown">
-            <MenuItem componentClass={Link}  eventKey={3.1} href="/profile" to="/profile">
+            <MenuItem componentClass={Link}  eventKey={3.1} href="/user/profile" to="/user/profile">
               <i className="fa fa-user-circle" />
-              Profile
+              My Profile
             </MenuItem>
-            <MenuItem componentClass={Link}  eventKey={3.2} href="/signup" to="/signup">
-              Another action
+            <MenuItem componentClass={Link}  eventKey={3.2} href="/user/account" to="/user/account">
+              <i className="fa fa-cog" />
+              My Account
             </MenuItem>
             <MenuItem eventKey={3.3}>
-              Something else
+              <i className="fa fa-heart" />
+              My Favorites
             </MenuItem>
             <MenuItem divider />
             <MenuItem componentClass={Link}  eventKey={3.4} href="/signout" to="/signout">
