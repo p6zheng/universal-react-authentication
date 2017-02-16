@@ -28,9 +28,14 @@ export const Profile = asyncComponent(() => {
     .then(module => module.default);
 });
 
+export const Account = asyncComponent(() => {
+  return System.import('./containers/AccountPage')
+    .then(module => module.default);
+});
+
 export const User = asyncComponent(() => {
   return System.import('./containers/UserPage')
-    .then(module => module.default);
+    .then(module => module.default)
 });
 
 export const Error = asyncComponent(() => {

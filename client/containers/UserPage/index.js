@@ -14,8 +14,9 @@ class User extends Component {
              <NavItem componentClass={Link} eventKey={1} href="/user/profile" to="/user/profile">Profile Information</NavItem>
              <NavItem componentClass={Link} eventKey={2} href="/user/account" to="/user/account">Account Information</NavItem>
            </Nav>
-           <Route path={`/user/profile`} component={Profile} />
-           <Route path={`/user/account`} component={Account} />
+           <Route path="/user" render={() => <div></div>} />
+           <Route path='/user/profile' component={Profile} />
+           <Route path='/user/account' component={Account} />
          </div>
        </div>
      )

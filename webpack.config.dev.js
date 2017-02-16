@@ -15,6 +15,7 @@ module.exports = {
   },
   output: {
     path: '/',
+    publicPath: '/'
   },
   module: {
       rules: [
