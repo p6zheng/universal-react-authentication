@@ -8,7 +8,7 @@ import * as actions from '../../actions/UserActions';
 
 class Account extends Component {
   componentDidMount() {
-    this.props.fetchProfile();
+    this.props.fetchAccount();
   }
 
   handleFormSubmit(profile) {
@@ -18,66 +18,50 @@ class Account extends Component {
   render() {
     const { handleSubmit } = this.props
     return (
-      <div className="top-buffer col-md-8 col-md-offset-2">
-        <div className="page-header">
-          <h3>
-            Profile Information
-          </h3>
-        </div>
-        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-
-          <fieldset className="form-group">
-            <label>Name:</label>
-            <Field
-              name="name"
-              component={FormInput}
-              type="text"/>
-          </fieldset>
-          <fieldset className="form-group">
-            <label>Email:</label>
-            <Field
-              name="email"
-              component={FormInput}
-              type="text" />
-          </fieldset>
-          <fieldset className="form-group">
-            <label>Location:</label>
-            <Field
-              name="location"
-              component={FormInput}
-              type="text"/>
-          </fieldset>
-          <fieldset className="form-group">
-            <label>Gender:</label>
-            <div>
-              <div className="col-md-4">
-                <input type="radio" name="gender" value="male" />
-                <strong> Male</strong>
-              </div>
-              <div className="col-md-4">
-                <input type="radio" name="gender" value="female" />
-                <strong> Female</strong>
-              </div>
-              <div className="col-md-4">
-                <input type="radio" name="gender" value="other" />
-                <strong> Other</strong>
-              </div>
-            </div>
-          </fieldset>
-          <fieldset className="form-group">
-            <label>Picture:</label>
-            <div>
-              <img src={profileImg} height="125" width="125"/>
-            </div>
-          </fieldset>
-          <button action="submit" className="btn btn-primary">save</button>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+        <fieldset className="form-group">
+          <label>Name:</label>
+          <Field
+            name="name"
+            component={FormInput}
+            type="text"/>
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Email:</label>
+          <Field
+            name="email"
+            component={FormInput}
+            type="text" />
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Location:</label>
+          <Field
+            name="location"
+            component={FormInput}
+            type="text"/>
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Gender:</label>
+          <div>
+            <label><Field name="gender" component="input" type="radio" value="male"/> Male</label>
+            <label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
+            <label><Field name="gender" component="input" type="radio" value="other"/> Other</label>
+          </div>
+        </fieldset>
+        <fieldset className="form-group">
+          <label>Picture:</label>
+          <div>
+            <img src={profileImg} height="125" width="125"/>
+          </div>
+        </fieldset>
+        <button action="submit" className="btn btn-primary">save</button>
+      </form>
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
+
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

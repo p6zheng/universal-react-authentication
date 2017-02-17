@@ -21,6 +21,10 @@ const user = (state=initialState, action) => {
         ...state,
         profile: action.profile
       }
+    case actionTypes.FETCH_ACCOUNT:
+      return {
+        ...state
+      }
     default:
       return state
   }

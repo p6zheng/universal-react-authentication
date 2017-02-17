@@ -12,10 +12,10 @@ const rootReducer = combineReducers({
 export default rootReducer;
 
 /* Selectors */
-export const getIsAuthenticated = (state) => authReducer.getIsAuthenticated(state.auth);
+export const getIsAuthenticated = state => authReducer.getIsAuthenticated(state.auth);
 
-export const getError = (state) => authReducer.getError(state.auth);
-export const getMessage = (state) => authReducer.getMessage(state.auth);
+export const getError = state => authReducer.getError(state.auth);
+export const getMessage = state => authReducer.getMessage(state.auth);
 
-export const getUser = (state) => userReducer.getUser(state.user);
-export const getUserName = (state) => userReducer.getUserName(state.user);
+export const getUser = state => userReducer.getUser(state.user);
+export const getUserName = state => userReducer.getUserName(state.user);

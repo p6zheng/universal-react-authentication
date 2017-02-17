@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './containers/Header';
 import Home from './containers/HomePage';
@@ -31,7 +31,7 @@ class Root extends Component {
           <Route path="/signin" render={() =>
             isAuthenticated ? <Redirect to="/" /> : <Signin />
           } />
-          <Route path="/user" component={User} />
+          <Route path="/user/:userInfo" component={User} />
           <Route component={Error}/>
         </Switch>
       </div>

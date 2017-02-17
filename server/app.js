@@ -98,7 +98,7 @@ app.use((req,res,next) => {
 
 // Authentication routes
 app.use('/auth', authRouter);
-app.use('/user', userRouter);
+app.use('/api/user', userRouter);
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
