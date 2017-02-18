@@ -5,8 +5,11 @@ import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom';
 import Profile from '../ProfilePage';
 import Account from '../AccountPage';
 
-class User extends Component {
+if (process.env.BROWSER) {
+  require("./index.scss");
+}
 
+class User extends Component {
   constructor(props) {
     super(props);
   }
@@ -14,11 +17,11 @@ class User extends Component {
   render() {
    return (
      <div className="col-md-8 col-md-offset-2 top-buffer inside-padding">
-       <div className="panel panel-default">
-         <Nav bsStyle="tabs" justified activeKey={this.props.activeTab} >
-           <NavItem componentClass={Link} eventKey={'profile'} href="/user/profile" to="/user/profile">Profile Information</NavItem>
-           <NavItem componentClass={Link} eventKey={'account'} href="/user/account" to="/user/account">Account Information</NavItem>
-         </Nav>
+       <Nav bsStyle="tabs" justified activeKey={this.props.activeTab} >
+         <NavItem componentClass={Link} eventKey={'profile'} href="/user/profile" to="/user/profile">Profile Information</NavItem>
+         <NavItem componentClass={Link} eventKey={'account'} href="/user/account" to="/user/account">Account Information</NavItem>
+       </Nav>
+       <div className="content">
          <Route path='/user/profile' component={Profile} />
          <Route path='/user/account' component={Account} />
        </div>
