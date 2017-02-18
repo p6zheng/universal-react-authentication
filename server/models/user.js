@@ -3,10 +3,8 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-node');
 
 var userSchema = new Schema({
-  local: {
-    email: String,
-    password: String,
-  },
+  email: String,
+  password: String,
   google: {
     id : String,
     token : String,
@@ -24,7 +22,6 @@ var userSchema = new Schema({
   },
   profile: {
     name: String,
-    email: String,
     pitcture: String,
     age: String,
     gender: String
@@ -34,21 +31,21 @@ var userSchema = new Schema({
 
 userSchema.pre('save', function(next) {
   const user = this;
-  /*if (!user.local.isModified('password')) {
+  /*if (!user.isModified('password')) {
     return next();
   }*/
   bcrypt.genSalt(10, function(err, salt) {
     if (err) { return next(err); }
-    bcrypt.hash(user.local.password, salt, null, function(err, hash) {
+    bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) { return next(err); }
-      user.local.password = hash;
+      user.password = hash;
       next();
     });
   });
 });
 
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
-  bcrypt.compare(candidatePassword, this.local.password, function(err, isMatch) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
     if (err) { return callback(err) };
     callback(null, isMatch);
   });

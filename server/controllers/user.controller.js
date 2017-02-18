@@ -11,7 +11,7 @@ export const getProfile = (req, res, next) => {
     const profile = existingUser.profile;
     const user = {
       name: profile.name,
-      email: profile.email,
+      email: existingUser.email,
       pitcture: profile.picture,
       age: profile.age,
       gender: profile.gender
@@ -22,16 +22,14 @@ export const getProfile = (req, res, next) => {
 }
 
 export const updateProfile = (req, res, next) => {
-  const { email, location, name } = req.body;
+  const { email, gender, name, age } = req.body;
   const id = cookie.load('user_id');
   const user ={
-    local: {
-      email
-    },
+    email,
     profile: {
-      email,
-      location,
-      name
+      age,
+      name,
+      gender
     }
   };
 

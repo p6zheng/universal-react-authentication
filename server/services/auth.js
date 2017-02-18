@@ -12,7 +12,7 @@ const localOptions = {
 };
 
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  User.findOne({ 'local.email': email }, (err, user) => {
+  User.findOne({ 'email': email }, (err, user) => {
     if (err) { return done(err); };
     if (!user) { return done(null, false); }
 
@@ -38,20 +38,19 @@ const githubLogin = new GithubStrategy(githubOptions,
       if (error) { return done(error); }
       if (existingUser) { return done(null, existingUser); }
 
-      User.findOne({ 'github.email': profile._json.email }, (err, existingEmailUser) => {
+      User.findOne({ 'email': profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (profile._json.email && existingEmailUser) {
           //req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with GitHub manually from Account Settings.' });
           done(err);
         } else {
           const user = new User();
-          user.github.id = profile.id;
-          user.profile.email = profile._json.email;
+          user.email = profile._json.email;
           user.profile.name = profile.username;
+          user.github.id = profile.id;
           user.github.token = cookie.load('token');
-          user.save((error) => {
-            done(error, user);
-          }
+          user.save(error =>
+            done(error, user)
           );
         }
       });
@@ -72,20 +71,20 @@ const facebookLogin = new FacebookStrategy(facebookOptions,
       if (error) { return done(error); }
       if (existingUser) { return done(null, existingUser); }
 
-      User.findOne({ 'facebook.email': profile._json.email }, (err, existingEmailUser) => {
+      User.findOne({ 'email': profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (profile._json.email && existingEmailUser) {
           //req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
           done(err);
         } else {
           const user = new User();
-          user.facebook.id = profile.id;
-          user.profile.email = profile._json.email;
+          user.email = profile._json.email;
           user.profile.name = profile.displayName;
+          user.profile.gender = profile.gender;
+          user.facebook.id = profile.id;
           user.facebook.token = accessToken;
-          user.save((error) => {
-              done(error, user);
-            }
+          user.save(error =>
+            done(error, user)
           );
         }
       });

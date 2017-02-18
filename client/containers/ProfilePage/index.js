@@ -34,7 +34,7 @@ class Profile extends Component {
             type="text" />
         </fieldset>
         <fieldset className="form-group">
-          <label>Location:</label>
+          <label>Age:</label>
           <Field
             name="location"
             component={FormInput}
