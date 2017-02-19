@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import FormInput from '../../components/ProfileFormInput';
-import profileImg from '../../../assets/user.png';
-import { getUser } from '../../reducers';
+import FormLink from '../../components/LinkFormInput';
 import * as actions from '../../actions/UserActions';
 
 class Account extends Component {
@@ -20,39 +19,44 @@ class Account extends Component {
     return (
       <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
         <fieldset className="form-group">
-          <label>Name:</label>
+          <label>Password:</label>
           <Field
-            name="name"
+            name="password"
             component={FormInput}
             type="text"/>
         </fieldset>
         <fieldset className="form-group">
-          <label>Email:</label>
+          <label>Confirm Password:</label>
           <Field
-            name="email"
+            name="passwordConfirm"
             component={FormInput}
             type="text" />
         </fieldset>
+        <hr />
+        <label>Links:</label>
         <fieldset className="form-group">
-          <label>Location:</label>
+          <label>Google:</label>
           <Field
-            name="location"
-            component={FormInput}
+            name="google"
+            link="https://plus.google.com/"
+            component={FormLink}
             type="text"/>
         </fieldset>
         <fieldset className="form-group">
-          <label>Gender:</label>
-          <div>
-            <label><Field name="gender" component="input" type="radio" value="male"/> Male</label>
-            <label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
-            <label><Field name="gender" component="input" type="radio" value="other"/> Other</label>
-          </div>
+          <label>Facebook:</label>
+          <Field
+            name="facebook"
+            link="http://www.facebook.com/"
+            component={FormLink}
+            type="text" />
         </fieldset>
         <fieldset className="form-group">
-          <label>Picture:</label>
-          <div>
-            <img src={profileImg} height="125" width="125"/>
-          </div>
+          <label>Github:</label>
+          <Field
+            name="github"
+            link="http://www.github.com/"
+            component={FormLink}
+            type="text" />
         </fieldset>
         <button action="submit" className="btn btn-primary">save</button>
       </form>
