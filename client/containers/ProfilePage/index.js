@@ -44,7 +44,7 @@ class Profile extends Component {
           <label>Gender:</label>
           <div>
             <label><Field name="gender" component="input" type="radio" value="male"/> Male</label>
-            <label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
+            < label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
             <label><Field name="gender" component="input" type="radio" value="other"/> Other</label>
           </div>
         </fieldset>
@@ -54,7 +54,7 @@ class Profile extends Component {
             <img src={profileImg} height="125" width="125"/>
           </div>
         </fieldset>
-        <button action="submit" className="btn btn-primary">save</button>
+        <button action="submit" className="btn btn-primary">update</button>
       </form>
     )
   }

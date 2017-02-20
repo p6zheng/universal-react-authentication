@@ -35,30 +35,30 @@ class Account extends Component {
         <hr />
         <label>Links:</label>
         <fieldset className="form-group">
-          <label>Google:</label>
           <Field
             name="google"
+            label="Google:"
             link="https://plus.google.com/"
             component={FormLink}
             type="text"/>
         </fieldset>
         <fieldset className="form-group">
-          <label>Facebook:</label>
           <Field
             name="facebook"
+            label="Facebook:"
             link="http://www.facebook.com/"
             component={FormLink}
             type="text" />
         </fieldset>
         <fieldset className="form-group">
-          <label>Github:</label>
           <Field
             name="github"
+            label="Github:"
             link="http://www.github.com/"
             component={FormLink}
             type="text" />
         </fieldset>
-        <button action="submit" className="btn btn-primary">save</button>
+        <button action="submit" className="btn btn-primary">update</button>
       </form>
     )
   }
