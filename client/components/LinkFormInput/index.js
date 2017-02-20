@@ -1,5 +1,5 @@
 import React from 'react';
-import input from './index.scss';
+import './index.scss';
 
 const LinkFormInput = ({ input, meta, link, label}) => {
   return (

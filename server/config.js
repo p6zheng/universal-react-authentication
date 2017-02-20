@@ -14,6 +14,10 @@ const config = {
     id: '754220301289665',
     secret: '41860e58c256a3d7ad8267d3c1939a4a'
   },
+  google: {
+    id: '828110519058.apps.googleusercontent.com',
+    secret: 'JdZsIaWhUFIchmC1a_IZzOHb'
+  },
   port: process.env.PORT || 3000,
 };
 
