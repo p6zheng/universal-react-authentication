@@ -22,13 +22,21 @@ class Account extends Component {
           <label>Password:</label>
           <Field
             name="password"
+            info="Enter Current Password"
             component={FormInput}
             type="text"/>
         </fieldset>
         <fieldset className="form-group">
-          <label>Confirm Password:</label>
           <Field
-            name="passwordConfirm"
+            name="newPassword"
+            info="Enter New Password"
+            component={FormInput}
+            type="text"/>
+        </fieldset>
+        <fieldset className="form-group">
+          <Field
+            name="confirmNewPassword"
+            info="Re-type New Password"
             component={FormInput}
             type="text" />
         </fieldset>

@@ -3,9 +3,9 @@ import React from 'react';
 if (process.env.BROWSER) {
   require('./index.scss');
 }
-const FormInput = ({ input, meta, name, link, label }) => (
+const FormInput = ({ input, meta, name, info, label }) => (
   <div>
-    <input className="form-control" {...input} placeholder={link}/>
+    <input className="form-control" {...input} placeholder={info}/>
     {
       meta.touched &&
       meta.error &&
