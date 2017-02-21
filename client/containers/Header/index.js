@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { getIsAuthenticated, getUserName } from '../../reducers'
 
-if (process.env.BROWSER) {
-  require('./index.scss');
-}
-
 class Header extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   renderLinks() {
-    if (this.props.isAuthenticated) {
+    const { activeTab, isAuthenticated, userName } = this.props;
+    if (isAuthenticated) {
       return (
         <Nav pullRight>
-          <NavDropdown eventKey={3} title={this.props.userName} id="basic-nav-dropdown">
+          <NavDropdown className={activeTab === 'user' ? 'active' : ''} eventKey={3} title={userName} id="basic-nav-dropdown">
             <MenuItem componentClass={Link}  eventKey={3.1} href="/user/profile" to="/user/profile">
               <i className="fa fa-user-circle" />
               My Profile
@@ -37,13 +38,24 @@ class Header extends Component {
     }
     return (
       <Nav pullRight>
-        <NavItem className="tab" componentClass={Link} eventKey={3} href="/signin" to="/signin">Sign In</NavItem>
-        <NavItem className="tab" componentClass={Link} eventKey={4} href="/signup" to="/signup">Sign Up</NavItem>
+        <NavItem
+          className={activeTab === 'signin' ? 'active' : ''}
+          componentClass={Link}
+          eventKey={3}
+          href="/signin" to="/signin">Sign In
+        </NavItem>
+        <NavItem
+          className={activeTab === 'signup' ? 'active' : ''}
+          componentClass={Link}
+          eventKey={4}
+          href="/signup" to="/signup">Sign Up
+        </NavItem>
       </Nav>
     );
   }
 
   render() {
+    const { activeTab } = this.props;
     return (
       <Navbar fixedTop>
         <Navbar.Header>
@@ -53,8 +65,18 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem className="tab" componentClass={Link} eventKey={1} href="/" to="/">Home</NavItem>
-            <NavItem className="tab" componentClass={Link} eventKey={2} href="/secret" to="/secret">Secret</NavItem>
+            <NavItem
+              className={activeTab === '' ? 'active' : ''}
+              componentClass={Link}
+              eventKey={1}
+              href="/" to="/">Home
+            </NavItem>
+            <NavItem
+              className={activeTab === 'secret' ? 'active' : ''}
+              componentClass={Link}
+              eventKey={2}
+              href="/secret" to="/secret">Secret
+            </NavItem>
           </Nav>
           {this.renderLinks()}
         </Navbar.Collapse>
@@ -63,9 +85,10 @@ class Header extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, router) => ({
   isAuthenticated: getIsAuthenticated(state),
-  userName: getUserName(state)
+  userName: getUserName(state),
+  activeTab: router.location.pathname.split('/')[1]
 });
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));
