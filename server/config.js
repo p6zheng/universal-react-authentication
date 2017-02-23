@@ -17,8 +17,7 @@ const config = {
   google: {
     id: '828110519058.apps.googleusercontent.com',
     secret: 'JdZsIaWhUFIchmC1a_IZzOHb'
-  },
-  port: process.env.PORT || 3000,
+  }
 };
 
 export default config;

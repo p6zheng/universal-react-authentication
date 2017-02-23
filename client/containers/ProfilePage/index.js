@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import FormInput from '../../components/ProfileFormInput';
 import profileImg from '../../../assets/user.png';
-import { getUser } from '../../reducers';
+import { getProfile } from '../../reducers';
 import * as actions from '../../actions/UserActions';
 
 class Profile extends Component {
@@ -61,7 +61,7 @@ class Profile extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  initialValues: getUser(state)
+  initialValues: getProfile(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

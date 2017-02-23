@@ -17,6 +17,9 @@ import './services/auth';
 const app = express();
 const server = http.createServer(app);
 
+// Set port number
+app.set('port', process.env.PORT || 3000);
+
 // Wrap each request in domain
 app.use((req, res, next) => {
   const domain = require('domain').create();
@@ -107,6 +110,7 @@ app.use((req, res, next) => {
   cookie.setRawCookie(req.headers.cookie);
   const token = cookie.load('token');
   const userName = cookie.load('user_name');
+
   if (typeof token !== 'undefined') {
     store.dispatch({
       type: AUTH_USER,
@@ -140,8 +144,8 @@ app.use((req, res, next) => {
 });
 
 
-const startServer = () => server.listen(config.port, () => {
-  console.log(`App stated in ${app.get('env')} mode on port ${config.port}`);
+const startServer = () => server.listen(app.get('port'), () => {
+  console.log(`App stated in ${app.get('env')} mode on port ${app.get('port')}`);
 });
 
 

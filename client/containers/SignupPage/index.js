@@ -61,7 +61,7 @@ class Signup extends Component {
   }
 }
 
-function validate(formProps) {
+const validate = (formProps) => {
   const errors = {};
 
   if (!formProps.email) {
@@ -88,7 +88,7 @@ const mapStateToProps = state => ({
   errorMessage: getError(state)
 });
 
-export default reduxForm({
+export default connect(mapStateToProps, actions)(reduxForm({
   form: 'signup',
   validate
-})(connect(mapStateToProps, actions)(Signup));
+})(Signup));

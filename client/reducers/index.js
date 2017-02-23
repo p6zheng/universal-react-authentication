@@ -17,5 +17,7 @@ export const getIsAuthenticated = state => authReducer.getIsAuthenticated(state.
 export const getError = state => authReducer.getError(state.auth);
 export const getMessage = state => authReducer.getMessage(state.auth);
 
-export const getUser = state => userReducer.getUser(state.user);
+export const getProfile = state => userReducer.getProfile(state.user);
+export const getAccount = state => userReducer.getAccount(state.user);
+
 export const getUserName = state => userReducer.getUserName(state.user);

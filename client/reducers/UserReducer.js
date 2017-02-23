@@ -23,7 +23,8 @@ const user = (state=initialState, action) => {
       }
     case actionTypes.FETCH_ACCOUNT:
       return {
-        ...state
+        ...state,
+        account: action.account
       }
     default:
       return state
@@ -32,5 +33,6 @@ const user = (state=initialState, action) => {
 
 export default user;
 
-export const getUser = state => state.profile;
+export const getProfile = state => state.profile;
+export const getAccount = state => state.account;
 export const getUserName = state => state.profile === undefined ? '' :state.profile.name;

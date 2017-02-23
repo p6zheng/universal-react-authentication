@@ -31,9 +31,9 @@ var userSchema = new Schema({
 
 userSchema.pre('save', function(next) {
   const user = this;
-  /*if (!user.isModified('password')) {
+  if (!user.isModified('password') || typeof user.password === 'undefined') {
     return next();
-  }*/
+  }
   bcrypt.genSalt(10, function(err, salt) {
     if (err) { return next(err); }
     bcrypt.hash(user.password, salt, null, function(err, hash) {

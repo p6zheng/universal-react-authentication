@@ -26,12 +26,12 @@ router.route('/facebook/callback').get(
   authController.setToken,
   (req, res) => res.redirect('/')
 );
+
 router.route('/google').get(requireGoogle);
 router.route('/google/callback').get(
   passport.authenticate('google', { session: false, failureRedirect: '/signin' }),
   authController.setToken,
   (req, res) => res.redirect('/')
 );
-
 
 export default router;
