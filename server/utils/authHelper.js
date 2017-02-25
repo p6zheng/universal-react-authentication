@@ -19,6 +19,7 @@ export const passportAuth = (strategy) => (req, res, next) =>
           message: info.message
         });
       }
+      req.user = user;
       next();
     },
     { session: false })(req, res, next);
