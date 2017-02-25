@@ -1,11 +1,11 @@
 import * as actionTypes from '../constants/actionTypes';
 import { combineReducers } from 'redux';
 
-const errorMessage = (state=null, action) => {
+const errorMessage = (state={}, action) => {
   switch (action.type) {
     case actionTypes.AUTH_USER_SUCCESS:
     case actionTypes.UNMOUNT_COMPONENT:
-      return null;
+      return {};
     case actionTypes.SIGNUP_ERROR:
       return {
         signup: action.error
@@ -52,7 +52,5 @@ export default auth;
 
 export const getIsAuthenticating = state => state.isAuthenticating;
 export const getIsAuthenticated = state => state.isAuthenticated;
-export const getSigninError = state => state.errorMessage ? state.errorMessage.signin : null;
-export const getSignupError = state => state.errorMessage ? state.errorMessage.signup : null;
-
-//export const getMessage = (state) => state.message;
+export const getSigninError = state => state.errorMessage.signin;
+export const getSignupError = state => state.errorMessage.signup;
