@@ -9,9 +9,9 @@ import cookie from 'react-cookie';
 import config from './config';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
-import { AUTH_USER } from '../client/constants/actionTypes';
+import { AUTH_USER_SUCCESS } from '../client/constants/actionTypes';
 import Root from '../client/Root';
-import './services/auth';
+import './services/passport';
 
 // Initialize express app
 const app = express();
@@ -113,7 +113,7 @@ app.use((req, res, next) => {
 
   if (typeof token !== 'undefined') {
     store.dispatch({
-      type: AUTH_USER,
+      type: AUTH_USER_SUCCESS,
       userName
     });
   }

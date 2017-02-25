@@ -1,35 +1,58 @@
 import * as actionTypes from '../constants/actionTypes';
+import { combineReducers } from 'redux';
 
-const inititalState = {};
-
-const auth = (state=inititalState, action) => {
+const errorMessage = (state=null, action) => {
   switch (action.type) {
-    case actionTypes.AUTH_USER:
+    case actionTypes.AUTH_USER_SUCCESS:
+    case actionTypes.UNMOUNT_COMPONENT:
+      return null;
+    case actionTypes.SIGNUP_ERROR:
       return {
-        isAuthenticated: true,
-        error: ''
+        signup: action.error
       };
-    case actionTypes.UNAUTH_USER:
+    case actionTypes.SIGNIN_ERROR:
       return {
-        isAuthenticated: false
-      };
-    case actionTypes.FETCH_MESSAGE:
-      return {
-        ...state,
-        message: action.message
-      };
-    case actionTypes.AUTH_ERROR:
-      return {
-        ...state,
-        error: action.error
+        signin: action.error
       };
     default:
       return state;
   }
 }
 
+const isAuthenticating = (state=false, action) => {
+  switch (action.type) {
+    case actionTypes.AUTH_USER_REQUEST:
+      return true;
+    case actionTypes.AUTH_USER_SUCCESS:
+    case actionTypes.SIGNUP_ERROR:
+      return false;
+    default:
+      return state;
+  }
+}
+
+const isAuthenticated = (state=false, action) => {
+  switch (action.type) {
+    case actionTypes.AUTH_USER_SUCCESS:
+      return true;
+    case actionTypes.UNAUTH_USER:
+      return false;
+    default:
+      return state;
+  }
+}
+
+const auth = combineReducers({
+  errorMessage,
+  isAuthenticating,
+  isAuthenticated
+});
+
 export default auth;
 
-export const getIsAuthenticated = (state) => state.isAuthenticated;
-export const getError = (state) => state.error;
-export const getMessage = (state) => state.message;
+export const getIsAuthenticating = state => state.isAuthenticating;
+export const getIsAuthenticated = state => state.isAuthenticated;
+export const getSigninError = state => state.errorMessage ? state.errorMessage.signin : null;
+export const getSignupError = state => state.errorMessage ? state.errorMessage.signup : null;
+
+//export const getMessage = (state) => state.message;

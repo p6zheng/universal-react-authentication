@@ -1,6 +1,6 @@
 import User from '../models/user';
 import cookie from 'react-cookie';
-import * as jwt from '../utils/jwtToken'
+import * as jwt from '../utils/authHelper'
 
 export const respond = (req, res) => {
   res.status(200).send(req.user);

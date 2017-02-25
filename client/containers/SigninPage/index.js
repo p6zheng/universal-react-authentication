@@ -3,9 +3,14 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/AuthActions';
 import AuthFormInput from '../../components/AuthFormInput';
-import { getError } from '../../reducers';
+import * as reducers from '../../reducers';
 
 class Signin extends Component {
+
+  componentWillUnmount() {
+    this.props.unmountComponent();
+  }
+
   handleFormSubmit(user) {
     this.props.signinUser(user);
   }
@@ -67,7 +72,7 @@ class Signin extends Component {
 }
 
 const mapStateToProps = state => ({
-  errorMessage: getError(state)
+  errorMessage: reducers.getSigninError(state)
 });
 
 export default reduxForm({

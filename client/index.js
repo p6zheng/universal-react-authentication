@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from './store'
-import { AUTH_USER } from './constants/actionTypes';
+import { AUTH_USER_SUCCESS } from './constants/actionTypes';
 import cookie from 'react-cookie';
 import Root from './Root';
 
@@ -13,7 +13,7 @@ const token = cookie.load('token');
 const userName = cookie.load('user_name');
 if (typeof token !== 'undefined') {
   store.dispatch({
-    type: AUTH_USER,
+    type: AUTH_USER_SUCCESS,
     userName
   });
 }

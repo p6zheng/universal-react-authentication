@@ -3,37 +3,77 @@ import * as actionTypes from '../constants/actionTypes';
 const ROOT_URL = 'http://localhost:3000/api';
 
 export const fetchProfile = () => (disptach) => {
-  axios.get(`${ROOT_URL}/user/profile`).then(res => {
-    disptach({
-      type: actionTypes.FETCH_PROFILE,
-      profile: res.data.user
-    });
-  });
+  disptach({ type: actionTypes.FETCH_PROFILE_REQUEST });
+
+  axios.get(`${ROOT_URL}/user/profile`).then(
+    response => {
+      disptach({
+        type: actionTypes.FETCH_PROFILE_SUCCESS,
+        profile: response.data.user
+      });
+    },
+    error => {
+      disptach({
+        type: actionTypes.FETCH_PROFILE_ERROR,
+        error: error.response.data.message
+      });
+    }
+  );
 }
 
 export const updateProfile = (profile) => (dispatch) => {
-  axios.post(`${ROOT_URL}/user/profile`, profile).then(() => {
-    dispatch({
-      type: actionTypes.UPDATE_PROFILE,
-      profile
-    });
-  });
+  dispatch({ type: actionTypes.UPDATE_PROFILE_REQUEST });
+
+  axios.post(`${ROOT_URL}/user/profile`, profile).then(
+    () => {
+      dispatch({
+        type: actionTypes.UPDATE_PROFILE_SUCCESS,
+        profile
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.UPDATE_PROFILE_ERROR,
+        error: error.response.data.message
+      });
+    }
+  );
 }
 
 export const fetchAccount = () => (dispatch) => {
-  axios.get(`${ROOT_URL}/user/account`).then(res => {
-    dispatch({
-      type: actionTypes.FETCH_ACCOUNT,
-      account: res.data.user
-    });
-  });
+  dispatch({ type: actionTypes.FETCH_ACCOUNT_REQUEST });
+
+  axios.get(`${ROOT_URL}/user/account`).then(
+    res => {
+      dispatch({
+        type: actionTypes.FETCH_ACCOUNT_SUCCESS,
+        account: res.data.user
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.FETCH_ACCOUNT_ERROR,
+        error: error.response.data.message
+      })
+    }
+   );
 }
 
 export const updateAccount = (account) => (dispatch) => {
-  axios.post(`${ROOT_URL}/user/account`, account).then(() => {
-    dispatch({
-      type: actionTypes.UPDATE_ACCOUNT,
-      account
-    });
-  });
+  dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
+
+  axios.post(`${ROOT_URL}/user/account`, account).then(
+    () => {
+      dispatch({
+        type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
+        account
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.UPDATE_ACCOUNT_ERROR,
+        error: error.response.data.message
+      })
+    }
+  );
 }

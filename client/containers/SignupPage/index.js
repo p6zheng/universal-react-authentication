@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/AuthActions';
 import AuthFormInput from '../../components/AuthFormInput';
-import { getError } from '../../reducers';
+import * as reducers from '../../reducers';
 
 class Signup extends Component {
   handleFormSubmit({ email, password }) {
@@ -85,7 +85,8 @@ const validate = (formProps) => {
 
 
 const mapStateToProps = state => ({
-  errorMessage: getError(state)
+  errorMessage: reducers.getSignupError(state),
+  isAuthenticating: reducers.getIsAuthenticating(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

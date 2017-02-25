@@ -1,35 +1,36 @@
 import { Router } from 'express';
 import * as authController from '../controllers/auth.controller';
-import passport from 'passport';
-import '../services/auth';
+import { passportAuth } from '../utils/authHelper';
+import '../services/passport';
 
-const requireSignin = passport.authenticate('local', { session: false });
-const requireGithub = passport.authenticate('github', { session: false });
-const requireFacebook = passport.authenticate('facebook', { session: false });
-const requireGoogle = passport.authenticate('google',  { scope: 'profile email' }, { session: false });
+export const localSignin = passportAuth('local');
+export const githubSignin = passportAuth('github');
+export const facebookSignin = passportAuth('facebook');
+export const googleSignin = passportAuth('google');
+
 const router = new Router();
 
 router.route('/signup').post(authController.signup, authController.setToken);
-router.route('/signin').post(requireSignin, authController.setToken);
+router.route('/signin').post(localSignin, authController.setToken);
 router.route('/secret').get(authController.authenticateUser, (req, res) => res.send('Secret Message'));
 
-router.route('/github').get(requireGithub);
+router.route('/github').get(githubSignin);
 router.route('/github/callback').get(
-  passport.authenticate('github', { session: false, failureRedirect: '/signin' }),
+  githubSignin,
   authController.setToken,
   (req, res) => res.redirect('/')
 );
 
-router.route('/facebook').get(requireFacebook);
+router.route('/facebook').get(facebookSignin);
 router.route('/facebook/callback').get(
-  passport.authenticate('facebook', { session: false, failureRedirect: '/signin' }),
+  facebookSignin,
   authController.setToken,
   (req, res) => res.redirect('/')
 );
 
-router.route('/google').get(requireGoogle);
+router.route('/google').get(googleSignin);
 router.route('/google/callback').get(
-  passport.authenticate('google', { session: false, failureRedirect: '/signin' }),
+  googleSignin,
   authController.setToken,
   (req, res) => res.redirect('/')
 );

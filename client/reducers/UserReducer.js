@@ -4,24 +4,24 @@ const initialState = {};
 
 const user = (state=initialState, action) => {
   switch (action.type) {
-    case actionTypes.AUTH_USER:
+    case actionTypes.AUTH_USER_SUCCESS:
       return {
         ...state,
         profile: {
           name: action.userName
         }
       }
-    case actionTypes.FETCH_PROFILE:
+    case actionTypes.FETCH_PROFILE_SUCCESS:
       return {
         ...state,
         profile: action.profile
       };
-    case actionTypes.UPDATE_PROFILE:
+    case actionTypes.UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         profile: action.profile
       }
-    case actionTypes.FETCH_ACCOUNT:
+    case actionTypes.FETCH_ACCOUNT_SUCCESS:
       return {
         ...state,
         account: action.account
