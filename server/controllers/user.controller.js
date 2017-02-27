@@ -24,23 +24,22 @@ export const getProfile = (req, res, next) => {
 export const updateProfile = (req, res, next) => {
   const { email, gender, name, age } = req.body;
   const id = cookie.load('user_id');
-  const user ={
-    email,
-    profile: {
-      age,
-      name,
-      gender
-    }
-  };
 
-  User.findOneAndUpdate({ '_id': id}, user, {upsert: true}, (err, existingUser) => {
-    if (err) { return next(err); }
-    if (!existingUser) {
+  User.findOne({ '_id': id }, (err, user) => {
+    if (err) { return next(err); };
+    if (!user) {
       return res.status(422).send({ error: 'User not found !' });
     }
-    res.cookie('user_name', name);
-    return res.send('succesfully saved');
+    user.email = email;
+    user.profile.age = age;
+    user.profile.name = name;
+    user.profile.gender = gender;
+    user.save(err => {
+      if (err) { return next(err); }
+      return res.send('succesfully saved');
+    });
   });
+
 }
 
 export const getAccount = (req, res, next) => {
@@ -86,3 +85,33 @@ export const updateAccount = (req, res, next) => {
     }
   });
 }
+
+export const getPhoto = (req, res, next) => {
+  const id = cookie.load('user_id');
+  User.findOne({ '_id': id}, (err, existingUser) => {
+    if (err) { return next(err) }
+    if (!existingUser) {
+      return res.status(422).send({ error: 'User not found !' });
+    }
+    const image = existingUser.profile.pitcture;
+    return res.status(200).send({ image });
+  });
+}
+
+export const uploadPhoto = (req, res, next) => {
+  const id = cookie.load('user_id');
+  const imageName = req.file.filename;
+
+  User.findOne({ '_id': id }, (err, user) => {
+    if (err) { return next(err); };
+    if (!user) {
+      return res.status(422).send({ error: 'User not found !' });
+    }
+    user.profile.pitcture = imageName;
+    user.save(err => {
+      if (err) { return next(err); }
+      return res.send('succesfully saved');
+    });
+  });
+}
+

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import FormInput from '../../components/ProfileFormInput';
-import FormLink from '../../components/LinkFormInput';
-import * as actions from '../../actions/UserActions';
-import { getAccount } from '../../reducers';
+import FormInput from '../../../components/ProfileFormInput';
+import FormLink from '../../../components/LinkFormInput';
+import * as actions from '../../../actions/UserActions';
+import { getAccount } from '../../../reducers';
 
 class Account extends Component {
   componentDidMount() {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import FormInput from '../../components/ProfileFormInput';
-import profileImg from '../../../assets/user.png';
-import { getProfile } from '../../reducers';
-import * as actions from '../../actions/UserActions';
+import FormInput from '../../../components/ProfileFormInput';
+import defaultAvatar from '../../../../assets/user.png';
+import { getProfile } from '../../../reducers';
+import * as actions from '../../../actions/UserActions';
 
 class Profile extends Component {
   componentDidMount() {
@@ -46,12 +46,6 @@ class Profile extends Component {
             <label><Field name="gender" component="input" type="radio" value="male"/> Male</label>
             < label><Field name="gender" component="input" type="radio" value="female"/> Female</label>
             <label><Field name="gender" component="input" type="radio" value="other"/> Other</label>
-          </div>
-        </fieldset>
-        <fieldset className="form-group">
-          <label>Picture:</label>
-          <div>
-            <img src={profileImg} height="125" width="125"/>
           </div>
         </fieldset>
         <button action="submit" className="btn btn-primary">update</button>

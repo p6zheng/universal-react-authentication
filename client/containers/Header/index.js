@@ -23,6 +23,10 @@ class Header extends Component {
               <i className="fa fa-cog" />
               My Account
             </MenuItem>
+            <MenuItem componentClass={Link}  eventKey={3.2} href="/user/photo" to="/user/photo">
+              <i className="fa fa-picture-o" />
+              My Photo
+            </MenuItem>
             <MenuItem eventKey={3.3}>
               <i className="fa fa-heart" />
               My Favorites

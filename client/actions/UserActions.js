@@ -77,3 +77,43 @@ export const updateAccount = (account) => (dispatch) => {
     }
   );
 }
+
+export const fetchPhoto = () => (dispatch) => {
+  dispatch({ type: actionTypes.FETCH_IMAGE_REQUEST });
+
+  axios.get(`${ROOT_URL}/user/photo`).then(
+    res => {
+      dispatch({
+        type: actionTypes.FETCH_IMAGE_SUCCESS,
+        image: res.data.image
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.FETCH_IMAGE_ERROR,
+        error: error.response.data.message
+      })
+    }
+  );
+}
+
+export const uploadPhoto = (photo) => (dispatch) => {
+  let data = new FormData();
+  data.append('photo', photo);
+
+  dispatch({ type: actionTypes.UPLOAD_IMAGE_REQUEST });
+
+  axios.post(`${ROOT_URL}/user/photo`, data).then(
+    () => {
+      dispatch({
+        type: actionTypes.UPLOAD_IMAGE_SUCCESS,
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.UPLOAD_IMAGE_ERROR,
+        error: error.response.data.message
+      })
+    }
+  );
+}

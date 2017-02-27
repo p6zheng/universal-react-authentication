@@ -87,7 +87,8 @@ mongoose.connection.on('error', () => {
 // Express configuration
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.use(bodyParser({type: '*/*'}));
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 // Setup passport
 app.use(passport.initialize());
