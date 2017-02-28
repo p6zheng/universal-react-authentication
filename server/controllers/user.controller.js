@@ -94,7 +94,7 @@ export const getPhoto = (req, res, next) => {
       return res.status(422).send({ error: 'User not found !' });
     }
     const image = existingUser.profile.pitcture;
-    return res.status(200).send({ image });
+    return res.status(200).send({image});
   });
 }
 
