@@ -24,10 +24,20 @@ const user = (state=initialState, action) => {
         account: action.account
       }
     case actionTypes.FETCH_IMAGE_SUCCESS:
+      return {
+        ...state,
+        image: action.image,
+      }
+    case actionTypes.UPLOAD_IMAGE_REQUEST:
+    case actionTypes.UNMOUNT_COMPONENT:
+      return {
+        ...state,
+        message: undefined
+      }
     case actionTypes.UPLOAD_IMAGE_SUCCESS:
       return {
         ...state,
-        image: action.image
+        message: action.message
       }
     default:
       return state
@@ -40,3 +50,4 @@ export const getProfile = state => state.profile;
 export const getAccount = state => state.account;
 export const getUserName = state => state.profile === undefined ? '' :state.profile.name;
 export const getImage = state => state.image;
+export const getSuccessMessage = state => state.message;

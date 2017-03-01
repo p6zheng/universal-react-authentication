@@ -70,7 +70,7 @@ export const updateAccount = (req, res, next) => {
       user.password = newPassword;
       user.save(err => {
         if (err) { return next(err); }
-        return res.send('succesfully saved');
+        return res.send({ success: 'Succesfully saved !'});
       });
     } else {
       user.comparePassword(password, (err, isMatch) => {
@@ -79,7 +79,7 @@ export const updateAccount = (req, res, next) => {
         user.password = newPassword;
         user.save(err => {
           if (err) { return next(err); }
-          return res.send('succesfully saved');
+          return res.send({ success: 'Succesfully saved !'});
         });
       });
     }
@@ -110,7 +110,7 @@ export const uploadPhoto = (req, res, next) => {
     user.profile.pitcture = imageName;
     user.save(err => {
       if (err) { return next(err); }
-      return res.send('succesfully saved');
+      return res.send({ message: 'Succesfully saved !'});
     });
   });
 }

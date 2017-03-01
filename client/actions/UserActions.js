@@ -104,9 +104,10 @@ export const uploadPhoto = (photo) => (dispatch) => {
   dispatch({ type: actionTypes.UPLOAD_IMAGE_REQUEST });
 
   axios.post(`${ROOT_URL}/user/photo`, data).then(
-    () => {
+    response => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_SUCCESS,
+        message: response.data.message
       });
     },
     error => {
@@ -116,4 +117,10 @@ export const uploadPhoto = (photo) => (dispatch) => {
       })
     }
   );
+}
+
+export const unmountComponent = () => {
+  return {
+    type: actionTypes.UNMOUNT_COMPONENT
+  };
 }

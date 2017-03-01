@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import defaultAvatar from '../../../../assets/user.png';
 import * as actions from '../../../actions/UserActions';
-import { getImage } from '../../../reducers';
+import { getImage, getSuccessMessage } from '../../../reducers';
 
 class Photo extends Component {
 
@@ -13,6 +13,10 @@ class Photo extends Component {
 
   componentDidMount() {
     this.props.fetchPhoto();
+  }
+
+  componentWillUnmount() {
+    this.props.unmountComponent();
   }
 
   handleFileUpload(e) {
@@ -34,6 +38,16 @@ class Photo extends Component {
     reader.readAsDataURL(file)
   }
 
+  alertMessage() {
+    if (this.props.message) {
+      return (
+        <div className="alert alert-success">
+          <strong>{this.props.message}</strong>
+        </div>
+      );
+    }
+  }
+
   render() {
     let imagePreview = null;
     let { imagePreviewUrl } = this.state;
@@ -50,22 +64,34 @@ class Photo extends Component {
     return (
       <div>
         <label>Preview:</label>
-        <div>
+        <div className="thumbnail">
           {imagePreview}
         </div>
         <form onSubmit={this.handleFileUpload.bind(this)}>
-          <input type="file" onChange={this.handleImageChange.bind(this)} />
-          <button
-                  type="submit"
-                  onClick={this.handleFileUpload.bind(this)}>Upload Image</button>
+          <div className="input-group">
+            <label className="input-group-btn">
+                      <span className="btn btn-primary">
+                          Browse&hellip; <input type="file" style={{display: 'none'}} onChange={this.handleImageChange.bind(this)}  />
+                      </span>
+            </label>
+            <input type="text" className="form-control" readOnly value={this.state.file.name || ''} />
+          </div>
+          <div className="top-buffer">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              onClick={this.handleFileUpload.bind(this)}>Upload Image</button>
+          </div>
         </form>
+        {this.alertMessage()}
       </div>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  image: getImage(state)
+  image: getImage(state),
+  message: getSuccessMessage(state)
 });
 
 export default connect(mapStateToProps, actions)(Photo);

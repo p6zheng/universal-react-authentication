@@ -23,3 +23,4 @@ export const getProfile = state => userReducer.getProfile(state.user);
 export const getAccount = state => userReducer.getAccount(state.user);
 export const getUserName = state => userReducer.getUserName(state.user);
 export const getImage = state => userReducer.getImage(state.user);
+export const getSuccessMessage = state => userReducer.getSuccessMessage(state.user);
