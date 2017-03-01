@@ -8,8 +8,9 @@ const user = (state=initialState, action) => {
       return {
         ...state,
         profile: {
-          name: action.userName
-        }
+          name: action.userName,
+        },
+        photo: action.userPhoto
       }
     case actionTypes.FETCH_PROFILE_SUCCESS:
     case actionTypes.UPDATE_PROFILE_SUCCESS:
@@ -23,11 +24,6 @@ const user = (state=initialState, action) => {
         ...state,
         account: action.account
       }
-    case actionTypes.FETCH_IMAGE_SUCCESS:
-      return {
-        ...state,
-        image: action.image,
-      }
     case actionTypes.UPLOAD_IMAGE_REQUEST:
     case actionTypes.UNMOUNT_COMPONENT:
       return {
@@ -37,6 +33,7 @@ const user = (state=initialState, action) => {
     case actionTypes.UPLOAD_IMAGE_SUCCESS:
       return {
         ...state,
+        photo: action.userPhoto,
         message: action.message
       }
     default:
@@ -49,5 +46,5 @@ export default user;
 export const getProfile = state => state.profile;
 export const getAccount = state => state.account;
 export const getUserName = state => state.profile === undefined ? '' :state.profile.name;
-export const getImage = state => state.image;
+export const getUserPhoto = state => state.photo;
 export const getSuccessMessage = state => state.message;

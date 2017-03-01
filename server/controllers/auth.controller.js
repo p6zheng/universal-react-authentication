@@ -12,6 +12,7 @@ export const setToken = (req, res, next) => {
   res.cookie('token', token);
   res.cookie('user_name', user.profile.name);
   res.cookie('user_id', user._id.toString());
+  res.cookie('user_photo', user.profile.picture);
   next();
 }
 

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as actionTypes from '../constants/actionTypes';
+import cookie from 'react-cookie';
+
 const ROOT_URL = 'http://localhost:3000/api';
 
 export const fetchProfile = () => (disptach) => {
@@ -78,25 +80,6 @@ export const updateAccount = (account) => (dispatch) => {
   );
 }
 
-export const fetchPhoto = () => (dispatch) => {
-  dispatch({ type: actionTypes.FETCH_IMAGE_REQUEST });
-
-  axios.get(`${ROOT_URL}/user/photo`).then(
-    res => {
-      dispatch({
-        type: actionTypes.FETCH_IMAGE_SUCCESS,
-        image: res.data.image
-      });
-    },
-    error => {
-      dispatch({
-        type: actionTypes.FETCH_IMAGE_ERROR,
-        error: error.response.data.message
-      })
-    }
-  );
-}
-
 export const uploadPhoto = (photo) => (dispatch) => {
   let data = new FormData();
   data.append('photo', photo);
@@ -105,8 +88,10 @@ export const uploadPhoto = (photo) => (dispatch) => {
 
   axios.post(`${ROOT_URL}/user/photo`, data).then(
     response => {
+      const userPhoto = cookie.load('user_photo');
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_SUCCESS,
+        userPhoto,
         message: response.data.message
       });
     },

@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import defaultAvatar from '../../../../assets/user.png';
+import defaultAvatar from '../../../../server/uploads/user/photo/default.png';
 import * as actions from '../../../actions/UserActions';
-import { getImage, getSuccessMessage } from '../../../reducers';
+import { getUserPhoto, getSuccessMessage } from '../../../reducers';
 
 class Photo extends Component {
 
   constructor(props) {
     super(props);
     this.state = {file: '',imagePreviewUrl: ''};
-  }
-
-  componentDidMount() {
-    this.props.fetchPhoto();
   }
 
   componentWillUnmount() {
@@ -58,7 +54,7 @@ class Photo extends Component {
     } else if (image) {
       imagePreview = (<img src={`http://localhost:3000/user/photo/${image}`} height="200" width="200"/>);
     } else {
-      imagePreview = (<img src={defaultAvatar} height="200" width="200"/>);
+      imagePreview = (<img src={`http://localhost:3000/user/photo/default.png`} height="200" width="200"/>);
     }
 
     return (
@@ -90,7 +86,7 @@ class Photo extends Component {
 }
 
 const mapStateToProps = state => ({
-  image: getImage(state),
+  image: getUserPhoto(state),
   message: getSuccessMessage(state)
 });
 

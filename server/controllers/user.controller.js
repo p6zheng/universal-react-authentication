@@ -30,6 +30,7 @@ export const updateProfile = (req, res, next) => {
     if (!user) {
       return res.status(422).send({ error: 'User not found !' });
     }
+    res.cookie('user_name', name);
     user.email = email;
     user.profile.age = age;
     user.profile.name = name;
@@ -107,6 +108,7 @@ export const uploadPhoto = (req, res, next) => {
     if (!user) {
       return res.status(422).send({ error: 'User not found !' });
     }
+    res.cookie('user_photo', imageName);
     user.profile.pitcture = imageName;
     user.save(err => {
       if (err) { return next(err); }

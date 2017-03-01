@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { getIsAuthenticated, getUserName } from '../../reducers'
+import { getIsAuthenticated, getUserName, getUserPhoto } from '../../reducers'
 
 class Header extends Component {
   constructor(props) {
@@ -10,11 +10,15 @@ class Header extends Component {
   }
 
   renderLinks() {
-    const { activeTab, isAuthenticated, userName } = this.props;
+    const { activeTab, isAuthenticated, userName, userPhoto } = this.props;
+    const user = (<span>
+      <img src={`http://localhost:3000/user/photo/${userPhoto}`}/>
+      {userName}
+    </span>);
     if (isAuthenticated) {
       return (
         <Nav pullRight>
-          <NavDropdown className={activeTab === 'user' ? 'active' : ''} eventKey={3} title={userName} id="basic-nav-dropdown">
+          <NavDropdown className={activeTab === 'user' ? 'active' : ''} eventKey={3} title={user} id="basic-nav-dropdown">
             <MenuItem componentClass={Link}  eventKey={3.1} href="/user/profile" to="/user/profile">
               <i className="fa fa-user-circle" />
               My Profile
@@ -92,6 +96,7 @@ class Header extends Component {
 const mapStateToProps = (state, router) => ({
   isAuthenticated: getIsAuthenticated(state),
   userName: getUserName(state),
+  userPhoto: getUserPhoto(state),
   activeTab: router.location.pathname.split('/')[1]
 });
 

@@ -112,11 +112,13 @@ app.use((req, res, next) => {
   cookie.setRawCookie(req.headers.cookie);
   const token = cookie.load('token');
   const userName = cookie.load('user_name');
+  const userPhoto = cookie.load('user_photo');
 
   if (typeof token !== 'undefined') {
     store.dispatch({
       type: AUTH_USER_SUCCESS,
-      userName
+      userName,
+      userPhoto
     });
   }
 

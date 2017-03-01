@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
-import defaultAvatar from '../../../../assets/user.png';
+import defaultAvatar from '../../../../server/uploads/user/photo/default.png';
 import { getProfile } from '../../../reducers';
 import * as actions from '../../../actions/UserActions';
 

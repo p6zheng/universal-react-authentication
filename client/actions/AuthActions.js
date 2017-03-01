@@ -10,9 +10,11 @@ export const signinUser = (user) => (dispatch) => {
     .then(
       () => {
         const userName = cookie.load('user_name');
+        const userPhoto = cookie.load('user_photo');
         dispatch({
           type: actionTypes.AUTH_USER_SUCCESS,
-          username
+          userName,
+          userPhoto
         });
       },
       error => {
