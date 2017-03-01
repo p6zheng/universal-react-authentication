@@ -11,10 +11,13 @@ class Header extends Component {
 
   renderLinks() {
     const { activeTab, isAuthenticated, userName, userPhoto } = this.props;
-    const user = (<span>
-      <img src={`http://localhost:3000/user/photo/${userPhoto}`}/>
-      {userName}
-    </span>);
+    const user = (
+        <span>
+          <img src={`http://localhost:3000/user/photo/${userPhoto}`}/>
+            {userName}
+        </span>
+      );
+
     if (isAuthenticated) {
       return (
         <Nav pullRight>

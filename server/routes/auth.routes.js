@@ -3,10 +3,10 @@ import * as authController from '../controllers/auth.controller';
 import { passportAuth } from '../utils/authHelper';
 import '../services/passport';
 
-export const localSignin = passportAuth('local');
-export const githubSignin = passportAuth('github');
-export const facebookSignin = passportAuth('facebook');
-export const googleSignin = passportAuth('google');
+export const localSignin = passportAuth('local', {session: false});
+export const githubSignin = passportAuth('github', {session: false});
+export const facebookSignin = passportAuth('facebook', {session: false});
+export const googleSignin = passportAuth('google', {session: false, scope: 'profile email' });
 
 const router = new Router();
 

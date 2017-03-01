@@ -70,6 +70,7 @@ export const signoutUser = () => {
   cookie.remove('token');
   cookie.remove('user_name');
   cookie.remove('user_id');
+  cookie.remove('user_photo');
   return {
     type: actionTypes.UNAUTH_USER
   };
