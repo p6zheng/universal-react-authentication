@@ -1,18 +1,14 @@
 import User from '../models/user';
 import cookie from 'react-cookie';
-import * as jwt from '../utils/authHelper'
-
-export const respond = (req, res) => {
-  res.status(200).send(req.user);
-}
+import { tokenForUser, verifyToken } from '../utils/authHelper'
 
 export const setToken = (req, res, next) => {
   const user = req.user;
-  const token = jwt.tokenForUser(user);
+  const token = tokenForUser(user);
   res.cookie('token', token);
   res.cookie('user_name', user.profile.name);
   res.cookie('user_id', user._id.toString());
-  res.cookie('user_photo', user.profile.picture || 'default.png');
+  res.cookie('user_photo', user.profile.picture);
   next();
 }
 
@@ -27,13 +23,11 @@ export const signup = (req, res, next) => {
       return res.status(422).send({ error: 'Email in use !' });
     }
     const user = new User({
-      local: {
-        email,
-        password
-      },
+      email,
+      password,
       profile: {
-        email,
-        name: username
+        name: username,
+        picture: 'default.png'
       }
     });
     user.save(err => {
@@ -47,7 +41,7 @@ export const signup = (req, res, next) => {
 export const authenticateUser = (req, res, next) => {
   cookie.setRawCookie(req.headers.cookie);
   const token = cookie.load('token');
-  jwt.verifyToken(token, function (err, decoded) {
+  verifyToken(token, err => {
     if (err) {
       return res.status(401).json({
         title: 'Not Authenticated',

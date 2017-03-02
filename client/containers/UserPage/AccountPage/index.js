@@ -33,50 +33,74 @@ class Account extends Component {
   render() {
     const { handleSubmit } = this.props
     return (
-      <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-        {this.renderPassword()}
-        <fieldset className="form-group">
-          <Field
-            name="newPassword"
-            info="Enter New Password"
-            component={FormInput}
-            type="text"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <Field
-            name="confirmNewPassword"
-            info="Re-type New Password"
-            component={FormInput}
-            type="text" />
-        </fieldset>
+      <div>
+        <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
+          {this.renderPassword()}
+          <fieldset className="form-group">
+            <Field
+              name="newPassword"
+              info="Enter New Password"
+              component={FormInput}
+              type="text"/>
+          </fieldset>
+          <fieldset className="form-group">
+            <Field
+              name="confirmNewPassword"
+              info="Re-type New Password"
+              component={FormInput}
+              type="text" />
+          </fieldset>
+          <hr />
+          <label>Links:</label>
+          <fieldset className="form-group">
+            <Field
+              name="google"
+              label="Google:"
+              link="https://plus.google.com/"
+              component={FormLink}
+              type="text"/>
+          </fieldset>
+          <fieldset className="form-group">
+            <Field
+              name="facebook"
+              label="Facebook:"
+              link="http://www.facebook.com/"
+              component={FormLink}
+              type="text" />
+          </fieldset>
+          <fieldset className="form-group">
+            <Field
+              name="github"
+              label="Github:"
+              link="http://www.github.com/"
+              component={FormLink}
+              type="text" />
+          </fieldset>
+          <button action="submit" className="btn btn-primary">update</button>
+        </form>
         <hr />
-        <label>Links:</label>
-        <fieldset className="form-group">
-          <Field
-            name="google"
-            label="Google:"
-            link="https://plus.google.com/"
-            component={FormLink}
-            type="text"/>
-        </fieldset>
-        <fieldset className="form-group">
-          <Field
-            name="facebook"
-            label="Facebook:"
-            link="http://www.facebook.com/"
-            component={FormLink}
-            type="text" />
-        </fieldset>
-        <fieldset className="form-group">
-          <Field
-            name="github"
-            label="Github:"
-            link="http://www.github.com/"
-            component={FormLink}
-            type="text" />
-        </fieldset>
-        <button action="submit" className="btn btn-primary">update</button>
-      </form>
+        <div>
+          <label>Link Accounts:</label>
+          <div className="form-group">
+            <a className="btn btn-block btn-facebook btn-social" href="http://localhost:3000/auth/facebook">
+              <i className="fa fa-facebook"/>
+              Link Facebook
+            </a>
+            <a className="btn btn-block btn-twitter btn-social" href="http://localhost:3000/auth/twitter">
+              <i className="fa fa-twitter"/>
+              Link Twitter
+            </a>
+            <a className="btn btn-block btn-google btn-social" href="http://localhost:3000/auth/google">
+              <i className="fa fa-google"/>
+              Link Google
+            </a>
+            <a className="btn btn-block btn-github btn-social" href="http://localhost:3000/auth/github">
+              <i className="fa fa-github"/>
+              Link Github
+            </a>
+          </div>
+        </div>
+      </div>
     )
   }
 }

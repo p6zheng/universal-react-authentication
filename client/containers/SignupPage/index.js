@@ -6,8 +6,8 @@ import AuthFormInput from '../../components/AuthFormInput';
 import * as reducers from '../../reducers';
 
 class Signup extends Component {
-  handleFormSubmit({ email, password }) {
-    this.props.signupUser({ email, password });
+  handleFormSubmit(form) {
+    this.props.signupUser(form);
   }
 
   alertError() {

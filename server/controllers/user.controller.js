@@ -12,7 +12,7 @@ export const getProfile = (req, res, next) => {
     const user = {
       name: profile.name,
       email: existingUser.email,
-      pitcture: profile.picture,
+      picture: profile.picture,
       age: profile.age,
       gender: profile.gender
     };
@@ -94,7 +94,7 @@ export const getPhoto = (req, res, next) => {
     if (!existingUser) {
       return res.status(422).send({ error: 'User not found !' });
     }
-    const image = existingUser.profile.pitcture;
+    const image = existingUser.profile.picture;
     return res.status(200).send({image});
   });
 }
@@ -109,7 +109,7 @@ export const uploadPhoto = (req, res, next) => {
       return res.status(422).send({ error: 'User not found !' });
     }
     res.cookie('user_photo', imageName);
-    user.profile.pitcture = imageName;
+    user.profile.picture = imageName;
     user.save(err => {
       if (err) { return next(err); }
       return res.send({ message: 'Succesfully saved !'});

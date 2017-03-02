@@ -86,7 +86,6 @@ mongoose.connection.on('error', () => {
 
 // Express configuration
 app.set('view engine', 'ejs');
-//app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/uploads'));
 app.use(bodyParser.json({limit: "50mb"}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -95,7 +94,7 @@ app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:500
 app.use(passport.initialize());
 
 // Print out worker information
-app.use((req,res,next) => {
+app.use((req, res, next) => {
   const cluster = require('cluster');
   if(cluster.isWorker) console.log(`Worker ${cluster.worker.id} received request`);
   next()
@@ -107,12 +106,13 @@ app.use('/api/user', userRouter);
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  delete process.env.BROWSER;
-  const store = configureStore();
   cookie.setRawCookie(req.headers.cookie);
   const token = cookie.load('token');
   const userName = cookie.load('user_name');
   const userPhoto = cookie.load('user_photo');
+
+  delete process.env.BROWSER;
+  const store = configureStore();
 
   if (typeof token !== 'undefined') {
     store.dispatch({

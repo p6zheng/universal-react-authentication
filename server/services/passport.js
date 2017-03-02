@@ -6,8 +6,9 @@ import GithubStrategy from 'passport-github2';
 import FacebookStrategy from 'passport-facebook';
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
 import cookie from 'react-cookie';
+import { verifyToken } from '../utils/authHelper'
 
-// Create local strategy
+// Local strategy
 const localOptions = {
   usernameField: 'email'
 };
@@ -25,36 +26,64 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   });
 });
 
-// Create Github strategy
+// Github strategy
 const githubOptions = {
   clientID: config.github.id,
   clientSecret: config.github.secret,
   callbackURL: "/auth/github/callback"
 };
 
-const githubLogin = new GithubStrategy(githubOptions,
-  (req, accessToken, refreshToken, profile, done) => {
-    User.findOne({ 'github.id': profile.id }, (error, existingUser) => {
-      if (error) { return done(error); }
-      if (existingUser) { return done(null, existingUser); }
+// Create a new User using Github account
+const createGithubUser = (profile, done) => {
+  User.findOne({ 'github.id': profile.id }, (error, existingUser) => {
+    if (error) { return done(error); }
+    if (existingUser) { return done(null, existingUser); }
+    User.findOne({'email': profile._json.email}, (err, existingEmailUser) => {
+      if (err) { return done(err); }
+      if (profile._json.email && existingEmailUser) {
+        done(err);
+      } else {
+        const user = new User();
+        user.email = profile._json.email;
+        user.profile.name = profile.username;
+        user.profile.picture = 'default.png';
+        user.github.id = profile.id;
+        user.save(error =>
+          done(error, user)
+        );
+      }
+    });
+  });
+}
 
-      User.findOne({ 'email': profile._json.email }, (err, existingEmailUser) => {
-        if (err) { return done(err); }
-        if (profile._json.email && existingEmailUser) {
-          //req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with GitHub manually from Account Settings.' });
-          done(err);
-        } else {
-          const user = new User();
+const githubLogin = new GithubStrategy(githubOptions,
+  (accessToken, refreshToken, profile, done) => {
+    const userId = cookie.load('user_id');
+    if (userId) {
+      const token = cookie.load('token');
+      verifyToken(token, (err) => {
+        if (err) {
+          return res.status(401).json({
+            title: 'Not Authenticated',
+            error: err
+          });
+        }
+        User.findOne({ '_id': userId }, (err, user) => {
+          if (err) { return done(err); };
+          if (!user) {
+            // Invalid userId, create a new User using github account
+            createGithubUser(profile, done);
+          }
           user.email = profile._json.email;
-          user.profile.name = profile.username;
           user.github.id = profile.id;
-          user.github.token = cookie.load('token');
           user.save(error =>
             done(error, user)
           );
-        }
+        });
       });
-    });
+    } else {
+      createGithubUser(profile, done);
+    }
   }
 )
 
@@ -66,7 +95,7 @@ const facebookOptions = {
 };
 
 const facebookLogin = new FacebookStrategy(facebookOptions,
-  (req, accessToken, refreshToken, profile, done) => {
+  (accessToken, refreshToken, profile, done) => {
     User.findOne({ 'facebook.id': profile.id }, (error, existingUser) => {
       if (error) { return done(error); }
       if (existingUser) { return done(null, existingUser); }
@@ -74,15 +103,14 @@ const facebookLogin = new FacebookStrategy(facebookOptions,
       User.findOne({ 'email': profile._json.email }, (err, existingEmailUser) => {
         if (err) { return done(err); }
         if (profile._json.email && existingEmailUser) {
-          //req.flash('errors', { msg: 'There is already an account using this email address. Sign in to that account and link it with Facebook manually from Account Settings.' });
           done(err);
         } else {
           const user = new User();
           user.email = profile._json.email;
+          user.profile.picture = 'default.png';
           user.profile.name = profile.displayName;
           user.profile.gender = profile.gender;
           user.facebook.id = profile.id;
-          user.facebook.token = accessToken;
           user.save(error =>
             done(error, user)
           );
@@ -96,12 +124,11 @@ const facebookLogin = new FacebookStrategy(facebookOptions,
 const googleOptions = {
   clientID: config.google.id,
   clientSecret: config.google.secret,
-  callbackURL: "/auth/google/callback",
-  passReqToCallback: true
+  callbackURL: "/auth/google/callback"
 };
 
 const googleLogin = new GoogleStrategy(googleOptions,
-  (req, accessToken, refreshToken, profile, done) => {
+  (accessToken, refreshToken, profile, done) => {
     User.findOne({ 'google.id': profile.id }, (error, existingUser) => {
       if (error) { return done(error); }
       if (existingUser) { return done(null, existingUser); }
@@ -114,10 +141,10 @@ const googleLogin = new GoogleStrategy(googleOptions,
         } else {
           const user = new User();
           user.email = profile.emails[0].value;
+          user.profile.picture = 'default.png';
           user.profile.name = profile.displayName;
           user.profile.gender = profile.gender;
           user.google.id = profile.id;
-          user.google.token = accessToken;
           user.save(error =>
             done(error, user)
           );

@@ -7,22 +7,19 @@ var userSchema = new Schema({
   password: String,
   google: {
     id : String,
-    token : String,
     name : String
   },
   github: {
     id : String,
-    token : String,
     name : String
   },
   facebook: {
     id : String,
-    token : String,
     name : String
   },
   profile: {
     name: String,
-    pitcture: String,
+    picture: String,
     age: String,
     gender: String
   }
