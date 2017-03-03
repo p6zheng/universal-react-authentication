@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as actionTypes from '../constants/actionTypes';
-import cookie from 'react-cookie';
 
 const ROOT_URL = 'http://localhost:3000/api';
 
@@ -8,20 +7,20 @@ export const fetchProfile = () => (disptach) => {
   disptach({ type: actionTypes.FETCH_PROFILE_REQUEST });
 
   axios.get(`${ROOT_URL}/user/profile`).then(
-    response => {
+    res => {
       disptach({
         type: actionTypes.FETCH_PROFILE_SUCCESS,
-        profile: response.data.user
+        profile: res.data.user
       });
     },
     error => {
       disptach({
         type: actionTypes.FETCH_PROFILE_ERROR,
-        error: error.response.data.message
+        error: error.res.data.message
       });
     }
   );
-}
+};
 
 export const updateProfile = (profile) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_PROFILE_REQUEST });
@@ -40,7 +39,7 @@ export const updateProfile = (profile) => (dispatch) => {
       });
     }
   );
-}
+};
 
 export const fetchAccount = () => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_ACCOUNT_REQUEST });
@@ -55,11 +54,11 @@ export const fetchAccount = () => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.FETCH_ACCOUNT_ERROR,
-        error: error.response.data.message
-      })
+        error: error.res.data.message
+      });
     }
    );
-}
+};
 
 export const updateAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
@@ -74,11 +73,11 @@ export const updateAccount = (account) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_ERROR,
-        error: error.response.data.message
-      })
+        error: error.res.data.message
+      });
     }
   );
-}
+};
 
 export const uploadPhoto = (photo) => (dispatch) => {
   let data = new FormData();
@@ -87,25 +86,24 @@ export const uploadPhoto = (photo) => (dispatch) => {
   dispatch({ type: actionTypes.UPLOAD_IMAGE_REQUEST });
 
   axios.post(`${ROOT_URL}/user/photo`, data).then(
-    response => {
-      const userPhoto = cookie.load('user_photo');
+    res => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_SUCCESS,
-        userPhoto,
-        message: response.data.message
+        userPhoto: res.data.userPhoto,
+        message: res.data.message
       });
     },
     error => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_ERROR,
-        error: error.response.data.message
-      })
+        error: error.res.data.message
+      });
     }
   );
-}
+};
 
 export const unmountComponent = () => {
   return {
     type: actionTypes.UNMOUNT_COMPONENT
   };
-}
+};

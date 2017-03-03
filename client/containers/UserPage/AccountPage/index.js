@@ -31,7 +31,7 @@ class Account extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit } = this.props;
     return (
       <div>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
@@ -101,7 +101,7 @@ class Account extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -125,7 +125,7 @@ const validate = (formProps) => {
   }
 
   return errors;
-}
+};
 
 const mapStateToProps = state => ({
   account: getAccount(state)

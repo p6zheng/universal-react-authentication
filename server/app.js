@@ -3,7 +3,6 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import cookie from 'react-cookie';
 
 // Import required modules
 import config from './config';
@@ -100,18 +99,27 @@ app.use((req, res, next) => {
   next()
 });
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser('some_secret'));
+
+/*app.use((req, res, next) => {
+
+  cookieParser.signedCookies(req.headers.cookie, 'secret');
+  next();
+});*/
+
 // Authentication routes
 app.use('/auth', authRouter);
 app.use('/api/user', userRouter);
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
-  cookie.setRawCookie(req.headers.cookie);
-  const token = cookie.load('token');
-  const userName = cookie.load('user_name');
-  const userPhoto = cookie.load('user_photo');
-
   delete process.env.BROWSER;
+
+  const token = req.signedCookies.token;
+  const userName = req.signedCookies.user_name;
+  const userPhoto = req.signedCookies.user_photo;
+
   const store = configureStore();
 
   if (typeof token !== 'undefined') {
@@ -142,7 +150,12 @@ app.use((req, res, next) => {
       next();
     }
     res.render('index', {
-      initialMockup: markup
+      initialMockup: markup,
+      initialData: {
+        token,
+        userName,
+        userPhoto
+      }
     });
   }
 });

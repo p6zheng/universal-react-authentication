@@ -1,8 +1,7 @@
 import User from '../models/user';
-import cookie from 'react-cookie';
 
 export const getProfile = (req, res, next) => {
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
   User.findOne({ '_id': id}, (err, existingUser) => {
     if (err) { return next(err) }
     if (!existingUser) {
@@ -23,7 +22,7 @@ export const getProfile = (req, res, next) => {
 
 export const updateProfile = (req, res, next) => {
   const { email, gender, name, age } = req.body;
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
 
   User.findOne({ '_id': id }, (err, user) => {
     if (err) { return next(err); };
@@ -44,7 +43,7 @@ export const updateProfile = (req, res, next) => {
 }
 
 export const getAccount = (req, res, next) => {
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
   User.findOne({ '_id': id}, (err, existingUser) => {
     if (err) { return next(err) }
     if (!existingUser) {
@@ -61,7 +60,7 @@ export const getAccount = (req, res, next) => {
 
 export const updateAccount = (req, res, next) => {
   const { password, newPassword } = req.body;
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
   User.findOne({ '_id': id }, (err, user) => {
     if (err) { return next(err); };
     if (!user) {
@@ -88,7 +87,7 @@ export const updateAccount = (req, res, next) => {
 }
 
 export const getPhoto = (req, res, next) => {
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
   User.findOne({ '_id': id}, (err, existingUser) => {
     if (err) { return next(err) }
     if (!existingUser) {
@@ -100,7 +99,7 @@ export const getPhoto = (req, res, next) => {
 }
 
 export const uploadPhoto = (req, res, next) => {
-  const id = cookie.load('user_id');
+  const id = req.signedCookies.user_id;
   const imageName = req.file.filename;
 
   User.findOne({ '_id': id }, (err, user) => {
@@ -112,7 +111,10 @@ export const uploadPhoto = (req, res, next) => {
     user.profile.picture = imageName;
     user.save(err => {
       if (err) { return next(err); }
-      return res.send({ message: 'Succesfully saved !'});
+      return res.send({
+        userPhoto: imageName,
+        message: 'Succesfully saved !'
+      });
     });
   });
 }

@@ -1,16 +1,15 @@
 import User from '../models/user';
-import cookie from 'react-cookie';
-import { tokenForUser, verifyToken } from '../utils/authHelper'
+import { tokenForUser, verifyToken } from '../utils/authHelper';
 
 export const setToken = (req, res, next) => {
   const user = req.user;
   const token = tokenForUser(user);
-  res.cookie('token', token);
-  res.cookie('user_name', user.profile.name);
-  res.cookie('user_id', user._id.toString());
-  res.cookie('user_photo', user.profile.picture);
+  res.cookie('token', token, { signed: true });
+  res.cookie('user_name', user.profile.name, { signed: true });
+  res.cookie('user_id', user._id.toString(), { signed: true });
+  res.cookie('user_photo', user.profile.picture, { signed: true });
   next();
-}
+};
 
 export const signup = (req, res, next) => {
   const { username, email, password } = req.body;
@@ -36,11 +35,10 @@ export const signup = (req, res, next) => {
       next();
     });
   });
-}
+};
 
 export const authenticateUser = (req, res, next) => {
-  cookie.setRawCookie(req.headers.cookie);
-  const token = cookie.load('token');
+  const token = req.signedCookies.token;
   verifyToken(token, err => {
     if (err) {
       return res.status(401).json({
@@ -50,4 +48,4 @@ export const authenticateUser = (req, res, next) => {
     }
     next();
   });
-}
+};
