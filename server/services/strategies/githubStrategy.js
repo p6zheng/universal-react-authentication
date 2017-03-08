@@ -27,6 +27,7 @@ const createNewGithubUser = (profile, done) => {
         const user = new User();
         user.email = profile._json.email;
         user.profile.name = profile.username;
+        user.profile.gender = profile.gender;
         user.profile.picture = 'default.png';
         user.github.id = profile.id;
         user.save((error) =>
