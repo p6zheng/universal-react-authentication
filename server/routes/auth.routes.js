@@ -32,21 +32,33 @@ router.route('/github').get(passport.githubSignin);
 router.route('/github/callback').get(
   passport.githubSignin,
   authController.setToken,
-  (req, res) => res.redirect('/')
+  (req, res) => {
+    res.redirect('/');
+  }
 );
 
 router.route('/facebook').get(passport.facebookSignin);
 router.route('/facebook/callback').get(
   passport.facebookSignin,
   authController.setToken,
-  (req, res) => res.redirect('/')
+  (req, res, next) => {
+    if (req.flashMessage) {
+      return next();
+    }
+    res.redirect('/');
+  }
 );
 
 router.route('/google').get(passport.googleSignin);
 router.route('/google/callback').get(
   passport.googleSignin,
   authController.setToken,
-  (req, res) => res.redirect('/')
+  (req, res, next) => {
+    if (req.flashMessage) {
+      return next();
+    }
+    res.redirect('/');
+  }
 );
 
 export default router;

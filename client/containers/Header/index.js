@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { getIsAuthenticated, getUserName, getUserPhoto } from '../../reducers'
+import { getIsAuthenticated, getUserName, getUserPhoto } from '../../reducers';
 
 class Header extends Component {
   constructor(props) {
@@ -21,26 +21,26 @@ class Header extends Component {
     if (isAuthenticated) {
       return (
         <Nav pullRight>
-          <NavDropdown className={activeTab === 'user' ? 'active' : ''} eventKey={3} title={user} id="basic-nav-dropdown">
-            <MenuItem componentClass={Link}  eventKey={3.1} href="/user/profile" to="/user/profile">
-              <i className="fa fa-user-circle" />
+          <NavDropdown className={activeTab === 'user' ? 'active' : ''} eventKey={3} title={user} id='basic-nav-dropdown'>
+            <MenuItem componentClass={Link}  eventKey={3.1} href='/user/profile' to='/user/profile'>
+              <i className='fa fa-user-circle' />
               My Profile
             </MenuItem>
-            <MenuItem componentClass={Link}  eventKey={3.2} href="/user/account" to="/user/account">
-              <i className="fa fa-cog" />
+            <MenuItem componentClass={Link}  eventKey={3.2} href='/user/account' to='/user/account'>
+              <i className='fa fa-cog' />
               My Account
             </MenuItem>
-            <MenuItem componentClass={Link}  eventKey={3.2} href="/user/photo" to="/user/photo">
-              <i className="fa fa-picture-o" />
+            <MenuItem componentClass={Link}  eventKey={3.2} href='/user/photo' to='/user/photo'>
+              <i className='fa fa-picture-o' />
               My Photo
             </MenuItem>
             <MenuItem eventKey={3.3}>
-              <i className="fa fa-heart" />
+              <i className='fa fa-heart' />
               My Favorites
             </MenuItem>
             <MenuItem divider />
-            <MenuItem componentClass={Link}  eventKey={3.4} href="/signout" to="/signout">
-              <i className="fa fa-sign-out" />
+            <MenuItem componentClass={Link}  eventKey={3.4} href='/signout' to='/signout'>
+              <i className='fa fa-sign-out' />
               Sign Out
             </MenuItem>
           </NavDropdown>
@@ -53,13 +53,13 @@ class Header extends Component {
           className={activeTab === 'signin' ? 'active' : ''}
           componentClass={Link}
           eventKey={3}
-          href="/signin" to="/signin">Sign In
+          href='/signin' to='/signin'>Sign In
         </NavItem>
         <NavItem
           className={activeTab === 'signup' ? 'active' : ''}
           componentClass={Link}
           eventKey={4}
-          href="/signup" to="/signup">Sign Up
+          href='/signup' to='/signup'>Sign Up
         </NavItem>
       </Nav>
     );
@@ -71,7 +71,7 @@ class Header extends Component {
       <Navbar fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="/">Brand</a>
+            <a href='/'>Brand</a>
           </Navbar.Brand>
         </Navbar.Header>
         <Navbar.Collapse>
@@ -80,13 +80,13 @@ class Header extends Component {
               className={activeTab === '' ? 'active' : ''}
               componentClass={Link}
               eventKey={1}
-              href="/" to="/">Home
+              href='/' to='/'>Home
             </NavItem>
             <NavItem
               className={activeTab === 'secret' ? 'active' : ''}
               componentClass={Link}
               eventKey={2}
-              href="/secret" to="/secret">Secret
+              href='/secret' to='/secret'>Secret
             </NavItem>
           </Nav>
           {this.renderLinks()}

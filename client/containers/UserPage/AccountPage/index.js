@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
 import FormLink from '../../../components/LinkFormInput';
 import * as actions from '../../../actions/UserActions';
-import { getAccount } from '../../../reducers';
+import { getAccount, getFlashMessage } from '../../../reducers';
 
 class Account extends Component {
   componentDidMount() {
@@ -16,7 +16,7 @@ class Account extends Component {
   }
 
   renderPassword() {
-    if(this.props.account && this.props.account.containPassword) {
+    if (this.props.account && this.props.account.containPassword) {
       return (
         <fieldset className="form-group">
           <label>Password:</label>
@@ -26,6 +26,17 @@ class Account extends Component {
             component={FormInput}
             type="text"/>
         </fieldset>
+      );
+    }
+  }
+
+  renderFlashMessage() {
+    if (this.props.message) {
+      return (
+        <div className="alert alert-danger">
+          <i className="fa fa-exclamation-circle" />
+          {this.props.message}
+        </div>
       );
     }
   }
@@ -100,6 +111,7 @@ class Account extends Component {
             </a>
           </div>
         </div>
+        {this.renderFlashMessage()}
       </div>
     );
   }
@@ -128,7 +140,8 @@ const validate = (formProps) => {
 };
 
 const mapStateToProps = state => ({
-  account: getAccount(state)
+  account: getAccount(state),
+  message: getFlashMessage(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

@@ -17,7 +17,7 @@ const errorMessage = (state={}, action) => {
     default:
       return state;
   }
-}
+};
 
 const isAuthenticating = (state=false, action) => {
   switch (action.type) {
@@ -29,7 +29,7 @@ const isAuthenticating = (state=false, action) => {
     default:
       return state;
   }
-}
+};
 
 const isAuthenticated = (state=false, action) => {
   switch (action.type) {
@@ -40,7 +40,7 @@ const isAuthenticated = (state=false, action) => {
     default:
       return state;
   }
-}
+};
 
 const auth = combineReducers({
   errorMessage,

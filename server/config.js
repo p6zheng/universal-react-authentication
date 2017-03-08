@@ -17,7 +17,8 @@ const config = {
   google: {
     id: '828110519058.apps.googleusercontent.com',
     secret: 'JdZsIaWhUFIchmC1a_IZzOHb'
-  }
+  },
+  cookie: 'some_secret'
 };
 
 export default config;

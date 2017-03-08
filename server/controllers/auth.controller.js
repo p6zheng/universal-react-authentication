@@ -2,6 +2,9 @@ import User from '../models/user';
 import { tokenForUser, verifyToken } from '../utils/authHelper';
 
 export const setToken = (req, res, next) => {
+  if (req.flashMessage) {
+    return next();
+  }
   const user = req.user;
   const token = tokenForUser(user);
   res.cookie('token', token, { signed: true });
@@ -14,10 +17,10 @@ export const setToken = (req, res, next) => {
 export const signup = (req, res, next) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
-    return res.status(422).send({ error: 'Required Field Missing!'})
+    return res.status(422).send({ error: 'Required Field Missing!'});
   }
   User.findOne({ 'local.email': email }, (err, existingUser) => {
-    if (err) { return next(err) }
+    if (err) { return next(err); }
     if (existingUser) {
       return res.status(422).send({ error: 'Email in use !' });
     }

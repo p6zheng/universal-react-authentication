@@ -5,11 +5,11 @@ const message = (state={}, action) => {
     case actionTypes.FETCH_MESSAGE_SUCCESS:
       return {
         data: action.message
-      }
+      };
     default:
       return state;
   }
-}
+};
 
 export default message;
 

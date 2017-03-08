@@ -81,7 +81,7 @@ const validate = (formProps) => {
   }
 
   return errors;
-}
+};
 
 
 const mapStateToProps = state => ({

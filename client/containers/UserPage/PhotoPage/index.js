@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import defaultAvatar from '../../../../server/uploads/user/photo/default.png';
 import * as actions from '../../../actions/UserActions';
-import { getUserPhoto, getSuccessMessage } from '../../../reducers';
+import { getUserPhoto, getUserUpdateSuccess } from '../../../reducers';
 
 class Photo extends Component {
 
@@ -87,7 +87,7 @@ class Photo extends Component {
 
 const mapStateToProps = state => ({
   image: getUserPhoto(state),
-  message: getSuccessMessage(state)
+  message: getUserUpdateSuccess(state)
 });
 
 export default connect(mapStateToProps, actions)(Photo);

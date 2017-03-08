@@ -8,7 +8,7 @@ import passport from 'passport';
 import config from './config';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
-import { AUTH_USER_SUCCESS } from '../client/constants/actionTypes';
+import { AUTH_USER_SUCCESS, DISPLAY_FLASH_MESSAGE } from '../client/constants/actionTypes';
 import Root from '../client/Root';
 import './services/passport';
 
@@ -86,8 +86,8 @@ mongoose.connection.on('error', () => {
 // Express configuration
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/uploads'));
-app.use(bodyParser.json({limit: "50mb"}));
-app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
 
 // Setup passport
 app.use(passport.initialize());
@@ -96,17 +96,12 @@ app.use(passport.initialize());
 app.use((req, res, next) => {
   const cluster = require('cluster');
   if(cluster.isWorker) console.log(`Worker ${cluster.worker.id} received request`);
-  next()
+  next();
 });
 
-var cookieParser = require('cookie-parser')
-app.use(cookieParser('some_secret'));
-
-/*app.use((req, res, next) => {
-
-  cookieParser.signedCookies(req.headers.cookie, 'secret');
-  next();
-});*/
+// Setup Cookie and Session
+app.use(require('cookie-parser')(config.cookie));
+app.use(require('express-session')());
 
 // Authentication routes
 app.use('/auth', authRouter);
@@ -119,6 +114,7 @@ app.use((req, res, next) => {
   const token = req.signedCookies.token;
   const userName = req.signedCookies.user_name;
   const userPhoto = req.signedCookies.user_photo;
+  const flashMessage = req.session.flashMessage;
 
   const store = configureStore();
 
@@ -128,6 +124,13 @@ app.use((req, res, next) => {
       userName,
       userPhoto
     });
+    if (flashMessage) {
+      store.dispatch({
+        type: DISPLAY_FLASH_MESSAGE,
+        flashMessage
+      });
+      req.session.flashMessage = null;
+    }
   }
 
   const context = {};
@@ -154,7 +157,8 @@ app.use((req, res, next) => {
       initialData: {
         token,
         userName,
-        userPhoto
+        userPhoto,
+        flashMessage
       }
     });
   }
