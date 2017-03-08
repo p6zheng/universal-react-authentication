@@ -12,6 +12,6 @@ passport.use(facebookLogin);
 passport.use(googleLogin);
 
 export const localSignin = passportAuth('local', { session: false });
-export const githubSignin = passportAuth('github', { session: false });
+export const githubSignin = passportAuth('github', { session: false }, { scope: 'profile email' });
 export const facebookSignin = passportAuth('facebook', { session: false });
-export const googleSignin = passportAuth('google', { session: false });
+export const googleSignin = passportAuth('google', { session: false }, { scope: 'profile email' });

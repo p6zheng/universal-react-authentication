@@ -10,8 +10,8 @@ export const verifyToken = (token, cb) => {
   jwt.verify(token, config.jwt.secret, cb);
 };
 
-export const passportAuth = (strategy, options) => (req, res, next) =>
-  passport.authenticate(strategy, { scope: 'profile email' },
+export const passportAuth = (strategy, options, scope) => (req, res, next) =>
+  passport.authenticate(strategy, scope,
     (err, user, info) => {
       if (err) { return next(err); }
       if (req.session.flashMessage) {
