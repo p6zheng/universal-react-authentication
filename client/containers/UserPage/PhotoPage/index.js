@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import defaultAvatar from '../../../../server/uploads/user/photo/default.png';
 import * as actions from '../../../actions/UserActions';
 import { getUserPhoto, getUserUpdateSuccess } from '../../../reducers';
 

@@ -6,6 +6,8 @@ const flashMessage = (state={}, action) => {
       return {
         flashMessage: action.flashMessage
       };
+    case actionTypes.UNMOUNT_COMPONENT:
+      return {};
     default:
       return state;
   }

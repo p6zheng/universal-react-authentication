@@ -7,8 +7,13 @@ import * as actions from '../../../actions/UserActions';
 import { getAccount, getFlashMessage } from '../../../reducers';
 
 class Account extends Component {
+
   componentDidMount() {
     this.props.fetchAccount();
+  }
+
+  componentWillUnmount() {
+    this.props.unmountComponent();
   }
 
   handleFormSubmit(account) {
