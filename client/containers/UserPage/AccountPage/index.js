@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
-import FormLink from '../../../components/LinkFormInput';
+import AuthFormInput from '../../../components/AuthFormInput';
 import * as actions from '../../../actions/UserActions';
 import { getAccount, getFlashMessage } from '../../../reducers';
+import * as validator from '../../../utils/fieldValidator';
 
 class Account extends Component {
 
@@ -55,42 +56,16 @@ class Account extends Component {
           <fieldset className="form-group">
             <Field
               name="newPassword"
+              type="password"
               info="Enter New Password"
-              component={FormInput}
-              type="text"/>
+              component={AuthFormInput} />
           </fieldset>
           <fieldset className="form-group">
             <Field
-              name="confirmNewPassword"
+              name="newPasswordConfirm"
+              type="password"
               info="Re-type New Password"
-              component={FormInput}
-              type="text" />
-          </fieldset>
-          <hr />
-          <label>Links:</label>
-          <fieldset className="form-group">
-            <Field
-              name="google"
-              label="Google:"
-              link="https://plus.google.com/"
-              component={FormLink}
-              type="text"/>
-          </fieldset>
-          <fieldset className="form-group">
-            <Field
-              name="facebook"
-              label="Facebook:"
-              link="http://www.facebook.com/"
-              component={FormLink}
-              type="text" />
-          </fieldset>
-          <fieldset className="form-group">
-            <Field
-              name="github"
-              label="Github:"
-              link="http://www.github.com/"
-              component={FormLink}
-              type="text" />
+              component={AuthFormInput} />
           </fieldset>
           <button action="submit" className="btn btn-primary">update</button>
         </form>
@@ -122,23 +97,19 @@ class Account extends Component {
   }
 }
 
-const validate = (formProps) => {
+const validate = ({ password, newPassword, newPasswordConfirm}) => {
   const errors = {};
 
-  if (!formProps.password) {
-    errors.password = 'Please enter current password';
+  if (password) {
+    errors.password = validator.validatePassword(password);
   }
 
-  if (!formProps.newPassword) {
-    errors.newPassword = 'Please enter the new password';
+  if (newPassword) {
+    errors.newPassword = validator.validatePassword(newPassword);
   }
 
-  if (!formProps.confirmNewPassword) {
-    errors.confirmNewPassword = 'Please re-type the new password';
-  }
-
-  if (formProps.newPassword !== formProps.confirmNewPassword) {
-    errors.newPassword = 'New passwords must match';
+  if (newPassword !== newPasswordConfirm) {
+    errors.newPasswordConfirm = validator.validatePasswordConfirm(newPassword, newPasswordConfirm);
   }
 
   return errors;

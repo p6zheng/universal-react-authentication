@@ -15,6 +15,6 @@ const FormInput = ({ input, meta, name, info, label }) => (
       </div>
     }
   </div>
-)
+);
 
 export default FormInput;

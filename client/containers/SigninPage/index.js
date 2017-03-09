@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import AuthFormInput from '../../components/AuthFormInput';
 import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
+import * as validator from '../../utils/fieldValidator';
 
 class Signin extends Component {
 
@@ -34,15 +35,15 @@ class Signin extends Component {
             <label>Email:</label>
             <Field
               name="email"
-              component={AuthFormInput}
-              type="text"/>
+              type="text"
+              component={AuthFormInput} />
           </fieldset>
           <fieldset className="form-group">
             <label>Password:</label>
             <Field
               name="password"
-              component={AuthFormInput}
-              type="text"/>
+              type="password"
+              component={AuthFormInput} />
           </fieldset>
           {this.alertError()}
           <button action="submit" className="btn btn-primary">Sign in</button>
@@ -71,10 +72,18 @@ class Signin extends Component {
   }
 }
 
+const validate = ({ email, password }) => {
+  const errors = {};
+  if (email) { errors.email = validator.validateEmail(email); }
+  if (password) { errors.password = validator.validatePassword(password); }
+  return errors;
+};
+
 const mapStateToProps = state => ({
   errorMessage: reducers.getSigninError(state)
 });
 
-export default reduxForm({
-  form: 'signin'
-})(connect(mapStateToProps, actions)(Signin));
+export default connect(mapStateToProps, actions)(reduxForm({
+  form: 'signin',
+  validate
+})(Signin));

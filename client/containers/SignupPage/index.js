@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/AuthActions';
 import AuthFormInput from '../../components/AuthFormInput';
 import * as reducers from '../../reducers';
+import * as validator from '../../utils/fieldValidator';
 
 class Signup extends Component {
   handleFormSubmit(form) {
@@ -43,15 +44,15 @@ class Signup extends Component {
             <label>Password:</label>
             <Field
               name="password"
-              component={AuthFormInput}
-              type="text"/>
+              type="password"
+              component={AuthFormInput} />
           </fieldset>
           <fieldset className="form-group">
             <label>Confirm Password:</label>
             <Field
               name="passwordConfirm"
-              component={AuthFormInput}
-              type="text"/>
+              type="password"
+              component={AuthFormInput} />
           </fieldset>
           {this.alertError()}
           <button action="submit" className="btn btn-primary">Sign up</button>
@@ -61,25 +62,12 @@ class Signup extends Component {
   }
 }
 
-const validate = (formProps) => {
+const validate = ({ username, email, password, passwordConfirm }) => {
   const errors = {};
-
-  if (!formProps.email) {
-    errors.email = 'Please enter an email';
-  }
-
-  if (!formProps.password) {
-    errors.password = 'Please enter a password';
-  }
-
-  if (!formProps.passwordConfirm) {
-    errors.passwordConfirm = 'Please enter a password confirmation';
-  }
-
-  if (formProps.password !== formProps.passwordConfirm) {
-    errors.password = 'Passwords must match';
-  }
-
+  if (username) { errors.username = validator.validateUserName(username); }
+  if (password) { errors.email = validator.validateEmail(email); }
+  if (passwordConfirm) { errors.password = validator.validatePassword(password); }
+  if (passwordConfirm) { errors.passwordConfirm = validator.validatePasswordConfirm(password, passwordConfirm); }
   return errors;
 };
 

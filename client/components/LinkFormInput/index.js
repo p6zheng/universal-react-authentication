@@ -15,6 +15,6 @@ const LinkFormInput = ({ input, meta, link, label}) => {
       </div>
     }
   </div>
-)}
+)};
 
 export default LinkFormInput;

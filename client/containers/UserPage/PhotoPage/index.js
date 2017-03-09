@@ -52,8 +52,6 @@ class Photo extends Component {
       imagePreview = (<img src={imagePreviewUrl} height="200" width="200"/>);
     } else if (image) {
       imagePreview = (<img src={`http://localhost:3000/user/photo/${image}`} height="200" width="200"/>);
-    } else {
-      imagePreview = (<img src={`http://localhost:3000/user/photo/default.png`} height="200" width="200"/>);
     }
 
     return (
@@ -65,9 +63,9 @@ class Photo extends Component {
         <form onSubmit={this.handleFileUpload.bind(this)}>
           <div className="input-group">
             <label className="input-group-btn">
-                      <span className="btn btn-primary">
-                          Browse&hellip; <input type="file" style={{display: 'none'}} onChange={this.handleImageChange.bind(this)}  />
-                      </span>
+                <span className="btn btn-primary">
+                    Browse&hellip; <input type="file" style={{display: 'none'}} onChange={this.handleImageChange.bind(this)}  />
+                </span>
             </label>
             <input type="text" className="form-control" readOnly value={this.state.file.name || ''} />
           </div>
@@ -80,7 +78,7 @@ class Photo extends Component {
         </form>
         {this.alertMessage()}
       </div>
-    )
+    );
   }
 }
 
