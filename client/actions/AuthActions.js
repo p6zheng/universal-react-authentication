@@ -17,7 +17,7 @@ export const signinUser = (user) => (dispatch) => {
       error => {
         dispatch({
           type: actionTypes.SIGNIN_ERROR,
-          error: error.res.data.message
+          error: error.response.data.message
         });
       }
     );
@@ -38,7 +38,7 @@ export const signupUser = (user) => (dispatch) => {
       error => {
         dispatch({
           type: actionTypes.SIGNUP_ERROR,
-          error: error.res.data.message
+          error: error.response.data.message
         });
       }
     );
@@ -57,7 +57,7 @@ export const fetchMessage = () => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.FETCH_MESSAGE_ERROR,
-        error: error.res.data.message
+        error: error.response.data.message
       });
     }
   );

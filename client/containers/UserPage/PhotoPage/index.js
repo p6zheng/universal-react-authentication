@@ -28,9 +28,9 @@ class Photo extends Component {
         file: file,
         imagePreviewUrl: reader.result
       });
-    }
+    };
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
   }
 
   alertMessage() {

@@ -16,13 +16,15 @@ const user = (state=initialState, action) => {
     case actionTypes.UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
-        profile: action.profile
+        profile: action.profile,
+        message: action.message
       };
     case actionTypes.FETCH_ACCOUNT_SUCCESS:
     case actionTypes.UPDATE_ACCOUNT_SUCCESS:
       return {
         ...state,
-        account: action.account
+        account: action.account,
+        message: action.message
       };
     case actionTypes.UPLOAD_IMAGE_REQUEST:
     case actionTypes.UNMOUNT_COMPONENT:

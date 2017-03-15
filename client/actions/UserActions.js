@@ -16,7 +16,7 @@ export const fetchProfile = () => (disptach) => {
     error => {
       disptach({
         type: actionTypes.FETCH_PROFILE_ERROR,
-        error: error.res.data.message
+        error: error.response.data.message
       });
     }
   );
@@ -26,10 +26,11 @@ export const updateProfile = (profile) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_PROFILE_REQUEST });
 
   axios.post(`${ROOT_URL}/user/profile`, profile).then(
-    () => {
+    res => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_SUCCESS,
-        profile
+        profile,
+        message:res.data.message
       });
     },
     error => {
@@ -48,13 +49,14 @@ export const fetchAccount = () => (dispatch) => {
     res => {
       dispatch({
         type: actionTypes.FETCH_ACCOUNT_SUCCESS,
-        account: res.data.user
+        account: res.data.user,
+        message:res.data.message
       });
     },
     error => {
       dispatch({
         type: actionTypes.FETCH_ACCOUNT_ERROR,
-        error: error.res.data.message
+        error: error.response.data.message
       });
     }
    );
@@ -64,7 +66,7 @@ export const updateAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
 
   axios.post(`${ROOT_URL}/user/account`, account).then(
-    () => {
+    res => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
         account
@@ -73,7 +75,7 @@ export const updateAccount = (account) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_ERROR,
-        error: error.res.data.message
+        error: error.response.data.message
       });
     }
   );
@@ -96,7 +98,7 @@ export const uploadPhoto = (photo) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_ERROR,
-        error: error.res.data.message
+        error: error.response.data.message
       });
     }
   );

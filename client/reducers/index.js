@@ -23,7 +23,7 @@ export const getIsAuthenticated = state => authReducer.getIsAuthenticated(state.
 export const getSigninError = state => authReducer.getSigninError(state.auth);
 export const getSignupError = state => authReducer.getSignupError(state.auth);
 
-// Message Reducer
+// Secret Message Reducer
 export const getMessage = state => messageReducer.getMessage(state.message);
 
 // User Reducer

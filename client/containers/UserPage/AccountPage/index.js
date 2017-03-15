@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
 import AuthFormInput from '../../../components/AuthFormInput';
 import * as actions from '../../../actions/UserActions';
-import { getAccount, getFlashMessage } from '../../../reducers';
+import { getAccount, getFlashMessage, getUserUpdateSuccess } from '../../../reducers';
 import * as validator from '../../../utils/fieldValidator';
 
 class Account extends Component {
@@ -19,6 +19,16 @@ class Account extends Component {
 
   handleFormSubmit(account) {
     this.props.updateAccount(account);
+  }
+
+  alertMessage() {
+    if (this.props.message) {
+      return (
+        <div className="alert alert-success">
+          <strong>{this.props.message}</strong>
+        </div>
+      );
+    }
   }
 
   renderPassword() {
@@ -37,11 +47,11 @@ class Account extends Component {
   }
 
   renderFlashMessage() {
-    if (this.props.message) {
+    if (this.props.flashMessage) {
       return (
         <div className="alert alert-danger">
           <i className="fa fa-exclamation-circle" />
-          {this.props.message}
+          {this.props.flashMessage}
         </div>
       );
     }
@@ -69,6 +79,7 @@ class Account extends Component {
           </fieldset>
           <button action="submit" className="btn btn-primary">update</button>
         </form>
+        {this.alertMessage()}
         <hr />
         <div>
           <label>Link Accounts:</label>
@@ -117,7 +128,8 @@ const validate = ({ password, newPassword, newPasswordConfirm}) => {
 
 const mapStateToProps = state => ({
   account: getAccount(state),
-  message: getFlashMessage(state)
+  flashMessage: getFlashMessage(state),
+  message: getUserUpdateSuccess(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({
