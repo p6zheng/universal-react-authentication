@@ -17,12 +17,12 @@ export const setToken = (req, res, next) => {
 export const signup = (req, res, next) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
-    return res.status(422).send({ error: 'Required Field Missing!'});
+    return res.status(422).send({ error: 'Required field missing.'});
   }
   User.findOne({ 'local.email': email }, (err, existingUser) => {
     if (err) { return next(err); }
     if (existingUser) {
-      return res.status(422).send({ error: 'Email in use !' });
+      return res.status(422).send({ error: 'Email in use.' });
     }
     const user = new User({
       email,

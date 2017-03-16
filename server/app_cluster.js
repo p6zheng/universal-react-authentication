@@ -3,7 +3,7 @@ import cluster from 'cluster';
 const startWorker = () => {
   var worker = cluster.fork();
   console.log('CLUSTER: Worker %d started', worker.id);
-}
+};
 
 if(cluster.isMaster){
   require('os').cpus().forEach(function(){
@@ -22,5 +22,5 @@ if(cluster.isMaster){
   });
 } else {
 // start our app on worker; see meadowlark.js
-  require('./app.js')();
+  require('./index.js')();
 }

@@ -36,7 +36,7 @@ export const updateProfile = (req, res, next) => {
     user.profile.gender = gender;
     user.save(err => {
       if (err) { return next(err); }
-      return res.send('succesfully saved');
+      return res.send({ message: 'Successfully updated !'});
     });
   });
 };
@@ -68,7 +68,7 @@ export const updateAccount = (req, res, next) => {
       user.password = newPassword;
       user.save(err => {
         if (err) { return next(err); }
-        return res.send({ success: 'Succesfully saved !'});
+        return res.send({ message: 'Successfully updated !'});
       });
     } else {
       user.comparePassword(password, (err, isMatch) => {
@@ -77,7 +77,7 @@ export const updateAccount = (req, res, next) => {
         user.password = newPassword;
         user.save(err => {
           if (err) { return next(err); }
-          return res.send({ success: 'Succesfully saved !'});
+          return res.send({ message: 'Successfully updated !'});
         });
       });
     }
@@ -87,7 +87,7 @@ export const updateAccount = (req, res, next) => {
 export const getPhoto = (req, res, next) => {
   const id = req.signedCookies.user_id;
   User.findOne({ '_id': id}, (err, existingUser) => {
-    if (err) { return next(err) }
+    if (err) { return next(err); }
     if (!existingUser) {
       return res.status(422).send({ error: 'User not found !' });
     }
@@ -111,7 +111,7 @@ export const uploadPhoto = (req, res, next) => {
       res.cookie('user_photo', imageName, { signed: true });
       return res.send({
         userPhoto: imageName,
-        message: 'Succesfully saved !'
+        message: 'Successfully uploaded !'
       });
     });
   });

@@ -1,5 +1,4 @@
 import express from 'express';
-import http from 'http';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
@@ -14,7 +13,6 @@ import './services/passport';
 
 // Initialize express app
 const app = express();
-const server = http.createServer(app);
 
 // Set port number
 app.set('port', process.env.PORT || 3000);
@@ -70,11 +68,15 @@ import { StaticRouter } from 'react-router-dom';
 mongoose.Promise = global.Promise;
 
 // Connect to mongodb
-if (app.get('env') !== 'production') {
-  mongoose.connect(config.mongo.devUrl);
-} else {
-  mongoose.connect(config.mongo.prodUrl);
+switch(app.get('env')) {
+  case 'production':
+    mongoose.connect(config.mongo.prodUrl);
+    break;
+  case 'development':
+    mongoose.connect(config.mongo.devUrl);
+    break;
 }
+
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connection established!');
 });
@@ -164,18 +166,6 @@ app.use((req, res, next) => {
   }
 });
 
-
-const startServer = () => server.listen(app.get('port'), () => {
-  console.log(`App stated in ${app.get('env')} mode on port ${app.get('port')}`);
-});
+export default app;
 
 
-// Start express server
-if(require.main === module){
-  // application run directly; start app server
-  startServer();
-} else {
-  // application imported as a module via "require": export function
-  // to create server
-  module.exports = startServer;
-}

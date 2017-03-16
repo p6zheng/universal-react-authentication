@@ -1,7 +1,8 @@
 const config = {
   mongo: {
     devUrl: 'mongodb://localhost:27017/authentication_DEV',
-    prodUrl: 'mongodb://localhost:27017/authentication_PROD'
+    prodUrl: 'mongodb://localhost:27017/authentication_PROD',
+    testUrl: 'mongodb://localhost:27017/authentication_TEST'
   },
   jwt: {
     secret: 'lalala'
