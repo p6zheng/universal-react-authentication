@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../server/app';
+import app from '../../server/app';
 
 describe('Authentication APIs', () => {
   const validSigninCrendential = {
@@ -38,7 +38,7 @@ describe('Authentication APIs', () => {
     return list;
   };
 
-  describe('# POST to /auth/signup', () => {
+  describe('#POST to /auth/signup', () => {
     it('should create a user', (done) => {
       request(app).post('/auth/signup')
         .send(validSignupCrendential)
@@ -63,7 +63,7 @@ describe('Authentication APIs', () => {
     });
   });
 
-  describe('# POST to /auth/signin', () => {
+  describe('#POST to /auth/signin', () => {
     // Create a user before each test
     beforeEach((done) => {
       request(app).post('/auth/signup')

@@ -15,6 +15,7 @@ router.route('/signup').post(
     });
   }
 );
+
 router.route('/signin').post(
   passport.localSignin,
   authController.setToken,
@@ -26,6 +27,7 @@ router.route('/signin').post(
     });
   }
 );
+
 router.route('/secret').get(authController.authenticateUser, (req, res) => res.send('Secret Message'));
 
 router.route('/github').get(passport.githubSignin);

@@ -1,8 +1,9 @@
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../server/app';
+import app from '../../server/app';
 
 describe('User APIs', () => {
+
   const signupCrendential = {
     username: 'User1',
     email: 'test@test.com',
@@ -21,7 +22,7 @@ describe('User APIs', () => {
     newPassword: 'Test2'
   };
 
-  describe('# GET to /api/user/profile', () => {
+  describe('#GET to /api/user/profile', () => {
     const agent = request.agent(app);
     it('should return unauthorized', (done) => {
       agent.get('/api/user/profile')
@@ -55,7 +56,7 @@ describe('User APIs', () => {
     });
   });
 
-  describe('# GET to /api/user/account', () => {
+  describe('#GET to /api/user/account', () => {
     const agent = request.agent(app);
     it('should return unauthorized', (done) => {
       agent.get('/api/user/account')
@@ -85,7 +86,7 @@ describe('User APIs', () => {
     });
   });
 
-  describe('# GET to /api/user/photo', () => {
+  describe('#GET to /api/user/photo', () => {
     const agent = request.agent(app);
     it('should return unauthorized', (done) => {
       agent.get('/api/user/photo')
@@ -115,7 +116,7 @@ describe('User APIs', () => {
     });
   });
 
-  describe('# POST /api/user/profile', () => {
+  describe('#POST /api/user/profile', () => {
     const agent = request.agent(app);
     it('should return unauthorized', (done) => {
       agent.post('/api/user/profile')
@@ -146,7 +147,7 @@ describe('User APIs', () => {
     });
   });
 
-  describe('# POST /api/user/account', () => {
+  describe('#POST /api/user/account', () => {
     const agent = request.agent(app);
     it('should return unauthorized', (done) => {
       agent.post('/api/user/account')
@@ -177,7 +178,7 @@ describe('User APIs', () => {
     });
   });
 
-  describe('# POST /api/user/photo', () => {
+  describe('#POST /api/user/photo', () => {
     const agent = request.agent(app);
 
     it('should return unauthorized', (done) => {
@@ -198,7 +199,7 @@ describe('User APIs', () => {
           expect(err).to.be.a('null');
 
           agent.post('/api/user/photo')
-            .attach('photo', 'test/testImage.png')
+            .attach('photo', 'test/images/testImage.png')
             .expect(200)
             .end((err, res) => {
               if (err) return done(err);
