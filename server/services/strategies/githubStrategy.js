@@ -1,9 +1,9 @@
-import GithubStrategy from 'passport-github2';
+import GithubStrategy from 'passport-github';
 import User from '../../models/user';
 import config from '../../config';
 import { verifyToken } from '../../utils/authHelper';
 
-// Github strategy
+// Create Github strategy
 const githubOptions = {
   clientID: config.github.id,
   clientSecret: config.github.secret,
@@ -11,58 +11,76 @@ const githubOptions = {
   passReqToCallback: true
 };
 
-// Create a new user using the Github account
-const createNewGithubUser = (profile, done) => {
-  User.findOne({ 'github.id': profile.id }, (error, existingUser) => {
-    if (error) { return done(error); }
-    if (existingUser) {
-      // The user account already exists
-      return done(null, existingUser);
-    }
-    User.findOne({'email': profile._json.email}, (err, existingEmailUser) => {
-      if (err) { return done(err); }
-      if (profile._json.email && existingEmailUser) {
-        done(err);
-      } else {
-        const user = new User();
-        user.email = profile._json.email;
-        user.profile.name = profile.username;
-        user.profile.gender = profile.gender;
-        user.profile.picture = 'default.png';
-        user.github.id = profile.id;
-        user.save((error) =>
-          done(error, user)
-        );
-      }
+
+// Sign in with github
+const signinWithGithub = (profile, done) => {
+  User.findOne({ 'github.id': profile.id })
+    .then((existingUser) => {
+      // If the github account already exists, signin with the github account
+      if (existingUser) return Promise.resolve(existingUser);
+
+      // If the github account doesn't exists, signup using the github crendential
+      return createGithubUser(profile);
+    })
+    .then((user) => done(null, user))
+    .catch((err) => {
+      if (!err.message) return done();
+      done(err);
     });
-  });
+};
+
+// Create a new user using the Github account
+const createGithubUser = (profile) => {
+  return User.findOne({'email': profile._json.email})
+    .then((existingEmailUser) => {
+      if (profile._json.email && existingEmailUser) return new Error();
+
+      const user = new User();
+      user.email = profile._json.email;
+      user.profile.picture = 'default.png';
+      user.profile.name = profile.username;;
+      user.profile.gender = profile.gender;
+      user.github.id = profile.id;
+      return user.save();
+    });
 };
 
 // Link the github account to the existing user
 const LinkGithubToUser = (userId, req, profile, done) => {
-  User.findOne({ 'github.id': profile.id }, (error, existingUser) => {
-    if (error) { return done(error); }
-    if (existingUser) {
-      req.session.flashMessage = 'There already exists a user using this github account!';
-      return done(null);
-    }
-    const token = req.signedCookies.token;
-    verifyToken(token, (err) => {
-      if (err) { return done(err); }
-      User.findOne({ '_id': userId }, (err, user) => {
-        if (err) { return done(err); }
-        if (!user) {
-          // Create a new user using the github account if the userId doesn't exist
-          createNewGithubUser(profile, done);
-        }
-        user.email = profile._json.email;
-        user.github.id = profile.id;
-        user.save((error) =>
-          done(error, user)
-        );
-      });
+  User.findOne({ 'github.id': profile.id})
+    .then((existingGithubUser) => {
+      // Send a flash message if the github user already exits, skips the rest promise chain
+      if (existingGithubUser) {
+        req.session.flashMessage = {
+          message: 'There already exists a user using this github account!',
+          type: 'ERROR'
+        };
+        throw new Error();
+      }
+      const token = req.signedCookies.token;
+      verifyToken(token, (err) => { if (err) throw err; });
+      return User.findOne({ '_id': userId });
+    })
+    .then((existingUser) => {
+      // Throw an error if the existing userid cannot be found
+      if (!existingUser) throw Error();
+
+      // Link the github account with the existing user
+      if (profile._json.email) existingUser.email = profile._json.email;
+      existingUser.github.id = profile.id;
+      return existingUser.save();
+    })
+    .then((savedUser) => {
+      req.session.flashMessage = {
+        message: 'Successfully linked github account with current account!',
+        type: 'SUCCESS'
+      };
+      done(null, savedUser);
+    })
+    .catch((err) => {
+      if (!err.message) return done();
+      done(err);
     });
-  });
 };
 
 // Github Strategy
@@ -72,7 +90,7 @@ export default new GithubStrategy(githubOptions,
     if (userId) {
       LinkGithubToUser(userId, req, profile, done);
     } else {
-      createNewGithubUser(profile, done);
+      signinWithGithub(profile, done);
     }
   }
 );
