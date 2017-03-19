@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=development nodemon --exec babel-node index.js",
-    "test": "NODE_ENV=test nodemon --exec 'mocha -R min --compilers js:babel-core/register --timeout 15000'"
+    "test": "NODE_ENV=test nodemon --exec 'mocha -R min --compilers js:babel-core/register --timeout 15000 --recursive'"
   },
   "repository": {},
   "author": "Pengfei Zheng",

@@ -19,25 +19,27 @@ export const signup = (req, res, next) => {
   if (!username || !email || !password) {
     return res.status(422).send({ error: 'Required field missing.'});
   }
-  User.findOne({ 'local.email': email }, (err, existingUser) => {
-    if (err) { return next(err); }
-    if (existingUser) {
-      return res.status(422).send({ error: 'Email in use.' });
-    }
-    const user = new User({
-      email,
-      password,
-      profile: {
-        name: username,
-        picture: 'default.png'
+
+  User.findOne({ 'local.email': email })
+    .then((existingUser) => {
+      if (existingUser) {
+        return res.status(422).send({ error: 'Email in use.' });
       }
-    });
-    user.save(err => {
-      if (err) { return next(err) }
+      const user = new User({
+        email,
+        password,
+        profile: {
+          name: username,
+          picture: 'default.png'
+        }
+      });
+      return user.save();
+    })
+    .then((user) => {
       req.user = user;
       next();
-    });
-  });
+    })
+    .catch((err) => next(err));
 };
 
 export const authenticateUser = (req, res, next) => {

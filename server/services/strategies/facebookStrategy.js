@@ -12,58 +12,75 @@ const facebookOptions = {
 };
 
 
-// Create a new user using the Facebook account
-const createNewFacebookUser = (profile, done) => {
-  User.findOne({ 'facebook.id': profile.id }, (error, existingUser) => {
-    if (error) { return done(error); }
-    if (existingUser) {
-      // The user account already exists
-      return done(null, existingUser);
-    }
-    User.findOne({'email': profile._json.email}, (err, existingEmailUser) => {
-      if (err) { return done(err); }
-      if (profile._json.email && existingEmailUser) {
-        done(err);
-      } else {
-        const user = new User();
-        user.email = profile._json.email;
-        user.profile.picture = 'default.png';
-        user.profile.name = profile.displayName;
-        user.profile.gender = profile.gender;
-        user.facebook.id = profile.id;
-        user.save(error =>
-          done(error, user)
-        );
-      }
+// Sign in with facebook
+const signinWithFacebook = (profile, done) => {
+  User.findOne({ 'facebook.id': profile.id })
+    .then((existingUser) => {
+      // If the facebook account already exists, signin with the facebook account
+      if (existingUser) return Promise.resolve(existingUser);
+
+      // If the facebook account doesn't exists, signup using the facebook crendential
+      return createFacebookUser(profile);
+    })
+    .then((user) => done(null, user))
+    .catch((err) => {
+      if (!err.message) return done();
+      done(err);
     });
-  });
+};
+
+// Create a new user using the Facebook account
+const createFacebookUser = (profile) => {
+  return User.findOne({'email': profile._json.email})
+    .then((existingEmailUser) => {
+      if (profile._json.email && existingEmailUser) return new Error();
+
+      const user = new User();
+      user.email = profile._json.email;
+      user.profile.picture = 'default.png';
+      user.profile.name = profile.displayName;
+      user.profile.gender = profile.gender;
+      user.facebook.id = profile.id;
+      return user.save();
+    });
 };
 
 // Link the facebook account to the existing user
 const LinkFacebookToUser = (userId, req, profile, done) => {
-  User.findOne({ 'facebook.id': profile.id }, (error, existingUser) => {
-    if (error) { return done(error); }
-    if (existingUser) {
-      req.session.flashMessage = 'There already exists a user using this facebook account!';
-      return done(null);
-    }
-    const token = req.signedCookies.token;
-    verifyToken(token, (err) => {
-      if (err) { return done(err); }
-      User.findOne({ '_id': userId }, (err, user) => {
-        if (err) { return done(err); }
-        if (!user) {
-          // Create a new user using the facebook account if the userId doesn't exist
-          createNewFacebookUser(profile, done);
-        }
-        user.email = profile._json.email;
-        user.facebook.id = profile.id;
-        user.save((error) =>
-          done(error, user)
-        );
-      });
+  User.findOne({ 'facebook.id': profile.id})
+    .then((existingFacebookUser) => {
+      // Send a flash message if the facebook user already exits, skips the rest promise chain
+      if (existingFacebookUser) {
+        req.session.flashMessage = {
+          message: 'There already exists a user using this facebook account!',
+          type: 'ERROR'
+        };
+        throw new Error();
+      }
+      const token = req.signedCookies.token;
+      verifyToken(token, (err) => { if (err) throw err; });
+      return User.findOne({ '_id': userId });
+    })
+    .then((existingUser) => {
+      // Throw an error if the existing userid cannot be found
+      if (!existingUser) throw Error();
+
+      // Link the facebook account with the existing user
+      if (profile._json.email) existingUser.email = profile._json.email;
+      existingUser.facebook.id = profile.id;
+      return existingUser.save();
+    })
+    .then((savedUser) => {
+      req.session.flashMessage = {
+        message: 'Successfully linked facebook account with current account!',
+        type: 'SUCCESS'
+      };
+      done(null, savedUser);
+    })
+    .catch((err) => {
+      if (!err.message) return done();
+      done(err);
     });
-  });
 };
 
 // Facebook Strategy
@@ -73,7 +90,7 @@ export default new FacebookStrategy(facebookOptions,
     if (userId) {
       LinkFacebookToUser(userId, req, profile, done);
     } else {
-      createNewFacebookUser(profile, done);
+      signinWithFacebook(profile, done);
     }
   }
 );

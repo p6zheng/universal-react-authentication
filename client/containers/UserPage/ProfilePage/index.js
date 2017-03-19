@@ -25,6 +25,7 @@ class Profile extends Component {
     if (this.props.message) {
       return (
         <div className="alert alert-success">
+          <i className="fa fa-check-circle" />
           <strong>{this.props.message}</strong>
         </div>
       );

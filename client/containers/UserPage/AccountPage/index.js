@@ -47,11 +47,19 @@ class Account extends Component {
   }
 
   renderFlashMessage() {
-    if (this.props.flashMessage) {
+    const { flashMessage } = this.props;
+    if (flashMessage && flashMessage.type === 'ERROR') {
       return (
         <div className="alert alert-danger">
           <i className="fa fa-exclamation-circle" />
-          {this.props.flashMessage}
+          {flashMessage.message}
+        </div>
+      );
+    } else if (flashMessage && flashMessage.type === 'SUCCESS') {
+      return (
+        <div className="alert alert-success">
+          <i className="fa fa-check-circle" />
+          {flashMessage.message}
         </div>
       );
     }

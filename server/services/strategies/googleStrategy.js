@@ -1,4 +1,5 @@
 import { OAuth2Strategy as GoogleStrategy } from 'passport-google-oauth';
+import { verifyToken } from '../../utils/authHelper';
 import User from '../../models/user';
 import config from '../../config';
 
