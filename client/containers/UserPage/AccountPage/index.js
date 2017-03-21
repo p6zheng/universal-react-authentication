@@ -65,18 +65,18 @@ class Account extends Component {
     }
   }
 
-  displayLinkButton(Account) {
-    const account = Account.toLowerCase();
+  displayLinkButton(account) {
+    const accountLower = account.toLowerCase();
     if (this.props.account)
-      return this.props.account.linkedAccounts[account] ?
-        (<a className={`btn btn-block btn-${account} btn-social`} onClick={() => this.props.unlinkAccount(account)}>
-          <i className={`fa fa-${account}`}/>
-          Unlink {Account}
-        </a>):
-        (<a className={`btn btn-block btn-${account} btn-social`} href={`http://localhost:3000/auth/${account}`}>
-          <i className={`fa fa-${account}`}/>
-          Link {Account}
-        </a>);
+      return this.props.account.linkedAccounts[accountLower] ?
+        <a className={`btn btn-block btn-${accountLower} btn-social`} onClick={() => this.props.unlinkAccount(accountLower)}>
+          <i className={`fa fa-${accountLower}`}/>
+          Unlink {account}
+        </a>:
+        <a className={`btn btn-block btn-${accountLower} btn-social`} href={`http://localhost:3000/auth/${accountLower}`}>
+          <i className={`fa fa-${accountLower}`}/>
+          Link {account}
+        </a>;
   }
 
   render() {
@@ -106,10 +106,10 @@ class Account extends Component {
         <div>
           <label>Link Accounts:</label>
           <div className="form-group">
-            {this.displayLinkButton('facebook')}
-            {this.displayLinkButton('google')}
-            {this.displayLinkButton('twitter')}
-            {this.displayLinkButton('github')}
+            {this.displayLinkButton('Facebook')}
+            {this.displayLinkButton('Google')}
+            {this.displayLinkButton('Twitter')}
+            {this.displayLinkButton('Github')}
           </div>
         </div>
         {this.renderFlashMessage()}
