@@ -43,5 +43,5 @@ const mapStateToProps = (state) => ({
   isAuthenticated: getIsAuthenticated(state)
 });
 
-export default connect(mapStateToProps)(Root);
+export default withRouter(connect(mapStateToProps)(Root));
 
