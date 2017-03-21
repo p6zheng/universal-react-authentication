@@ -104,6 +104,25 @@ export const uploadPhoto = (photo) => (dispatch) => {
   );
 };
 
+export const unlinkAccount = (account) => (dispatch) => {
+  dispatch({ type: actionTypes.UNLINK_ACCOUNT_REQUEST });
+  axios.post(`${ROOT_URL}/user/unlink`, { account }).then(
+    res => {
+      dispatch({
+        type: actionTypes.UNLINK_ACCOUNT_SUCCESS,
+        message: res.data.message,
+        account
+      });
+    },
+    error => {
+      dispatch({
+        type: actionTypes.UNLINK_ACCOUNT,
+        error: error.response.data.message
+      });
+    }
+  );
+};
+
 export const unmountComponent = () => {
   return {
     type: actionTypes.UNMOUNT_COMPONENT

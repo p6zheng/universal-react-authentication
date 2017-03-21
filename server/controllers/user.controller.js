@@ -43,8 +43,17 @@ export const getAccount = (req, res, next) => {
     .then((existingUser) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !' });
       const containPassword = typeof existingUser.password !== 'undefined';
+      var linkedAccounts = {
+        github: false,
+        facebook: false,
+        google: false
+      };
+      if (existingUser.github && existingUser.github.id) linkedAccounts.github = true;
+      if (existingUser.facebook && existingUser.facebook.id) linkedAccounts.facebook = true;
+      if (existingUser.google && existingUser.google.id) linkedAccounts.google = true;
       const user = {
-        containPassword
+        containPassword,
+        linkedAccounts
       };
       return res.status(200).send({ user });
     })
@@ -104,5 +113,14 @@ export const uploadPhoto = (req, res, next) => {
       });
     })
     .catch((err) => next(err));
+};
+
+export const unlinkAccount = (req, res, next) => {
+  const id = req.signedCookies.user_id;
+  const { account } = req.body;
+  User.update({ '_id': id}, { $unset: { [account]: 1} })
+    .then(() => res.status(200).send({ message: `Successfully unlinked ${account} account with current account!`, account }))
+    .catch((err) => res.status(422).send({ error: 'Error unlinking the account !'}));
+
 };
 

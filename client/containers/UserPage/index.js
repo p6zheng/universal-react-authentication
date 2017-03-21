@@ -13,7 +13,7 @@ if (process.env.BROWSER) {
 class User extends Component {
 
   render() {
-   return (
+    return (
      <div className="col-md-8 col-md-offset-2 top-buffer inside-padding">
        <Nav bsStyle="tabs" justified activeKey={this.props.activeTab} >
          <NavItem componentClass={Link} eventKey={'profile'} href="/user/profile" to="/user/profile">Profile</NavItem>
@@ -26,7 +26,7 @@ class User extends Component {
          <Route path='/user/photo' component={Photo} />
        </div>
      </div>
-   )
+    );
   }
 }
 

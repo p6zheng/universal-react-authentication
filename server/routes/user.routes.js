@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getProfile, updateProfile, getAccount, updateAccount, getPhoto, uploadPhoto } from '../controllers/user.controller';
+import * as userController from '../controllers/user.controller';
 import { authenticateUser } from '../controllers/auth.controller';
 
 const router = new Router();
@@ -17,13 +17,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.route('/profile').get(authenticateUser, getProfile);
-router.route('/profile').post(authenticateUser, updateProfile);
+router.route('/profile').get(authenticateUser, userController.getProfile);
+router.route('/profile').post(authenticateUser, userController.updateProfile);
 
-router.route('/account').get(authenticateUser, getAccount);
-router.route('/account').post(authenticateUser, updateAccount);
+router.route('/account').get(authenticateUser, userController.getAccount);
+router.route('/account').post(authenticateUser, userController.updateAccount);
 
-router.route('/photo').get(authenticateUser, getPhoto);
-router.route('/photo').post(authenticateUser, upload.single('photo'), uploadPhoto);
+router.route('/photo').get(authenticateUser, userController.getPhoto);
+router.route('/photo').post(authenticateUser, upload.single('photo'), userController.uploadPhoto);
+
+router.route('/unlink').post(authenticateUser, userController.unlinkAccount);
 
 export default router;

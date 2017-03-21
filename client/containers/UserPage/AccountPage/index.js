@@ -65,6 +65,20 @@ class Account extends Component {
     }
   }
 
+  displayLinkButton(Account) {
+    const account = Account.toLowerCase();
+    if (this.props.account)
+      return this.props.account.linkedAccounts[account] ?
+        (<a className={`btn btn-block btn-${account} btn-social`} onClick={() => this.props.unlinkAccount(account)}>
+          <i className={`fa fa-${account}`}/>
+          Unlink {Account}
+        </a>):
+        (<a className={`btn btn-block btn-${account} btn-social`} href={`http://localhost:3000/auth/${account}`}>
+          <i className={`fa fa-${account}`}/>
+          Link {Account}
+        </a>);
+  }
+
   render() {
     const { handleSubmit } = this.props;
     return (
@@ -92,22 +106,10 @@ class Account extends Component {
         <div>
           <label>Link Accounts:</label>
           <div className="form-group">
-            <a className="btn btn-block btn-facebook btn-social" href="http://localhost:3000/auth/facebook">
-              <i className="fa fa-facebook"/>
-              Link Facebook
-            </a>
-            <a className="btn btn-block btn-twitter btn-social" href="http://localhost:3000/auth/twitter">
-              <i className="fa fa-twitter"/>
-              Link Twitter
-            </a>
-            <a className="btn btn-block btn-google btn-social" href="http://localhost:3000/auth/google">
-              <i className="fa fa-google"/>
-              Link Google
-            </a>
-            <a className="btn btn-block btn-github btn-social" href="http://localhost:3000/auth/github">
-              <i className="fa fa-github"/>
-              Link Github
-            </a>
+            {this.displayLinkButton('facebook')}
+            {this.displayLinkButton('google')}
+            {this.displayLinkButton('twitter')}
+            {this.displayLinkButton('github')}
           </div>
         </div>
         {this.renderFlashMessage()}

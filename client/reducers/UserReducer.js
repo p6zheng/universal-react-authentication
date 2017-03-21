@@ -38,6 +38,13 @@ const user = (state=initialState, action) => {
         photo: action.userPhoto,
         message: action.message
       };
+    case actionTypes.UNLINK_ACCOUNT_SUCCESS:
+      let account = state.account;
+      account.linkedAccounts[action.account] = false;
+      return {
+        ...state,
+        account
+      };
     default:
       return state;
   }
