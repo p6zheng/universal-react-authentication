@@ -1,20 +1,25 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: "cheap-module-eval-source-map",
   entry: {
-    app: [
-      './client/index.js'
-    ],
+    app: './client/index.js',
     vendor: [
       'react',
-      'react-dom'
+      'react-dom',
+      'redux',
+      'react-router',
+      'react-router-dom',
+      'react-redux',
+      'redux-thunk'
     ]
   },
   output: {
-    path: '/',
+    path: __dirname,
+    filename: '[name].js',
     publicPath: '/'
   },
   module: {
@@ -66,8 +71,6 @@ module.exports = {
     new ExtractTextPlugin("style.css"),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: Infinity,
-      filename: 'vendor.js'
     }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -81,4 +84,4 @@ module.exports = {
       }
     })
   ]
-}
+};

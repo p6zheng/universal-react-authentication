@@ -51,10 +51,7 @@ const LinkGithubToUser = (userId, req, profile, done) => {
     .then((existingGithubUser) => {
       // Send a flash message if the github user already exits, skips the rest promise chain
       if (existingGithubUser) {
-        req.session.flashMessage = {
-          message: 'There already exists a user using this github account!',
-          type: 'ERROR'
-        };
+        req.flash('error', 'There already exists a user using this github account!');
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -71,10 +68,7 @@ const LinkGithubToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.session.flashMessage = {
-        message: 'Successfully linked github account with current account!',
-        type: 'SUCCESS'
-      };
+      req.flash('success', 'Successfully linked github account with current account!');
       done(null, savedUser);
     })
     .catch((err) => {

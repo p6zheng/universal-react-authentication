@@ -5,7 +5,7 @@ if (typeof System === "undefined") {
     import: function(path) {
       return Promise.resolve(require(path));
     }
-  }
+  };
 }
 
 export const Signin = asyncComponent(() => {

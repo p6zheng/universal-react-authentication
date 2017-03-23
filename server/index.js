@@ -7,7 +7,6 @@ const startServer = () => server.listen(app.get('port'), () => {
   console.log(`App stated in ${app.get('env')} mode on port ${app.get('port')}`);
 });
 
-
 // Start express server
 if(require.main === module){
   // application run directly; start app server

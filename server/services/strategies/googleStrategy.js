@@ -51,10 +51,7 @@ const LinkGoogleToUser = (userId, req, profile, done) => {
     .then((existingGoogleUser) => {
       // Send a flash message if the google user already exits, skips the rest promise chain
       if (existingGoogleUser) {
-        req.session.flashMessage = {
-          message: 'There already exists a user using this google account!',
-          type: 'ERROR'
-        };
+        req.flash('error', 'There already exists a user using this google account!');
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -71,10 +68,7 @@ const LinkGoogleToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.session.flashMessage = {
-        message: 'Successfully linked google account with current account!',
-        type: 'SUCCESS'
-      };
+      req.flash('success', 'Successfully linked google account with current account!');
       done(null, savedUser);
     })
     .catch((err) => {

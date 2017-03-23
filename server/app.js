@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import path from 'path';
 
 // Import required modules
 import config from './config';
@@ -48,13 +49,22 @@ app.use((req, res, next) => {
 });
 
 // Run Webpack dev server in development mode
-if (app.get('dev') !== 'production') {
+if (app.get('env') !== 'production') {
   const webpackMiddleware = require('webpack-dev-middleware');
   const webpack = require('webpack');
   const webconfig = require('../webpack.config.dev.js');
-  app.use(webpackMiddleware(webpack(webconfig), { serverSideRender: true } ));
+  app.use(webpackMiddleware(webpack(webconfig), {
+    publicPath: '/',
+    serverSideRender: true,
+    stats: {
+      colors: true,
+      chunks: false,
+      assets: false,
+    }})
+  );
 } else {
-  app.use(express.static('../dist'));
+  app.set('views', path.resolve(__dirname, '../dist'));
+  app.use(express.static(path.resolve(__dirname, '../dist')));
 }
 
 // React And Redux Setup
@@ -97,13 +107,13 @@ app.use(passport.initialize());
 // Print out worker information
 app.use((req, res, next) => {
   const cluster = require('cluster');
-  if(cluster.isWorker) console.log(`Worker ${cluster.worker.id} received request`);
+  if (cluster.isWorker) console.log(`Worker ${cluster.worker.id} received request`);
   next();
 });
 
 // Setup Cookie and Session
 app.use(require('cookie-parser')(config.cookie));
-app.use(require('express-session')());
+app.use(require('cookie-session')({ keys: config.cookie }));
 
 // Authentication routes
 app.use('/auth', authRouter);
@@ -111,6 +121,7 @@ app.use('/api/user', userRouter);
 
 // Server Side Rendering based on routes matched by React-router.
 app.use((req, res, next) => {
+
   delete process.env.BROWSER;
 
   const token = req.signedCookies.token;
@@ -131,7 +142,7 @@ app.use((req, res, next) => {
         type: DISPLAY_FLASH_MESSAGE,
         flashMessage
       });
-      req.session.flashMessage = null;
+      delete req.session.flashMessage;
     }
   }
 

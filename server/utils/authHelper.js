@@ -14,7 +14,7 @@ export const passportAuth = (strategy, options, scope) => (req, res, next) =>
   passport.authenticate(strategy, scope,
     (err, user, info) => {
       if (err) { return next(err); }
-      if (req.session.flashMessage) {
+      if (req.flash) {
         return res.redirect('/user/account');
       }
       if (!user) {

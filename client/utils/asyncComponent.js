@@ -6,7 +6,7 @@ const asyncComponent = (getComponent) => {
       super(props);
       this.state = {
         Component: this.Component
-      }
+      };
     }
 
     componentWillMount() {
@@ -26,7 +26,7 @@ const asyncComponent = (getComponent) => {
       }
       return null;
     }
-  }
-}
+  };
+};
 
 export default asyncComponent;

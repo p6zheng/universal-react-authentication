@@ -51,10 +51,7 @@ const LinkFacebookToUser = (userId, req, profile, done) => {
     .then((existingFacebookUser) => {
       // Send a flash message if the facebook user already exits, skips the rest promise chain
       if (existingFacebookUser) {
-        req.session.flashMessage = {
-          message: 'There already exists a user using this facebook account!',
-          type: 'ERROR'
-        };
+        req.flash('error', 'There already exists a user using this facebook account!');
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -71,10 +68,7 @@ const LinkFacebookToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.session.flashMessage = {
-        message: 'Successfully linked facebook account with current account!',
-        type: 'SUCCESS'
-      };
+      req.flash('success', 'Successfully linked facebook account with current account!');
       done(null, savedUser);
     })
     .catch((err) => {
