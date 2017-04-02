@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-import { getIsAuthenticated, getUserName, getUserPhoto } from '../../reducers';
+import * as reducers from '../../reducers';
 
 class Header extends Component {
   constructor(props) {
@@ -97,9 +97,9 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state, router) => ({
-  isAuthenticated: getIsAuthenticated(state),
-  userName: getUserName(state),
-  userPhoto: getUserPhoto(state),
+  isAuthenticated: reducers.getIsAuthenticated(state),
+  userName: reducers.getUserName(state),
+  userPhoto: reducers.getUserPhoto(state),
   activeTab: router.location.pathname.split('/')[1]
 });
 

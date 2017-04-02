@@ -8,7 +8,7 @@ export const configureStore = () => {
   const middlewares = [thunk];
 
   // Conditionally apply logging middlware when not in production
-  if (process.env.NODE_ENV !== 'production' && typeof(window) !== 'undefined') middlewares.push(createLogger());
+  if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') middlewares.push(createLogger());
 
   // Create store
   return createStore(

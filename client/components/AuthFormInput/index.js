@@ -1,9 +1,5 @@
 import React from 'react';
 
-if (process.env.BROWSER) {
-  require('./index.scss');
-}
-
 const AuthFormInput = ({ input, meta, type, info }) => (
   <div>
     <input className="form-control" {...input} type={type} placeholder={info} />

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as actionTypes from '../constants/actionTypes';
+
 const ROOT_URL = 'http://localhost:3000';
 
 export const signinUser = (user) => (dispatch) => {
@@ -63,6 +64,10 @@ export const fetchMessage = () => (dispatch) => {
   );
 };
 
+export const unmountComponent = () => ({
+  type: actionTypes.UNMOUNT_COMPONENT
+});
+
 export const signoutUser = () => {
   deleteCookie('token');
   deleteCookie('user_name');
@@ -75,10 +80,4 @@ export const signoutUser = () => {
 
 const deleteCookie = (name) => {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-};
-
-export const unmountComponent = () => {
-  return {
-    type: actionTypes.UNMOUNT_COMPONENT
-  };
 };

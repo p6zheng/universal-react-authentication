@@ -66,7 +66,7 @@ export const updateAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
 
   axios.post(`${ROOT_URL}/user/account`, account).then(
-    res => {
+    () => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
         account
@@ -84,7 +84,6 @@ export const updateAccount = (account) => (dispatch) => {
 export const uploadPhoto = (photo) => (dispatch) => {
   let data = new FormData();
   data.append('photo', photo);
-
   dispatch({ type: actionTypes.UPLOAD_IMAGE_REQUEST });
 
   axios.post(`${ROOT_URL}/user/photo`, data).then(
@@ -106,6 +105,7 @@ export const uploadPhoto = (photo) => (dispatch) => {
 
 export const unlinkAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UNLINK_ACCOUNT_REQUEST });
+
   axios.post(`${ROOT_URL}/user/unlink`, { account }).then(
     res => {
       dispatch({
@@ -123,8 +123,7 @@ export const unlinkAccount = (account) => (dispatch) => {
   );
 };
 
-export const unmountComponent = () => {
-  return {
-    type: actionTypes.UNMOUNT_COMPONENT
-  };
-};
+export const unmountComponent = () => ({
+  type: actionTypes.UNMOUNT_COMPONENT
+});
+

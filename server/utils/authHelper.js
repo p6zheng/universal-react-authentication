@@ -10,6 +10,7 @@ export const verifyToken = (token, cb) => {
   jwt.verify(token, config.jwt.secret, cb);
 };
 
+// Helper function for passport
 export const passportAuth = (strategy, options, scope) => (req, res, next) =>
   passport.authenticate(strategy, scope,
     (err, user, info) => {

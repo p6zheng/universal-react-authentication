@@ -28,7 +28,9 @@ router.route('/signin').post(
   }
 );
 
-router.route('/secret').get(authController.authenticateUser, (req, res) => res.send('Secret Message'));
+router.route('/secret').get(
+  authController.authenticateUser,
+  (req, res) => res.send('This is a secret!'));
 
 router.route('/github').get(passport.githubSignin);
 router.route('/github/callback').get(

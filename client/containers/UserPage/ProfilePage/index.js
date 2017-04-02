@@ -3,7 +3,7 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
 import FormLink from '../../../components/LinkFormInput';
-import { getProfile, getUserUpdateSuccess } from '../../../reducers';
+import * as reducers from '../../../reducers';
 import * as actions from '../../../actions/UserActions';
 import * as validator from '../../../utils/fieldValidator';
 
@@ -109,8 +109,8 @@ const validate = ({ name, email, age }) => {
 };
 
 const mapStateToProps = (state) => ({
-  initialValues: getProfile(state),
-  message: getUserUpdateSuccess(state)
+  initialValues: reducers.getProfile(state),
+  message: reducers.getUserUpdateSuccess(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

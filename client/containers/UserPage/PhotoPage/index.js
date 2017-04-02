@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions/UserActions';
-import { getUserPhoto, getUserUpdateSuccess } from '../../../reducers';
+import * as reducers from '../../../reducers';
 
 class Photo extends Component {
 
@@ -84,8 +84,8 @@ class Photo extends Component {
 }
 
 const mapStateToProps = state => ({
-  image: getUserPhoto(state),
-  message: getUserUpdateSuccess(state)
+  image: reducers.getUserPhoto(state),
+  message: reducers.getUserUpdateSuccess(state)
 });
 
 export default connect(mapStateToProps, actions)(Photo);

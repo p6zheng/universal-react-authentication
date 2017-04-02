@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import FormInput from '../../../components/ProfileFormInput';
 import AuthFormInput from '../../../components/AuthFormInput';
 import * as actions from '../../../actions/UserActions';
-import { getAccount, getFlashMessage, getUserUpdateSuccess } from '../../../reducers';
+import * as reducers from '../../../reducers';
 import * as validator from '../../../utils/fieldValidator';
 
 class Account extends Component {
@@ -67,7 +67,7 @@ class Account extends Component {
 
   displayLinkButton(account) {
     const accountLower = account.toLowerCase();
-    if (this.props.account)
+    if (this.props.account) {
       return this.props.account.linkedAccounts[accountLower] ?
         <a className={`btn btn-block btn-${accountLower} btn-social`} onClick={() => this.props.unlinkAccount(accountLower)}>
           <i className={`fa fa-${accountLower}`}/>
@@ -77,6 +77,7 @@ class Account extends Component {
           <i className={`fa fa-${accountLower}`}/>
           Link {account}
         </a>;
+    }
   }
 
   render() {
@@ -137,9 +138,9 @@ const validate = ({ password, newPassword, newPasswordConfirm}) => {
 };
 
 const mapStateToProps = state => ({
-  account: getAccount(state),
-  flashMessage: getFlashMessage(state),
-  message: getUserUpdateSuccess(state)
+  account: reducers.getAccount(state),
+  flashMessage: reducers.getFlashMessage(state),
+  message: reducers.getUserUpdateSuccess(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

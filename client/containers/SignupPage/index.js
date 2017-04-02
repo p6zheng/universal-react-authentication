@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/AuthActions';
 import AuthFormInput from '../../components/AuthFormInput';
+import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
 import * as validator from '../../utils/fieldValidator';
 

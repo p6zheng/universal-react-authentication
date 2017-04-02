@@ -1,8 +1,7 @@
 import React from 'react';
 import './index.scss';
 
-const LinkFormInput = ({ input, meta, link, label}) => {
-  return (
+const LinkFormInput = ({ input, meta, link, label}) => (
   <div>
     <label className="linkName">{label}</label>
     <input className="linkInput" {...input} placeholder={link}/>
@@ -15,6 +14,6 @@ const LinkFormInput = ({ input, meta, link, label}) => {
       </div>
     }
   </div>
-)};
+);
 
 export default LinkFormInput;

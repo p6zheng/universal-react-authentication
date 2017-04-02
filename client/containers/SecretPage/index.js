@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/AuthActions';
-import { getMessage } from '../../reducers';
+import * as reducers from '../../reducers';
 
 class Secret extends Component {
   componentDidMount() {
@@ -23,7 +23,7 @@ class Secret extends Component {
 }
 
 const mapStateToProps = state => ({
-  message: getMessage(state)
+  message: reducers.getMessage(state)
 });
 
 export default connect(mapStateToProps, actions)(Secret);

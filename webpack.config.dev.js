@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: "cheap-module-eval-source-map",
