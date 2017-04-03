@@ -3,3 +3,5 @@ node_modules/
 assets/
 server/uploads/
 dist/
+/error.log
+/.env
