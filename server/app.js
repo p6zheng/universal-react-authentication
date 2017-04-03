@@ -2,7 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import path from 'path';
+import morgan from 'morgan';
 
 // Import required modules
 import config from './config';
@@ -11,9 +14,13 @@ import userRouter from './routes/user.routes';
 import { AUTH_USER_SUCCESS, DISPLAY_FLASH_MESSAGE } from '../client/constants/actionTypes';
 import Root from '../client/Root';
 import './services/passport';
+import logger from './logger';
+
 
 // Initialize express app
 const app = express();
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 // Set port number
 app.set('port', process.env.PORT || 3000);
@@ -22,10 +29,10 @@ app.set('port', process.env.PORT || 3000);
 app.use((req, res, next) => {
   const domain = require('domain').create();
   domain.on('error',  (err) => {
-    console.error('DOMAIN ERROR CAUGHT\n', err.stack);
+    logger.error('DOMAIN ERROR CAUGHT\n', err.stack);
     try {
       setTimeout(() => {
-        console.error('Failsafe shutdown.');
+        logger.error('Failsafe shutdown.');
         process.exit(1);
       }, 5000);
       const worker = require('cluster').worker;
@@ -34,13 +41,13 @@ app.use((req, res, next) => {
       try {
         next(err);
       } catch(err){
-        console.error('Express error mechanism failed.\n', err.stack);
+        logger.error('Express error mechanism failed.\n', err.stack);
         res.statusCode = 500;
         res.setHeader('content-type', 'text/plain');
         res.end('Server error.');
       }
     } catch(err){
-      console.error('Unable to send 500 response.\n', err.stack);
+      logger.error('Unable to send 500 response.\n', err.stack);
     }
   });
   domain.add(req);
@@ -49,7 +56,10 @@ app.use((req, res, next) => {
 });
 
 // Run Webpack dev server in development mode
-if (app.get('env') !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+  app.set('views', path.resolve(__dirname, '../dist'));
+  app.use(express.static(path.resolve(__dirname, '../dist')));
+} else {
   const webpackMiddleware = require('webpack-dev-middleware');
   const webpack = require('webpack');
   const webconfig = require('../webpack.config.dev.js');
@@ -62,9 +72,6 @@ if (app.get('env') !== 'production') {
       assets: false,
     }})
   );
-} else {
-  app.set('views', path.resolve(__dirname, '../dist'));
-  app.use(express.static(path.resolve(__dirname, '../dist')));
 }
 
 // React And Redux Setup
@@ -78,25 +85,18 @@ import { StaticRouter } from 'react-router-dom';
 mongoose.Promise = global.Promise;
 
 // Connect to mongodb
-switch(app.get('env')) {
-  case 'production':
-    mongoose.connect(config.mongo.prodUrl);
-    break;
-  case 'development':
-    mongoose.connect(config.mongo.devUrl);
-    break;
-}
-
+if(process.env.NODE_ENV !== 'test')mongoose.connect(config.mongo.url);
 mongoose.connection.on('connected', () => {
-  console.log('MongoDB connection established!');
+  logger.info('MongoDB connection established!');
 });
 mongoose.connection.on('error', () => {
-  console.log('MongoDB connection error. Please make sure MongoDB is running.');
+  logger.error('MongoDB connection error. Please make sure MongoDB is running.');
   process.exit();
 });
 
 // Express configuration
 app.set('view engine', 'ejs');
+app.use(morgan('combined', { 'stream': logger.stream }));
 app.use(express.static(__dirname + '/uploads'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
@@ -107,23 +107,30 @@ app.use(passport.initialize());
 // Print out worker information
 app.use((req, res, next) => {
   const cluster = require('cluster');
-  if (cluster.isWorker) console.log(`Worker ${cluster.worker.id} received request`);
+  if (cluster.isWorker) logger.info(`Worker ${cluster.worker.id} received request`);
   next();
 });
 
 // Setup Cookie and Session
-app.use(require('cookie-parser')(config.cookie));
-app.use(require('cookie-session')({ keys: config.cookie }));
+const MongoStore = require('connect-mongo')(session);
+app.use(cookieParser(config.cookie.secret));
+app.use(session({
+  secret: config.session.secret,
+  resave: true,
+  saveUninitialized: true,
+  store: new MongoStore({
+    url: config.mongo.url,
+    autoReconnect: true
+  })
+}));
 
 // Authentication routes
 app.use('/auth', authRouter);
 app.use('/api/user', userRouter);
 
-// Server Side Rendering based on routes matched by React-router.
+// Server Side Rendering based on routes matched by React-router
 app.use((req, res, next) => {
-
   delete process.env.BROWSER;
-
   const token = req.signedCookies.token;
   const userName = req.signedCookies.user_name;
   const userPhoto = req.signedCookies.user_photo;
@@ -138,6 +145,7 @@ app.use((req, res, next) => {
       userPhoto
     });
     if (flashMessage) {
+      // Clear flashMessage after displaying
       store.dispatch({
         type: DISPLAY_FLASH_MESSAGE,
         flashMessage
