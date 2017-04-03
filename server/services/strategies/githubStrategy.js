@@ -5,8 +5,8 @@ import { verifyToken } from '../../utils/authHelper';
 
 // Create Github strategy
 const githubOptions = {
-  clientID: config.github.id,
-  clientSecret: config.github.secret,
+  clientID: config.auth.github.id,
+  clientSecret: config.auth.github.secret,
   callbackURL: '/auth/github/callback',
   passReqToCallback: true
 };
@@ -51,7 +51,10 @@ const LinkGithubToUser = (userId, req, profile, done) => {
     .then((existingGithubUser) => {
       // Send a flash message if the github user already exits, skips the rest promise chain
       if (existingGithubUser) {
-        req.flash('error', 'There already exists a user using this github account!');
+        req.session.flashMessage = {
+          message: 'There already exists a user using this github account!',
+          type: 'ERROR'
+        };
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -68,7 +71,10 @@ const LinkGithubToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.flash('success', 'Successfully linked github account with current account!');
+      req.session.flashMessage = {
+        message: 'Successfully linked github account with current account!',
+        type: 'SUCCESS'
+      };
       done(null, savedUser);
     })
     .catch((err) => {

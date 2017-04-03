@@ -5,8 +5,8 @@ import { verifyToken } from '../../utils/authHelper';
 
 // Create Google strategy
 const googleOptions = {
-  clientID: config.google.id,
-  clientSecret: config.google.secret,
+  clientID: config.auth.google.id,
+  clientSecret: config.auth.google.secret,
   callbackURL: '/auth/google/callback',
   passReqToCallback: true
 };
@@ -51,7 +51,10 @@ const LinkGoogleToUser = (userId, req, profile, done) => {
     .then((existingGoogleUser) => {
       // Send a flash message if the google user already exits, skips the rest promise chain
       if (existingGoogleUser) {
-        req.flash('error', 'There already exists a user using this google account!');
+        req.session.flashMessage = {
+          message: 'There already exists a user using this google account!',
+          type: 'ERROR'
+        };
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -68,7 +71,10 @@ const LinkGoogleToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.flash('success', 'Successfully linked google account with current account!');
+      req.session.flashMessage = {
+        message: 'Successfully linked google account with current account!',
+        type: 'SUCCESS'
+      };
       done(null, savedUser);
     })
     .catch((err) => {

@@ -1,21 +1,22 @@
 import User from '../models/user';
 import { tokenForUser, verifyToken } from '../utils/authHelper';
 
-export const setToken = (req, res, next) => {
-  if (req.flashMessage) {
-    return next();
-  }
-  const user = req.user;
-  const token = tokenForUser(user);
-  res.cookie('token', token, { signed: true });
-  res.cookie('user_name', user.profile.name, { signed: true });
-  res.cookie('user_id', user._id.toString(), { signed: true });
-  res.cookie('user_photo', user.profile.picture, { signed: true });
-  next();
+export const authenticateUser = (req, res, next) => {
+  const token = req.signedCookies.token;
+  verifyToken(token, err => {
+    if (err) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+        error: err
+      });
+    }
+    next();
+  });
 };
 
 export const signup = (req, res, next) => {
   const { username, email, password } = req.body;
+
   if (!username || !email || !password) {
     return res.status(422).send({ error: 'Required field missing.'});
   }
@@ -30,7 +31,7 @@ export const signup = (req, res, next) => {
         password,
         profile: {
           name: username,
-          picture: 'default.png'
+          picture: 'http://localhost:3000/user/photo/default.png'
         }
       });
       return user.save();
@@ -42,15 +43,16 @@ export const signup = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-export const authenticateUser = (req, res, next) => {
-  const token = req.signedCookies.token;
-  verifyToken(token, err => {
-    if (err) {
-      return res.status(401).json({
-        title: 'Not Authenticated',
-        error: err
-      });
-    }
-    next();
-  });
+export const setToken = (req, res, next) => {
+  if (!req.flashMessage) {
+    const user = req.user;
+    const token = tokenForUser(user);
+    res.cookie('token', token, { signed: true });
+    res.cookie('user_name', user.profile.name, { signed: true });
+    res.cookie('user_id', user._id.toString(), { signed: true });
+    res.cookie('user_photo', user.profile.picture, { signed: true });
+  }
+  next();
 };
+
+

@@ -26,6 +26,6 @@ router.route('/account').post(authenticateUser, userController.updateAccount);
 router.route('/photo').get(authenticateUser, userController.getPhoto);
 router.route('/photo').post(authenticateUser, upload.single('photo'), userController.uploadPhoto);
 
-router.route('/unlink').post(authenticateUser, userController.unlinkAccount);
+router.route('/unlink').post(authenticateUser, userController.unlinkProvider);
 
 export default router;

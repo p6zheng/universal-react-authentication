@@ -5,8 +5,8 @@ import { verifyToken } from '../../utils/authHelper';
 
 // Create Facebook strategy
 const facebookOptions = {
-  clientID: config.facebook.id,
-  clientSecret: config.facebook.secret,
+  clientID: config.auth.facebook.id,
+  clientSecret: config.auth.facebook.secret,
   callbackURL: '/auth/facebook/callback',
   passReqToCallback: true
 };
@@ -51,7 +51,10 @@ const LinkFacebookToUser = (userId, req, profile, done) => {
     .then((existingFacebookUser) => {
       // Send a flash message if the facebook user already exits, skips the rest promise chain
       if (existingFacebookUser) {
-        req.flash('error', 'There already exists a user using this facebook account!');
+        req.session.flashMessage = {
+          message: 'There already exists a user using this facebook account!',
+          type: 'ERROR'
+        };
         throw new Error();
       }
       const token = req.signedCookies.token;
@@ -68,7 +71,10 @@ const LinkFacebookToUser = (userId, req, profile, done) => {
       return existingUser.save();
     })
     .then((savedUser) => {
-      req.flash('success', 'Successfully linked facebook account with current account!');
+      req.session.flashMessage = {
+        message: 'Successfully linked facebook account with current account!',
+        type: 'SUCCESS'
+      };
       done(null, savedUser);
     })
     .catch((err) => {

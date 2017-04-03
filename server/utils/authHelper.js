@@ -3,19 +3,18 @@ import config from '../config';
 import passport from 'passport';
 
 export const tokenForUser = (user) => {
-  return jwt.sign({sub: user._id}, config.jwt.secret, {expiresIn: 720000});
+  return jwt.sign({sub: user._id}, config.auth.jwt.secret, {expiresIn: 720000});
 };
 
 export const verifyToken = (token, cb) => {
-  jwt.verify(token, config.jwt.secret, cb);
+  jwt.verify(token, config.auth.jwt.secret, cb);
 };
 
-// Helper function for passport
 export const passportAuth = (strategy, options, scope) => (req, res, next) =>
   passport.authenticate(strategy, scope,
     (err, user, info) => {
       if (err) { return next(err); }
-      if (req.flash) {
+      if (req.session.flashMessage) {
         return res.redirect('/user/account');
       }
       if (!user) {

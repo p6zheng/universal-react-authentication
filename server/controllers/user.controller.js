@@ -1,8 +1,14 @@
 import User from '../models/user';
 
+/**
+ * GET Profile
+ * @param req - contains user_id inside signedCookies
+ * @param res
+ * @param next
+ */
 export const getProfile = (req, res, next) => {
-  const id = req.signedCookies.user_id;
-  User.findOne({ '_id': id})
+  const { user_id } = req.signedCookies;
+  User.findOne({ '_id': user_id})
     .then((existingUser) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !' });
       const profile = existingUser.profile;
@@ -18,11 +24,14 @@ export const getProfile = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * POST /user/profile
+ */
 export const updateProfile = (req, res, next) => {
   const { email, gender, name, age } = req.body;
-  const id = req.signedCookies.user_id;
+  const { user_id } = req.signedCookies;
 
-  User.findOne({ '_id': id })
+  User.findOne({ '_id': user_id })
     .then((existingUser) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !' });
       res.cookie('user_name', name, { signed: true });
@@ -36,6 +45,9 @@ export const updateProfile = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * GET /user/account
+ */
 export const getAccount = (req, res, next) => {
   const id = req.signedCookies.user_id;
 
@@ -60,6 +72,9 @@ export const getAccount = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * POST /user/account
+ */
 export const updateAccount = (req, res, next) => {
   const { password, newPassword } = req.body;
   const id = req.signedCookies.user_id;
@@ -83,6 +98,9 @@ export const updateAccount = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * GET /user/photo
+ */
 export const getPhoto = (req, res, next) => {
   const id = req.signedCookies.user_id;
 
@@ -95,9 +113,13 @@ export const getPhoto = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+/**
+ * POST /user/photo
+ *
+ */
 export const uploadPhoto = (req, res, next) => {
   const id = req.signedCookies.user_id;
-  const photoPath = `http://localhost:3000/user/photo/${req.file.filename}`
+  const photoPath = `http://localhost:3000/user/photo/${req.file.filename}`;
   User.findOne({ '_id': id})
     .then((existingUser) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !'});
@@ -114,11 +136,16 @@ export const uploadPhoto = (req, res, next) => {
     .catch((err) => next(err));
 };
 
-export const unlinkAccount = (req, res) => {
-  const id = req.signedCookies.user_id;
-  const { account } = req.body;
-  User.update({ '_id': id}, { $unset: { [account]: 1} })
-    .then(() => res.status(200).send({ message: `Successfully unlinked ${account} account with current account!`, account }))
+/**
+ * POST /user/unlink
+ * Unlink OAuth provider
+ */
+export const unlinkProvider = (req, res) => {
+  const { user_id } = req.signedCookies;
+  const { provider } = req.body;
+
+  User.update({ '_id': user_id}, { $unset: { [provider]: 1} })
+    .then(() => res.status(200).send({ message: `Successfully unlinked ${provider} account with current account!` }))
     .catch(() => res.status(422).send({ error: 'Error unlinking the account !'}));
 };
 
