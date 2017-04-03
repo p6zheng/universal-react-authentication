@@ -13,7 +13,7 @@ class Header extends Component {
     const { activeTab, isAuthenticated, userName, userPhoto } = this.props;
     const user = (
         <span>
-          <img src={`http://localhost:3000/user/photo/${userPhoto}`}/>
+          <img src={userPhoto}/>
             {userName}
         </span>
       );

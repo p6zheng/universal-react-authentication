@@ -97,30 +97,28 @@ export const getPhoto = (req, res, next) => {
 
 export const uploadPhoto = (req, res, next) => {
   const id = req.signedCookies.user_id;
-  const imageName = req.file.filename;
-
+  const photoPath = `http://localhost:3000/user/photo/${req.file.filename}`
   User.findOne({ '_id': id})
     .then((existingUser) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !'});
-      existingUser.profile.picture = imageName;
+      existingUser.profile.picture = photoPath;
       return existingUser.save();
     })
     .then(() => {
-      res.cookie('user_photo', imageName, { signed: true });
+      res.cookie('user_photo', photoPath, { signed: true });
       return res.send({
-        userPhoto: imageName,
+        userPhoto: photoPath,
         message: 'Successfully uploaded !'
       });
     })
     .catch((err) => next(err));
 };
 
-export const unlinkAccount = (req, res, next) => {
+export const unlinkAccount = (req, res) => {
   const id = req.signedCookies.user_id;
   const { account } = req.body;
   User.update({ '_id': id}, { $unset: { [account]: 1} })
     .then(() => res.status(200).send({ message: `Successfully unlinked ${account} account with current account!`, account }))
-    .catch((err) => res.status(422).send({ error: 'Error unlinking the account !'}));
-
+    .catch(() => res.status(422).send({ error: 'Error unlinking the account !'}));
 };
 

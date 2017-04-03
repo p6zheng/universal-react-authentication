@@ -65,8 +65,8 @@ class Signup extends Component {
 const validate = ({ username, email, password, passwordConfirm }) => {
   const errors = {};
   if (username) { errors.username = validator.validateUserName(username); }
-  if (password) { errors.email = validator.validateEmail(email); }
-  if (passwordConfirm) { errors.password = validator.validatePassword(password); }
+  if (email) { errors.email = validator.validateEmail(email); }
+  if (password) { errors.password = validator.validatePassword(password); }
   if (passwordConfirm) { errors.passwordConfirm = validator.validatePasswordConfirm(password, passwordConfirm); }
   return errors;
 };

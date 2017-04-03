@@ -37,7 +37,7 @@ const createGoogleUser = (profile) => {
 
       const user = new User();
       user.email = profile._json.email;
-      user.profile.picture = 'default.png';
+      user.profile.picture = profile.photos ? profile.photos[0].value : 'http://localhost:3000/user/photo/default.png';
       user.profile.name = profile.displayName;
       user.profile.gender = profile.gender;
       user.google.id = profile.id;

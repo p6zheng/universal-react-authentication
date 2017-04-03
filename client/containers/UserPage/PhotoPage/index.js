@@ -52,7 +52,7 @@ class Photo extends Component {
     if (imagePreviewUrl) {
       imagePreview = (<img src={imagePreviewUrl} height="200" width="200"/>);
     } else if (image) {
-      imagePreview = (<img src={`http://localhost:3000/user/photo/${image}`} height="200" width="200"/>);
+      imagePreview = (<img src={image} height="200" width="200"/>);
     }
 
     return (
