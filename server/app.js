@@ -23,7 +23,7 @@ const app = express();
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Set port number
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.server.port);
 
 // Wrap each request in domain
 app.use((req, res, next) => {

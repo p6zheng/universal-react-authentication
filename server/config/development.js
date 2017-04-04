@@ -6,7 +6,7 @@ export default {
     secret: process.env.SESSION_SECRET
   },
   server: {
-    host: process.env.SERVER_HOST,
+    host: 'localhost',
     port: process.env.SERVER_PORT || 3000
   },
   mongo: {
