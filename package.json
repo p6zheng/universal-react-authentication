@@ -4,9 +4,9 @@
   "description": "This is my first complete project",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development nodemon --watch server --exec babel-node index.js",
+    "start": "cross-env SERVER_PORT=3000 nodemon --watch server --exec babel-node index.js",
     "prod": "NODE_ENV=production pm2 start index.js --interpreter ./node_modules/.bin/babel-node",
-    "build": "npm run clean && NODE_ENV=production webpack --config webpack.config.prod.js",
+    "build": "npm run clean && webpack --config webpack.config.prod.js",
     "test": "NODE_ENV=test nodemon --exec 'mocha -R min --compilers js:babel-core/register --timeout 10000 --recursive'",
     "clean": "rimraf dist",
     "bs": "npm run build && npm run prod"
@@ -49,6 +49,7 @@
     "webpack": "^2.2.0-rc.3",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^1.16.2",
+    "webpack-dotenv-plugin": "^2.0.0",
     "webpack-hot-middleware": "^2.15.0"
   },
   "dependencies": {

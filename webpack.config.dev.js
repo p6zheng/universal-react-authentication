@@ -1,6 +1,8 @@
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+//var Dotenv = require('dotenv-webpack');
+var DotenvPlugin = require('webpack-dotenv-plugin');
 
 module.exports = {
   devtool: "cheap-module-eval-source-map",
@@ -73,14 +75,12 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        CLIENT: JSON.stringify(true),
+        BROWSER: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development')
       }
     }),
-    new webpack.DefinePlugin({
-      "process.env": {
-        BROWSER: JSON.stringify(true)
-      }
+    new DotenvPlugin({
+      sample: './.env',
     })
   ]
 };
