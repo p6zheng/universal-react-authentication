@@ -1,6 +1,8 @@
 /**
  * Entry Script
  */
+// import the node enviroment
+import './env.js';
 
 if (process.env.NODE_ENV === 'production') {
   //require('./server/app_cluster');
