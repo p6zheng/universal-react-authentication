@@ -1,12 +1,10 @@
-import axios from 'axios';
 import * as actionTypes from '../constants/actionTypes';
-
-const ROOT_URL = 'http://localhost:3000/api';
+import api from '../utils/apiCaller';
 
 export const fetchProfile = () => (disptach) => {
   disptach({ type: actionTypes.FETCH_PROFILE_REQUEST });
 
-  axios.get(`${ROOT_URL}/user/profile`).then(
+  api('api/user/profile').then(
     res => {
       disptach({
         type: actionTypes.FETCH_PROFILE_SUCCESS,
@@ -25,7 +23,7 @@ export const fetchProfile = () => (disptach) => {
 export const updateProfile = (profile) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_PROFILE_REQUEST });
 
-  axios.post(`${ROOT_URL}/user/profile`, profile).then(
+  api('api/user/profile', 'post', profile).then(
     res => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_SUCCESS,
@@ -45,7 +43,7 @@ export const updateProfile = (profile) => (dispatch) => {
 export const fetchAccount = () => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_ACCOUNT_REQUEST });
 
-  axios.get(`${ROOT_URL}/user/account`).then(
+  api('api/user/account').then(
     res => {
       dispatch({
         type: actionTypes.FETCH_ACCOUNT_SUCCESS,
@@ -65,7 +63,7 @@ export const fetchAccount = () => (dispatch) => {
 export const updateAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
 
-  axios.post(`${ROOT_URL}/user/account`, account).then(
+  api('api/user/account', 'post', account).then(
     () => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
@@ -86,7 +84,7 @@ export const uploadPhoto = (photo) => (dispatch) => {
   data.append('photo', photo);
   dispatch({ type: actionTypes.UPLOAD_IMAGE_REQUEST });
 
-  axios.post(`${ROOT_URL}/user/photo`, data).then(
+  api('api/user/photo', 'post', data).then(
     res => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_SUCCESS,
@@ -106,7 +104,7 @@ export const uploadPhoto = (photo) => (dispatch) => {
 export const unlinkProvider = (provider) => (dispatch) => {
   dispatch({ type: actionTypes.UNLINK_ACCOUNT_REQUEST });
 
-  axios.post(`${ROOT_URL}/user/unlink`, { provider }).then(
+  api('api/user/unlink', 'post', { provider }).then(
     res => {
       dispatch({
         type: actionTypes.UNLINK_ACCOUNT_SUCCESS,

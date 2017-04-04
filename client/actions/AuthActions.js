@@ -1,12 +1,10 @@
-import axios from 'axios';
 import * as actionTypes from '../constants/actionTypes';
-
-const ROOT_URL = 'http://localhost:3000';
+import api from '../utils/apiCaller';
 
 export const signinUser = (user) => (dispatch) => {
   dispatch({ type: actionTypes.AUTH_USER_REQUEST });
 
-  axios.post(`${ROOT_URL}/auth/signin`, user)
+  api('auth/signin', 'post', user)
     .then(
       res => {
         dispatch({
@@ -27,7 +25,7 @@ export const signinUser = (user) => (dispatch) => {
 export const signupUser = (user) => (dispatch) => {
   dispatch({ type: actionTypes.AUTH_USER_REQUEST });
 
-  axios.post(`${ROOT_URL}/auth/signup`, user)
+  api('auth/signup', 'post', user)
     .then(
       res => {
         dispatch({
@@ -48,7 +46,7 @@ export const signupUser = (user) => (dispatch) => {
 export const fetchMessage = () => (dispatch) => {
   dispatch({ type: actionTypes.FETCH_MESSAGE_REQUEST });
 
-  axios.get(`${ROOT_URL}/auth/secret`).then(
+  api('auth/secret').then(
     res => {
       dispatch({
         type: actionTypes.FETCH_MESSAGE_SUCCESS,
