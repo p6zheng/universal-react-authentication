@@ -69,7 +69,7 @@ class Account extends Component {
     const accountLower = account.toLowerCase();
     if (this.props.account) {
       return this.props.account.linkedAccounts[accountLower] ?
-        <a className={`btn btn-block btn-${accountLower} btn-social`} onClick={() => this.props.unlinkAccount(accountLower)}>
+        <a className={`btn btn-block btn-${accountLower} btn-social`} onClick={() => this.props.unlinkProvider(accountLower)}>
           <i className={`fa fa-${accountLower}`}/>
           Unlink {account}
         </a>:
@@ -121,19 +121,10 @@ class Account extends Component {
 
 const validate = ({ password, newPassword, newPasswordConfirm}) => {
   const errors = {};
-
-  if (password) {
-    errors.password = validator.validatePassword(password);
-  }
-
-  if (newPassword) {
-    errors.newPassword = validator.validatePassword(newPassword);
-  }
-
-  if (newPassword !== newPasswordConfirm) {
+  if (password) errors.password = validator.validatePassword(password);
+  if (newPassword) errors.newPassword = validator.validatePassword(newPassword);
+  if (newPassword !== newPasswordConfirm)
     errors.newPasswordConfirm = validator.validatePasswordConfirm(newPassword, newPasswordConfirm);
-  }
-
   return errors;
 };
 

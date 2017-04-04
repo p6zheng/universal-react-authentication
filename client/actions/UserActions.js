@@ -103,15 +103,15 @@ export const uploadPhoto = (photo) => (dispatch) => {
   );
 };
 
-export const unlinkAccount = (account) => (dispatch) => {
+export const unlinkProvider = (provider) => (dispatch) => {
   dispatch({ type: actionTypes.UNLINK_ACCOUNT_REQUEST });
 
-  axios.post(`${ROOT_URL}/user/unlink`, { account }).then(
+  axios.post(`${ROOT_URL}/user/unlink`, { provider }).then(
     res => {
       dispatch({
         type: actionTypes.UNLINK_ACCOUNT_SUCCESS,
         message: res.data.message,
-        account
+        provider
       });
     },
     error => {

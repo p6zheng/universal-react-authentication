@@ -40,7 +40,7 @@ const user = (state=initialState, action) => {
       };
     case actionTypes.UNLINK_ACCOUNT_SUCCESS:
       let account = state.account;
-      account.linkedAccounts[action.account] = false;
+      account.linkedAccounts[action.provider] = false;
       return {
         ...state,
         account
