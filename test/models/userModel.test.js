@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { expect } from 'chai';
 
 import User from '../../server/models/user';
@@ -15,7 +14,7 @@ describe('Users', () => {
       },
       profile: {
         name: 'John Snow',
-        picture: 'default.png',
+        picture: 'http://localhost:3000/user/photo/default.png',
         age: 20,
         gender: 'male'
       }

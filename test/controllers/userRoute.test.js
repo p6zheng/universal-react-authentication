@@ -1,3 +1,4 @@
+import'../../env';
 import request from 'supertest';
 import { expect } from 'chai';
 import app from '../../server/app';
@@ -48,7 +49,7 @@ describe('User APIs', () => {
               expect(res.body.user).to.eql({
                 email: 'test@test.com',
                 name: 'User1',
-                picture: 'default.png'
+                picture: 'http://localhost:3000/user/photo/default.png'
               });
               done();
             });
@@ -109,7 +110,7 @@ describe('User APIs', () => {
             .expect(200)
             .end((err, res) => {
               if (err) return done(err);
-              expect(res.body.image).to.equal('default.png');
+              expect(res.body.image).to.equal('http://localhost:3000/user/photo/default.png');
               done();
             });
         });

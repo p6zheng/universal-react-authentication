@@ -1,6 +1,8 @@
+import'../../env';
 import request from 'supertest';
 import { expect } from 'chai';
-import app from '../../server/app';
+require('dotenv').config();
+const app = require('../../server/app').default;
 
 describe('Authentication APIs', () => {
   const validSigninCrendential = {
@@ -46,7 +48,7 @@ describe('Authentication APIs', () => {
         .end((err, res) => {
           if (err) return done(err);
           expect(res.body.userName).to.equal('User1');
-          expect(res.body.userPhoto).to.equal('default.png');
+          expect(res.body.userPhoto).to.equal('http://localhost:3000/user/photo/default.png');
           done();
         });
     });
