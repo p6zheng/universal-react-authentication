@@ -12,7 +12,6 @@ if (process.env.BROWSER) {
 const { Signin, Signup, Signout, Secret, Error, User } = require('./asychRoutes');
 
 class Root extends Component {
-
   render() {
     const isAuthenticated = this.props.isAuthenticated;
     return (

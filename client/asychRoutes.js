@@ -1,6 +1,6 @@
 import asyncComponent from './utils/asyncComponent';
 
-if (typeof System === "undefined") {
+if (typeof System === 'undefined') {
   var System = {
     import: function(path) {
       return Promise.resolve(require(path));
@@ -25,7 +25,7 @@ export const Signout = asyncComponent(() => {
 
 export const User = asyncComponent(() => {
   return System.import('./containers/UserPage')
-    .then(module => module.default)
+    .then(module => module.default);
 });
 
 export const Error = asyncComponent(() => {
