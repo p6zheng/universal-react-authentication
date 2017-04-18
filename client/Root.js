@@ -29,7 +29,10 @@ class Root extends Component {
           <Route path="/signin" render={() =>
             isAuthenticated ? <Redirect to="/" /> : <Signin />
           } />
-          <Route path="/user/:userInfo" component={User} />
+          <Route path="/user/:userInfo" render={props =>
+            isAuthenticated ? <User {...props} /> : <Redirect to="/"/>
+          }/>
+
           <Route component={Error}/>
         </Switch>
       </div>
