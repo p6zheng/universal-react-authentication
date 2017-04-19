@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AuthFormInput = ({ input, meta, type, info }) => (
+const AuthFormInput = ({ input, meta, type, info, name, label }) => (
   <div>
     <input className="form-control" {...input} type={type} placeholder={info} />
     {

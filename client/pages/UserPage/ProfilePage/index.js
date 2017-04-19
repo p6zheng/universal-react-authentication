@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import FormInput from '../../../components/ProfileFormInput';
+import FormInput from '../../../components/AuthFormInput';
 import FormLink from '../../../components/LinkFormInput';
 import * as reducers from '../../../reducers';
 import * as actions from '../../../actions/UserActions';

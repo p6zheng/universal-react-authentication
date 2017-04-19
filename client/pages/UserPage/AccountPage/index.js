@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import FormInput from '../../../components/ProfileFormInput';
 import AuthFormInput from '../../../components/AuthFormInput';
 import * as actions from '../../../actions/UserActions';
 import * as reducers from '../../../reducers';
@@ -39,7 +38,7 @@ class Account extends Component {
           <Field
             name="password"
             info="Enter Current Password"
-            component={FormInput}
+            component={AuthFormInput}
             type="text"/>
         </fieldset>
       );
