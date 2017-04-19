@@ -16,11 +16,8 @@ import Root from '../client/Root';
 import './services/passport';
 import logger from './logger';
 
-
 // Initialize express app
 const app = express();
-
-const isProduction = process.env.NODE_ENV === 'production';
 
 // Set port number
 app.set('port', config.server.port);
@@ -96,7 +93,8 @@ mongoose.connection.on('error', () => {
 
 // Express configuration
 app.set('view engine', 'ejs');
-app.use(morgan('combined', { 'stream': logger.stream }));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms',
+  { 'stream': logger.stream }));
 app.use(express.static(__dirname + '/uploads'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));

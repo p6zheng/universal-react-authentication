@@ -6,14 +6,9 @@ import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
 import * as validator from '../../utils/fieldValidator';
 
-class Signin extends Component {
-
-  componentWillUnmount() {
-    this.props.unmountComponent();
-  }
-
-  handleFormSubmit(user) {
-    this.props.signinUser(user);
+class Signup extends Component {
+  handleFormSubmit(form) {
+    this.props.signupUser(form);
   }
 
   alertError() {
@@ -30,13 +25,22 @@ class Signin extends Component {
     const { handleSubmit } = this.props
     return (
       <div className="row top-buffer col-md-8 col-md-offset-2">
+        <h2>Sign up</h2>
+        <hr/>
         <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
           <fieldset className="form-group">
+            <fieldset className="form-group">
+              <label>Username:</label>
+              <Field
+                name="username"
+                component={AuthFormInput}
+                type="text"/>
+            </fieldset>
             <label>Email:</label>
             <Field
               name="email"
-              type="text"
-              component={AuthFormInput} />
+              component={AuthFormInput}
+              type="text"/>
           </fieldset>
           <fieldset className="form-group">
             <label>Password:</label>
@@ -45,45 +49,37 @@ class Signin extends Component {
               type="password"
               component={AuthFormInput} />
           </fieldset>
+          <fieldset className="form-group">
+            <label>Confirm Password:</label>
+            <Field
+              name="passwordConfirm"
+              type="password"
+              component={AuthFormInput} />
+          </fieldset>
           {this.alertError()}
-          <button action="submit" className="btn btn-primary">Sign in</button>
+          <button action="submit" className="btn btn-primary">Sign up</button>
         </form>
-        <hr/>
-        <div className="form-group">
-          <a className="btn btn-block btn-facebook btn-social" href="/auth/facebook">
-            <i className="fa fa-facebook"/>
-              Sign in with Facebook
-          </a>
-          <a className="btn btn-block btn-twitter btn-social" href="/auth/twitter">
-            <i className="fa fa-twitter"/>
-            Sign in with Twitter
-          </a>
-          <a className="btn btn-block btn-google btn-social" href="/auth/google">
-            <i className="fa fa-google"/>
-            Sign in with Google
-          </a>
-          <a className="btn btn-block btn-github btn-social" href="/auth/github">
-            <i className="fa fa-github"/>
-            Sign in with Github
-          </a>
-        </div>
       </div>
     );
   }
 }
 
-const validate = ({ email, password }) => {
+const validate = ({ username, email, password, passwordConfirm }) => {
   const errors = {};
+  if (username) { errors.username = validator.validateUserName(username); }
   if (email) { errors.email = validator.validateEmail(email); }
   if (password) { errors.password = validator.validatePassword(password); }
+  if (passwordConfirm) { errors.passwordConfirm = validator.validatePasswordConfirm(password, passwordConfirm); }
   return errors;
 };
 
+
 const mapStateToProps = state => ({
-  errorMessage: reducers.getSigninError(state)
+  errorMessage: reducers.getSignupError(state),
+  isAuthenticating: reducers.getIsAuthenticating(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({
-  form: 'signin',
+  form: 'signup',
   validate
-})(Signin));
+})(Signup));

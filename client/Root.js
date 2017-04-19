@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Header from './containers/Header';
-import Home from './containers/HomePage';
+import Header from './pages/Header';
+import Home from './pages/HomePage';
+import Footer from './pages/Footer';
 import { getIsAuthenticated } from './reducers';
 
 if (process.env.BROWSER) {
@@ -32,9 +33,9 @@ class Root extends Component {
           <Route path="/user/:userInfo" render={props =>
             isAuthenticated ? <User {...props} /> : <Redirect to="/"/>
           }/>
-
           <Route component={Error}/>
         </Switch>
+        <Footer/>
       </div>
     );
   }
