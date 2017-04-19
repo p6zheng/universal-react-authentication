@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Header from './pages/Header';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Home from './pages/HomePage';
-import Footer from './pages/Footer';
 import { getIsAuthenticated } from './reducers';
 
 if (process.env.BROWSER) {
