@@ -3,11 +3,6 @@ var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var DotenvPlugin = require('webpack-dotenv-plugin');
 
-const extractSass = new ExtractTextPlugin({
-  filename: '[name].[contenthash].css',
-  disable: process.env.NODE_ENV === 'development'
-});
-
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
@@ -40,7 +35,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: extractSass.extract({
+        use: ExtractTextPlugin.extract({
           use: [{
             loader: 'css-loader'
           }, {
@@ -51,7 +46,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: extractSass.extract({
+        use: ExtractTextPlugin.extract({
           use: { loader: 'css-loader' },
           fallback: 'style-loader'
         })
