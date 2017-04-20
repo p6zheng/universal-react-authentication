@@ -31,7 +31,8 @@ export const getProfile = state => userReducer.getProfile(state.user);
 export const getAccount = state => userReducer.getAccount(state.user);
 export const getUserName = state => userReducer.getUserName(state.user);
 export const getUserPhoto = state => userReducer.getUserPhoto(state.user);
-export const getUserUpdateSuccess = state => userReducer.getUserUpdateSuccess(state.user);
+export const getUserSuccess = state => userReducer.getUserSuccess(state.user);
+export const getUserError = state => userReducer.getUserError(state.user);
 
 // Flash Message Reducer
 export const getFlashMessage = state => flashMessageReducer.getFlashMessage(state.flashMessage);

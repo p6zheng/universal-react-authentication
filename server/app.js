@@ -34,7 +34,7 @@ app.use((req, res, next) => {
       }, 5000);
       const worker = require('cluster').worker;
       if(worker) worker.disconnect();
-      server.close();
+      app.close();
       try {
         next(err);
       } catch(err){

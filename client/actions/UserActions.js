@@ -14,7 +14,7 @@ export const fetchProfile = () => (disptach) => {
     error => {
       disptach({
         type: actionTypes.FETCH_PROFILE_ERROR,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
   );
@@ -34,7 +34,7 @@ export const updateProfile = (profile) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UPDATE_PROFILE_ERROR,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
   );
@@ -54,7 +54,7 @@ export const fetchAccount = () => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.FETCH_ACCOUNT_ERROR,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
    );
@@ -64,16 +64,16 @@ export const updateAccount = (account) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATE_ACCOUNT_REQUEST });
 
   api('api/user/account', 'post', account).then(
-    () => {
+    res => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
-        account
+        message: res.data.message
       });
     },
     error => {
       dispatch({
         type: actionTypes.UPDATE_ACCOUNT_ERROR,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
   );
@@ -95,7 +95,7 @@ export const uploadPhoto = (photo) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UPLOAD_IMAGE_ERROR,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
   );
@@ -115,7 +115,7 @@ export const unlinkProvider = (provider) => (dispatch) => {
     error => {
       dispatch({
         type: actionTypes.UNLINK_ACCOUNT,
-        error: error.response.data.message
+        error: error.response.data.error
       });
     }
   );

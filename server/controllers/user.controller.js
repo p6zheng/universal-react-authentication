@@ -84,17 +84,20 @@ export const updateAccount = (req, res, next) => {
       if (!existingUser) return res.status(422).send({ error: 'User not found !' });
       if (typeof existingUser.password === 'undefined') {
         existingUser.password = newPassword;
-        return existingUser.save();
+        existingUser.save(() => {
+          res.send({ message: 'Successfully updated !' });
+        });
       } else {
         existingUser.comparePassword(password, (err, isMatch) => {
           if (err) { return next(err); }
           if (!isMatch) { return res.status(422).send({ error: 'Incorrect password. Please try again !'}); }
           existingUser.password = newPassword;
-          return existingUser.save();
+          existingUser.save(() => {
+            res.send({ message: 'Successfully updated !' });
+          });
         });
       }
     })
-    .then(() => res.send({ message: 'Successfully updated !' }))
     .catch((err) => next(err));
 };
 

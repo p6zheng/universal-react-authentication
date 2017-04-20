@@ -23,14 +23,19 @@ const user = (state=initialState, action) => {
     case actionTypes.UPDATE_ACCOUNT_SUCCESS:
       return {
         ...state,
-        account: action.account,
-        message: action.message
+        account: {
+          ...state.account,
+          ...action.account
+        },
+        message: action.message,
+        error: action.error
       };
     case actionTypes.UPLOAD_IMAGE_REQUEST:
     case actionTypes.UNMOUNT_COMPONENT:
       return {
         ...state,
-        message: undefined
+        message: undefined,
+        error: undefined
       };
     case actionTypes.UPLOAD_IMAGE_SUCCESS:
       return {
@@ -39,11 +44,22 @@ const user = (state=initialState, action) => {
         message: action.message
       };
     case actionTypes.UNLINK_ACCOUNT_SUCCESS:
-      let account = state.account;
-      account.linkedAccounts[action.provider] = false;
       return {
         ...state,
-        account
+        account: {
+          ...state.account,
+          [state.account.linkedAccounts[action.provider]]: false
+        }
+      };
+    case actionTypes.FETCH_ACCOUNT_ERROR:
+    case actionTypes.UPDATE_ACCOUNT_ERROR:
+    case actionTypes.FETCH_PROFILE_ERROR:
+    case actionTypes.UPDATE_PROFILE_ERROR:
+    case actionTypes.UNLINK_ACCOUNT_ERROR:
+    case actionTypes.UPLOAD_IMAGE_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     default:
       return state;
@@ -56,4 +72,5 @@ export const getProfile = state => state.profile;
 export const getAccount = state => state.account;
 export const getUserName = state => state.profile === undefined ? '' :state.profile.name;
 export const getUserPhoto = state => state.photo;
-export const getUserUpdateSuccess = state => state.message;
+export const getUserSuccess = state => state.message;
+export const getUserError = state => state.error;

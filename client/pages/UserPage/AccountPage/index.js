@@ -21,10 +21,19 @@ class Account extends Component {
   }
 
   alertMessage() {
-    if (this.props.message) {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <i className="fa fa-exclamation-circle" />
+          <strong>{this.props.errorMessage}</strong>
+        </div>
+      );
+    }
+    if (this.props.successMessage) {
       return (
         <div className="alert alert-success">
-          <strong>{this.props.message}</strong>
+          <i className="fa fa-check-circle" />
+          <strong>{this.props.successMessage}</strong>
         </div>
       );
     }
@@ -130,7 +139,8 @@ const validate = ({ password, newPassword, newPasswordConfirm}) => {
 const mapStateToProps = state => ({
   account: reducers.getAccount(state),
   flashMessage: reducers.getFlashMessage(state),
-  message: reducers.getUserUpdateSuccess(state)
+  successMessage: reducers.getUserSuccess(state),
+  errorMessage: reducers.getUserError(state)
 });
 
 export default connect(mapStateToProps, actions)(reduxForm({

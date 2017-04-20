@@ -34,11 +34,19 @@ class Photo extends Component {
   }
 
   alertMessage() {
-    if (this.props.message) {
+    if (this.props.errorMessage) {
+      return (
+        <div className="alert alert-danger">
+          <i className="fa fa-exclamation-circle" />
+          <strong>{this.props.errorMessage}</strong>
+        </div>
+      );
+    }
+    if (this.props.successMessage) {
       return (
         <div className="alert alert-success">
           <i className="fa fa-check-circle" />
-          <strong>{this.props.message}</strong>
+          <strong>{this.props.successMessage}</strong>
         </div>
       );
     }
@@ -85,7 +93,8 @@ class Photo extends Component {
 
 const mapStateToProps = state => ({
   image: reducers.getUserPhoto(state),
-  message: reducers.getUserUpdateSuccess(state)
+  successMessage: reducers.getUserSuccess(state),
+  errorMessage: reducers.getUserError(state)
 });
 
 export default connect(mapStateToProps, actions)(Photo);
