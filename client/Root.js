@@ -1,3 +1,4 @@
+import './main.scss';
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -5,7 +6,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/HomePage';
 import { getIsAuthenticated } from './reducers';
-if (process.env.BROWSER) require('./main.scss');
 
 
 const { Signin, Signup, Signout, Secret, Error, User } =

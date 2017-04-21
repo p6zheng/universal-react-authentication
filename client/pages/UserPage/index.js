@@ -5,10 +5,8 @@ import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom';
 import Profile from './ProfilePage';
 import Account from './AccountPage';
 import Photo from './PhotoPage';
+import './index.scss';
 
-if (process.env.BROWSER) {
-  require("./index.scss");
-}
 
 class User extends Component {
 

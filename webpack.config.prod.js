@@ -1,11 +1,11 @@
 var webpack = require('webpack');
 var path = require('path');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  devtool: "cheap-module-eval-source-map",
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     app: './client/index.js',
     vendor: [
@@ -37,17 +37,24 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: "style-loader",
-          loader: 'css-loader!sass-loader'
+        use: ExtractTextPlugin.extract({
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ],
+          fallback: 'style-loader'
         })
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: "style-loader",
-          loader: 'css-loader'
-        })
+        use: ExtractTextPlugin.extract({
+          use: { loader: 'css-loader' },
+          fallback: 'style-loader'
+        }),
       },
       {
         test: /\.(jpe?g|gif|png|svg|JPE?G|GIF|PNG|SVG)$/,
@@ -56,7 +63,9 @@ module.exports = {
             loader: 'url-loader',
             options: { limit: 40000 }
           },
-          'image-webpack-loader'
+          {
+            loader: 'image-webpack-loader'
+          }
         ]
       },
       {
@@ -71,14 +80,13 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin("style.css"),
+    new ExtractTextPlugin('style.css'),
     new UglifyJSPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       names: [ 'vendor', 'manifest' ],
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        BROWSER: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('production')
       }
     }),

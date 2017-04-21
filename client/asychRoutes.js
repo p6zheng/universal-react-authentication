@@ -26,6 +26,6 @@ export const Error = asyncComponent(() => {
 });
 
 export const Secret = asyncComponent(() => {
-  return load('./pages/SecretPage')
+  return import('./pages/SecretPage')
     .then(module => module.default);
 });

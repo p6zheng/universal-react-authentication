@@ -36,20 +36,25 @@ module.exports = {
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          use: [{
-            loader: 'css-loader'
-          }, {
-            loader: 'sass-loader'
-          }],
+          use: [
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader'
+            }
+          ],
           fallback: 'style-loader'
         })
       },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          use: { loader: 'css-loader' },
+          use: {
+            loader: 'css-loader'
+          },
           fallback: 'style-loader'
-        })
+        }),
       },
       {
         test: /\.(jpe?g|gif|png|svg|JPE?G|GIF|PNG|SVG)$/,
@@ -81,7 +86,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        BROWSER: JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development')
       }
     }),

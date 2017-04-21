@@ -1,7 +1,4 @@
 import React from 'react';
-/*if (process.env.BROWSER) {
-  require("./index.scss");
-}*/
 import './index.scss';
 
 const Footer = () => (

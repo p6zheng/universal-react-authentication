@@ -12,12 +12,17 @@ import config from './config';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import { AUTH_USER_SUCCESS, DISPLAY_FLASH_MESSAGE } from '../client/constants/actionTypes';
-import Root from '../client/Root';
 import './services/passport';
 import logger from './logger';
 
 // Initialize express app
 const app = express();
+
+// Prevent node from reporting scss file import error
+require.extensions['.scss'] = function () {};
+
+// Import the root moudule after disable scss import
+const Root = require('../client/Root').default;
 
 // Set port number
 app.set('port', config.server.port);
@@ -78,6 +83,7 @@ import { configureStore } from '../client/store';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 
+
 // Set native promises as mongoose promise
 mongoose.Promise = global.Promise;
 
@@ -128,7 +134,6 @@ app.use('/api/user', userRouter);
 
 // Server Side Rendering based on routes matched by React-router
 app.use((req, res, next) => {
-  delete process.env.BROWSER;
   const token = req.signedCookies.token;
   const userName = req.signedCookies.user_name;
   const userPhoto = req.signedCookies.user_photo;
