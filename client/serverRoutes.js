@@ -1,31 +1,31 @@
 import asyncComponent from './utils/asyncComponent';
 
 export const Signin = asyncComponent(() => {
-  return import('./pages/SigninPage')
+  return Promise.resolve(require('./pages/SigninPage'))
     .then(module => module.default);
 });
 
 export const Signup = asyncComponent(() => {
-  return import('./pages/SignupPage')
+  return Promise.resolve(require('./pages/SignupPage'))
     .then(module => module.default);
 });
 
 export const Signout = asyncComponent(() => {
-  return import('./pages/SignoutPage')
+  return Promise.resolve(require('./pages/SignoutPage'))
     .then(module => module.default);
 });
 
 export const User = asyncComponent(() => {
-  return import('./pages/UserPage')
+  return Promise.resolve(require('./pages/UserPage'))
     .then(module => module.default);
 });
 
 export const Error = asyncComponent(() => {
-  return import('./pages/ErrorPage')
+  return Promise.resolve(require('./pages/ErrorPage'))
     .then(module => module.default);
 });
 
 export const Secret = asyncComponent(() => {
-  return load('./pages/SecretPage')
+  return Promise.resolve(require('./pages/SecretPage'))
     .then(module => module.default);
 });

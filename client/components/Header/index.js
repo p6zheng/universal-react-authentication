@@ -68,7 +68,7 @@ class Header extends Component {
   render() {
     const { activeTab } = this.props;
     return (
-      <Navbar fixedTop>
+      <Navbar className="header" fixedTop>
         <Navbar.Header>
           <Navbar.Brand>
             <a href='/'>Brand</a>

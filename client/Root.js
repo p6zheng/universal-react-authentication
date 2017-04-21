@@ -5,12 +5,11 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/HomePage';
 import { getIsAuthenticated } from './reducers';
+if (process.env.BROWSER) require('./main.scss');
 
-if (process.env.BROWSER) {
-  require("./main.scss");
-}
 
-const { Signin, Signup, Signout, Secret, Error, User } = require('./asychRoutes');
+const { Signin, Signup, Signout, Secret, Error, User } =
+  typeof window === 'undefined' ? require('./serverRoutes') : require('./asychRoutes');
 
 class Root extends Component {
   render() {

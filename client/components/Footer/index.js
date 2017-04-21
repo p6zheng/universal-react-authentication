@@ -1,4 +1,8 @@
 import React from 'react';
+/*if (process.env.BROWSER) {
+  require("./index.scss");
+}*/
+import './index.scss';
 
 const Footer = () => (
   <footer className="footer container text-center">

@@ -6,6 +6,7 @@ import { configureStore } from './store'
 import { AUTH_USER_SUCCESS, DISPLAY_FLASH_MESSAGE } from './constants/actionTypes';
 import Root from './Root';
 
+
 const store = configureStore();
 
 const { token, userName, userPhoto, flashMessage } = window.initialData;
