@@ -44,12 +44,11 @@ const user = (state=initialState, action) => {
         message: action.message
       };
     case actionTypes.UNLINK_ACCOUNT_SUCCESS:
+      let account = state.account;
+      account.linkedAccounts[action.provider] = false;
       return {
         ...state,
-        account: {
-          ...state.account,
-          [state.account.linkedAccounts[action.provider]]: false
-        }
+        account
       };
     case actionTypes.FETCH_ACCOUNT_ERROR:
     case actionTypes.UPDATE_ACCOUNT_ERROR:

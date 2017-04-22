@@ -11,7 +11,7 @@ import morgan from 'morgan';
 import config from './config';
 import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
-import { AUTH_USER_SUCCESS, DISPLAY_FLASH_MESSAGE } from '../client/constants/actionTypes';
+import * as actionTypes from '../client/constants/actionTypes';
 import './services/passport';
 import logger from './logger';
 
@@ -88,7 +88,7 @@ import { StaticRouter } from 'react-router-dom';
 mongoose.Promise = global.Promise;
 
 // Connect to mongodb
-if(process.env.NODE_ENV !== 'test')mongoose.connect(config.mongo.url);
+if(process.env.NODE_ENV !== 'test') mongoose.connect(config.mongo.url);
 mongoose.connection.on('connected', () => {
   logger.info('MongoDB connection established!');
 });
@@ -143,14 +143,14 @@ app.use((req, res, next) => {
 
   if (typeof token !== 'undefined') {
     store.dispatch({
-      type: AUTH_USER_SUCCESS,
+      type: actionTypes.AUTH_USER_SUCCESS,
       userName,
       userPhoto
     });
     if (flashMessage) {
       // Clear flashMessage after displaying
       store.dispatch({
-        type: DISPLAY_FLASH_MESSAGE,
+        type: actionTypes.DISPLAY_FLASH_MESSAGE,
         flashMessage
       });
       delete req.session.flashMessage;
