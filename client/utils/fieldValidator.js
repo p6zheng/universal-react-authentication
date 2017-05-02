@@ -39,8 +39,8 @@ export const validateUserName = (username) => {
     message = 'Please enter a username';
   } else if (username.length < 4) {
     message = 'User name must be at least 4 characters long';
-  } else if (username.length > 8) {
-    message = 'User name must be at most 8 characters long';
+  } else if (username.length > 10) {
+    message = 'User name must be at most 10 characters long';
   } else if (!regex.noSpecialChar.test(username)) {
     message = 'User name cannot contain any special characters';
   }
@@ -53,8 +53,6 @@ export const validateName = (name) => {
     message = 'Please enter a username';
   } else if (name.length < 4) {
     message = 'Name must be at least 4 characters long';
-  } else if (name.length > 8) {
-    message = 'Name must be at most 8 characters long';
   } else if (!regex.noSpecialChar.test(name)) {
     message = 'Name cannot contain any special characters';
   }
