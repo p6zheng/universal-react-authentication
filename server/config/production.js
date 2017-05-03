@@ -10,7 +10,7 @@ export default {
     port: process.env.SERVER_PORT || 3000
   },
   mongo: {
-    url: process.env.MONGO_URL
+    url: 'mongodb://pengfei:Z_pf19941201@ds019756.mlab.com:19756/database-test1'
   },
   auth: {
     github: {
