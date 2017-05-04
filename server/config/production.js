@@ -10,7 +10,7 @@ export default {
     port: process.env.SERVER_PORT || 3000
   },
   mongo: {
-    url: 'mongodb://pengfei:Z_pf19941201@ds019756.mlab.com:19756/database-test1'
+    url: 'mongodb://user1:979899@ds131041.mlab.com:31041/react_universal_db'
   },
   auth: {
     github: {
