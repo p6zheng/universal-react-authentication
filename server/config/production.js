@@ -7,7 +7,7 @@ export default {
   },
   server: {
     host: process.env.SERVER_HOST || 'localhost',
-    port: process.env.SERVER_PORT || 3000
+    port: process.env.PORT || process.env.SERVER_PORT
   },
   mongo: {
     url: 'mongodb://user1:979899@ds131041.mlab.com:31041/react_universal_db'
