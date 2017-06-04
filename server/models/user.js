@@ -1,25 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt-node';
+
 const Schema = mongoose.Schema;
-const bcrypt = require('bcrypt-node');
 
 var userSchema = new Schema({
   email: String,
   password: String,
-  google: {
-    id : String,
-    name : String
-  },
-  github: {
-    id : String,
-    name : String
-  },
-  facebook: {
-    id : String,
-    name : String
-  },
   profile: {
     name: String,
-    picture: String,
     age: String,
     gender: String
   }
@@ -47,5 +35,4 @@ userSchema.methods.comparePassword = function(candidatePassword, callback) {
   });
 };
 
-var User = mongoose.model('User', userSchema);
-module.exports = User;
+export default mongoose.model('User', userSchema);
