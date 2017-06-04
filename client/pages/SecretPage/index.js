@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
 
@@ -21,6 +22,11 @@ class Secret extends Component {
     );
   }
 }
+
+Secret.propTypes = {
+  message: PropTypes.string,
+  fetchMessage: PropTypes.func
+};
 
 const mapStateToProps = state => ({
   message: reducers.getMessage(state)

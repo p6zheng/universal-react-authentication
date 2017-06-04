@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import AuthFormInput from '../../components/AuthFormInput';
 import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
@@ -27,7 +28,7 @@ class Signin extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit } = this.props;
     return (
       <div className="row top-buffer col-md-8 col-md-offset-2">
         <h2>Sign in</h2>
@@ -73,6 +74,13 @@ class Signin extends Component {
     );
   }
 }
+
+Signin.propTypes = {
+  errorMessage: PropTypes.string,
+  unmountComponent: PropTypes.func,
+  signinUser: PropTypes.func,
+  handleSubmit: PropTypes.func
+};
 
 const validate = ({ email, password }) => {
   const errors = {};

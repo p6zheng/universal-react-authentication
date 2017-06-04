@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from '../../actions/AuthActions';
 
 class Signout extends Component {
@@ -15,5 +16,9 @@ class Signout extends Component {
     );
   }
 }
+
+Signout.propTypes = {
+  signoutUser: PropTypes.func
+};
 
 export default connect(null, actions)(Signout);

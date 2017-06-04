@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as actions from '../../../actions/UserActions';
 import * as reducers from '../../../reducers';
 
@@ -90,6 +91,14 @@ class Photo extends Component {
     );
   }
 }
+
+Photo.propTypes = {
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
+  image: PropTypes.string,
+  unmountComponent: PropTypes.func,
+  uploadPhoto: PropTypes.func
+};
 
 const mapStateToProps = state => ({
   image: reducers.getUserPhoto(state),

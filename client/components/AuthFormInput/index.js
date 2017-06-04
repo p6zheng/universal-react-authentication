@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const AuthFormInput = ({ input, meta, type, info, name, label }) => (
   <div>
@@ -13,5 +14,14 @@ const AuthFormInput = ({ input, meta, type, info, name, label }) => (
     }
   </div>
 );
+
+AuthFormInput.propTypes = {
+  input: PropTypes.object,
+  meta: PropTypes.object,
+  type: PropTypes.string,
+  info: PropTypes.string,
+  name: PropTypes.string,
+  label: PropTypes.string
+};
 
 export default AuthFormInput;

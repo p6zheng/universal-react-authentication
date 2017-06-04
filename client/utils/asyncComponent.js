@@ -13,11 +13,11 @@ const asyncComponent = (getComponent) => {
 
     componentWillMount() {
       if (!this.state.Component && typeof Window !== 'undefined') {
-          getComponent().then(Component => {
-            this.setState({
-              Component
-            });
+        getComponent().then(Component => {
+          this.setState({
+            Component
           });
+        });
       }
     }
 

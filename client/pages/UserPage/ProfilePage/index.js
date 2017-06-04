@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import FormInput from '../../../components/AuthFormInput';
 import FormLink from '../../../components/LinkFormInput';
 import * as reducers from '../../../reducers';
@@ -107,6 +108,15 @@ class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
+  fetchProfile: PropTypes.func,
+  unmountComponent: PropTypes.func,
+  updateProfile: PropTypes.func,
+  handleSubmit: PropTypes.func
+};
 
 const validate = ({ name, email, age }) => {
   const errors = {};

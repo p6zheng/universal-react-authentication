@@ -1,7 +1,8 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Nav, NavItem, } from 'react-bootstrap';
 import { Route, Switch, Redirect, Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Profile from './ProfilePage';
 import Account from './AccountPage';
 import Photo from './PhotoPage';
@@ -27,6 +28,10 @@ class User extends Component {
     );
   }
 }
+
+User.propTypes = {
+  activeTab: PropTypes.number
+};
 
 const mapStateToProps = (state, router) => ({
   activeTab: router.match.params.userInfo

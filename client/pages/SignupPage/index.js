@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import AuthFormInput from '../../components/AuthFormInput';
 import * as actions from '../../actions/AuthActions';
 import * as reducers from '../../reducers';
@@ -22,7 +23,7 @@ class Signup extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props
+    const { handleSubmit } = this.props;
     return (
       <div className="row top-buffer col-md-8 col-md-offset-2">
         <h2>Sign up</h2>
@@ -63,6 +64,12 @@ class Signup extends Component {
     );
   }
 }
+
+Signup.propTypes = {
+  errorMessage: PropTypes.string,
+  handleSubmit: PropTypes.func,
+  signupUser: PropTypes.func
+};
 
 const validate = ({ username, email, password, passwordConfirm }) => {
   const errors = {};

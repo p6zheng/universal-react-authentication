@@ -1,7 +1,7 @@
-import { applyMiddleware, createStore } from 'redux'
-import thunk from 'redux-thunk'
-import createLogger from 'redux-logger'
-import reducer from './reducers/index'
+import { applyMiddleware, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import createLogger from 'redux-logger';
+import reducer from './reducers/index';
 
 export const configureStore = () => {
   // Promise middlware
@@ -20,6 +20,6 @@ export const configureStore = () => {
   // Create store
   return createStore(
     reducer,
-    applyMiddleware(...middlewares),
+    applyMiddleware(...middlewares)
   );
 };

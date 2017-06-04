@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
@@ -95,6 +96,13 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  activeTab: PropTypes.string,
+  isAuthenticated: PropTypes.bool,
+  userName: PropTypes.string,
+  userPhoto: PropTypes.string
+};
 
 const mapStateToProps = (state, router) => ({
   isAuthenticated: reducers.getIsAuthenticated(state),

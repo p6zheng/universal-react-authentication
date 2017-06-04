@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import AuthFormInput from '../../../components/AuthFormInput';
 import * as actions from '../../../actions/UserActions';
 import * as reducers from '../../../reducers';
@@ -126,6 +127,18 @@ class Account extends Component {
     );
   }
 }
+
+Account.propTypes = {
+  errorMessage: PropTypes.string,
+  successMessage: PropTypes.string,
+  account: PropTypes.object,
+  flashMessage: PropTypes.object,
+  fetchAccount: PropTypes.func,
+  unmountComponent: PropTypes.func,
+  updateAccount: PropTypes.func,
+  unlinkProvider: PropTypes.func,
+  handleSubmit: PropTypes.func
+};
 
 const validate = ({ password, newPassword, newPasswordConfirm}) => {
   const errors = {};

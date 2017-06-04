@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './index.scss';
 
 const LinkFormInput = ({ input, meta, link, label}) => (
@@ -15,5 +16,12 @@ const LinkFormInput = ({ input, meta, link, label}) => (
     }
   </div>
 );
+
+LinkFormInput.propTypes = {
+  input: PropTypes.object,
+  meta: PropTypes.object,
+  link: PropTypes.string,
+  label: PropTypes.string
+};
 
 export default LinkFormInput;

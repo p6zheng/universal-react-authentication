@@ -2,6 +2,7 @@ import './main.scss';
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/HomePage';
@@ -39,6 +40,10 @@ class Root extends Component {
     );
   }
 }
+
+Root.propTypes = {
+  isAuthenticated: PropTypes.bool
+};
 
 const mapStateToProps = (state) => ({
   isAuthenticated: getIsAuthenticated(state)
