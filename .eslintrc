@@ -6,7 +6,9 @@
         "node": true,
         "mocha": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "plugin:react/recommended"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -14,9 +16,6 @@
         },
         "sourceType": "module"
     },
-    "plugins": [
-        "react"
-    ],
     "rules": {
         "indent": [
             "error",
@@ -44,5 +43,4 @@
             }
         ]
     }
-
 }
