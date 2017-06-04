@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env SERVER_PORT=3000 nodemon --watch server --exec babel-node index.js",
-    "pm2": "NODE_ENV=production pm2 start index.js --interpreter ./node_modules/.bin/babel-node",
     "prod": "NODE_ENV=production babel-node index.js",
     "build": "webpack --config webpack.config.prod.js",
     "test": "NODE_ENV=test nodemon --exec 'mocha -R min --compilers js:babel-core/register --timeout 15000 --recursive'",
     "clean": "rimraf dist",
-    "start": "npm run build && npm run prod"
+    "lint": "./node_modules/.bin/eslint client server"
   },
   "repository": {},
   "author": "Pengfei Zheng",
