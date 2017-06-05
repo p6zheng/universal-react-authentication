@@ -8,7 +8,7 @@
     "prod": "NODE_ENV=production babel-node index.js",
     "build": "webpack --config webpack.config.prod.js",
     "test": "NODE_ENV=test nodemon --exec 'mocha -R min --compilers js:babel-core/register --timeout 15000 --recursive'",
-    "clean": "rimraf dist",
+    "clean": "rimraf dist server/uploads/user/photo/photo-*.png",
     "lint": "./node_modules/.bin/eslint client server --ignore-pattern '/client/styles'"
   },
   "repository": {},

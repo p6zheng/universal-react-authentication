@@ -3,11 +3,24 @@ import bcrypt from 'bcrypt-node';
 
 const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+const userSchema = new Schema({
   email: String,
   password: String,
+  google: {
+    id : String,
+    name : String
+  },
+  github: {
+    id : String,
+    name : String
+  },
+  facebook: {
+    id : String,
+    name : String
+  },
   profile: {
     name: String,
+    picture: String,
     age: String,
     gender: String
   }
